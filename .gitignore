@@ -1,6 +1,25 @@
+# compiler files #
 *.class
+
+#
 
 # Package Files #
 *.jar
 *.war
 *.ear
+
+# directory #
+*.iml
+.idea/**
+target/**
+
+# zip files#
+*.zip
+*.7z
+*.rar
+
+#
+*.exe
+*.so
+*.dll
+*.cab
