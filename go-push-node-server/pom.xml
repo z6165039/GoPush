@@ -8,8 +8,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>go-push-protocol-node</artifactId>
+    <artifactId>go-push-node-server</artifactId>
     <packaging>jar</packaging>
-    <description> NodeServer 与 DataCenter 传输协议 </description>
+    <description> NodeServer 服务 </description>
 
 </project>
