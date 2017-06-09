@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * go-push
  *
- * @类功能说明：redis-cluster 配置接收PoJo
+ * @类功能说明：redis-cluster 配置映射POJO
  * @作者：chenxiangqi
  * @创建时间：2017/6/9 下午9:48
  * @VERSION：

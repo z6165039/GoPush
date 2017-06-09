@@ -12,6 +12,8 @@ import lombok.Setter;
  * go-push
  *
  * @类功能说明：
+ *              Redis-Cluster模板类,
+ *                  提供给业务层自动注入
  * @作者：chenxiangqi
  * @创建时间：2017/6/9 下午9:59
  * @VERSION：

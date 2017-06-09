@@ -21,6 +21,8 @@ import java.util.Queue;
  * go-push
  *
  * @类功能说明：
+ *      Redis-Cluster Pipeline 访问工具
+ *          主要用于批量操作,提高性能
  * @作者：chenxiangqi
  * @创建时间：2017/6/10 上午1:37
  * @VERSION：
@@ -50,6 +52,10 @@ public class RedisClusterPipelineVisitor extends RedisClusterVisitorOperation {
     }
 
 
+    /**
+     * Redis命令
+     * @param <T>
+     */
     @AllArgsConstructor
     @NoArgsConstructor
     @ToString
@@ -163,6 +169,9 @@ public class RedisClusterPipelineVisitor extends RedisClusterVisitorOperation {
 }
 
 
+/**
+ * Pipeline执行器
+ */
 @Slf4j
 class RedisClusterPipelineExecutor{
 
@@ -256,6 +265,9 @@ class RedisClusterPipelineExecutor{
 
 }
 
+/**
+ * JedisCluster池
+ */
 @Slf4j
 @AllArgsConstructor
 class JedisClusterPool{
