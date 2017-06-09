@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.gopush.springframework.boot.config.RedisClusterConfiguration
