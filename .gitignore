@@ -1,25 +1,38 @@
-# compiler files #
+# Compiler Files #
 *.class
-
-#
 
 # Package Files #
 *.jar
 *.war
 *.ear
 
-# directory #
+# IDE Files #
 *.iml
 .idea/**
-target/**
+*.classpath
+*.project
+*.settings
+target/
 
-# zip files#
+# Zip Files #
 *.zip
 *.7z
 *.rar
 
-#
+# Installer Files #
 *.exe
 *.so
 *.dll
 *.cab
+
+# Log Temp Files #
+*.via
+*.tmp
+*.err
+*.keep
+
+# Version Temp Files #
+*.bak
+*.svn
+*.git
+
