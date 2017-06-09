@@ -3,6 +3,7 @@ package com.gopush.springframework.boot.config;
 import com.gopush.redis.RedisClusterFactory;
 import com.gopush.springframework.boot.properties.RedisClusterProperties;
 import com.gopush.springframework.boot.RedisClusterTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -34,6 +35,7 @@ import static java.lang.Integer.*;
 @EnableConfigurationProperties(value = {RedisClusterProperties.class})
 @ConditionalOnClass({JedisCluster.class, JedisPoolConfig.class, RedisClusterFactory.class, RedisClusterTemplate.class})
 @ConditionalOnProperty(prefix = "redis.cluster", value = "enable", matchIfMissing = true)
+@Slf4j
 public class RedisClusterAutoConfiguration {
 
     @Autowired
@@ -66,6 +68,7 @@ public class RedisClusterAutoConfiguration {
         }
         factory.setClientPoolSize(redisClusterProperties.getPoolSize());
         factory.setClusterTimeout(redisClusterProperties.getTimeout());
+        log.info("RedisCluster setting success!");
         return new RedisClusterTemplate(factory);
     }
 
