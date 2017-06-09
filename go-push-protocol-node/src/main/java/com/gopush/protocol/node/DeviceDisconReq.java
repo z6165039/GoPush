@@ -8,4 +8,5 @@ package com.gopush.protocol.node;
  * @VERSION：
  */
 public class DeviceDisconReq extends NodeMessageReq{
+
 }
