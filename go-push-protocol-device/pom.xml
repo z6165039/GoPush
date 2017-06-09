@@ -12,5 +12,11 @@
     <packaging>jar</packaging>
     <description> Device 与 NodeServer 传输协议 </description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
