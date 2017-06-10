@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.gopush</groupId>
             <artifactId>go-push-spring-boot-redis-cluster-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

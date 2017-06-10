@@ -15,7 +15,7 @@ package com.gopush.redis;
  *   pipeline 还有问题,暂时不提供,类放弃
  *
  *
- *   直接用默认的 redis实现
+ *   直接用默认的 redis-cluster 实现
  *
  *
  *

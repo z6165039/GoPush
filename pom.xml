@@ -44,11 +44,13 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
+                <version>${springboot.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
+                <version>${springboot.version}</version>
                 <scope>test</scope>
             </dependency>
 
@@ -70,10 +72,13 @@
                 <version>${springboot.version}</version>
             </dependency>
 
+            <!--
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${springboot.version}</version>
             </dependency>
+            -->
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -145,14 +150,16 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
                 <version>1.16.8.0</version>
-                <!--<executions>
+                <!--
+                <executions>
                     <execution>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>delombok</goal>
                         </goals>
                     </execution>
-                </executions>-->
+                </executions>
+                -->
             </plugin>
 
         </plugins>
