@@ -19,6 +19,8 @@ import redis.clients.jedis.JedisPoolConfig;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.lang.Integer.*;
 
@@ -52,18 +54,21 @@ public class RedisClusterAutoConfiguration {
         }
         RedisClusterFactory factory = new RedisClusterFactory();
 
-        Set<HostAndPort> serverNodes = new HashSet<>();
-        for (String v: servers) {
-            String[] t = v.split(":");
-            serverNodes.add(new HostAndPort(t[0],Integer.parseInt(t[1])));
-        }
+        Set<HostAndPort> serverNodes  =
+                Arrays.stream(servers)
+                        .map((x) -> {
+                            String[] t = x.split(":");
+                            return  new HostAndPort(t[0],Integer.parseInt(t[1]));
+                        }).collect(Collectors.toSet());
         factory.setJedisClusterNodes(serverNodes);
+
         if (ArrayUtils.isNotEmpty(dockedServers)){
-            Set<HostAndPort> dockedServerNodes = new HashSet<>();
-            for (String v: dockedServers) {
-                String[] t = v.split(":");
-                dockedServerNodes.add(new HostAndPort(t[0],Integer.parseInt(t[1])));
-            }
+            Set<HostAndPort> dockedServerNodes =
+                    Arrays.stream(dockedServers)
+                    .map((x) -> {
+                        String[] t = x.split(":");
+                        return  new HostAndPort(t[0],Integer.parseInt(t[1]));
+                    }).collect(Collectors.toSet());
             factory.setDockedJedisClusterNodes(dockedServerNodes);
         }
         factory.setClientPoolSize(redisClusterProperties.getPoolSize());

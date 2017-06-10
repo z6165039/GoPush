@@ -22,11 +22,6 @@ public abstract class RedisClusterVisitorOperation {
 
     @Setter
     @Getter
-    //reids key's prefix
-    private String prefix;
-
-    @Setter
-    @Getter
     private JedisCluster jedisCluster;
 
     @Setter
@@ -36,32 +31,44 @@ public abstract class RedisClusterVisitorOperation {
 
     @Getter
     @Setter
-    private int maxExpireTime = 3600 * 24 * 30;
+    private int maxExpire= 60 * 60 * 24 * 30;
 
 
 
-    public RedisClusterVisitorOperation(String prefix,JedisCluster jedisCluster){
-        this.prefix = prefix;
+    public RedisClusterVisitorOperation(JedisCluster jedisCluster){
         this.jedisCluster = jedisCluster;
     }
-    public RedisClusterVisitorOperation(String prefix,JedisCluster jedisCluster,JedisCluster dockedJedisCluster){
-        this(prefix,jedisCluster);
+    public RedisClusterVisitorOperation(JedisCluster jedisCluster,JedisCluster dockedJedisCluster){
+        this(jedisCluster);
         this.dockedJedisCluster = dockedJedisCluster;
     }
 
 
+    protected int chooseExpirse(int seconds) {
+        return Math.min(seconds, maxExpire);
+    }
+
+
+
+
+
+    protected abstract class OperatorTemplate<T>{
+        public abstract T call();
+    }
 
     @AllArgsConstructor
-    protected abstract class ReadTemplate<T> {
+    protected abstract class ReadTemplate<T> extends OperatorTemplate<T>{
         private String key;
         private T defaultValue;
 
         public abstract T read(JedisCluster cluster,String redisKey);
 
-        public T run(){
-            String rk = prefix + key;
+        public T call(){
+            String rk = key;
+            //查主
             T value = reading(getJedisCluster(),rk);
             if (value == null){
+                //为空查备
                 value = reading(getDockedJedisCluster(),rk);
             }
             return value == null ? defaultValue : value;
@@ -83,7 +90,7 @@ public abstract class RedisClusterVisitorOperation {
 
 
     @AllArgsConstructor
-    protected abstract class WriteTemplate<T> {
+    protected abstract class WriteTemplate<T> extends OperatorTemplate<T>{
 
         private String key;
         private String value;
@@ -91,11 +98,11 @@ public abstract class RedisClusterVisitorOperation {
         private T defaultValue;
 
 
-        public abstract T write(JedisCluster cluster,String redisKey,int expire);
+        public abstract T write(JedisCluster cluster, String redisKey, int expire);
 
-        public T run(){
-            String rk = prefix + key;
-            int seconds = adjustExpireTime(expire);
+        public T call(){
+            String rk =  key;
+            int seconds = chooseExpirse(expire);
             T value  = writing(getJedisCluster(),rk,seconds);
             writing(getDockedJedisCluster(),rk,seconds);
             return value == null ? defaultValue : value;
@@ -103,7 +110,7 @@ public abstract class RedisClusterVisitorOperation {
         }
 
 
-        private T writing(JedisCluster cluster,String redisKey,int expire){
+        private T writing(JedisCluster cluster, String redisKey, int expire){
             if( cluster != null ){
                 try{
                     return write(cluster,redisKey,expire);
@@ -116,14 +123,14 @@ public abstract class RedisClusterVisitorOperation {
 
     }
 
-    protected abstract class WriteTemplateBoolean extends WriteTemplate<Boolean>{
+    protected abstract class WriteBooleanTemplate extends WriteTemplate<Boolean>{
 
-        public WriteTemplateBoolean(String key, String value, int expire) {
+        public WriteBooleanTemplate(String key, String value, int expire) {
             super(key, value, expire, false);
         }
     }
 
-    protected abstract class  DeleteTemplate extends WriteTemplateBoolean{
+    protected abstract class  DeleteTemplate extends WriteBooleanTemplate{
 
         public DeleteTemplate(String key) {
             super(key, StringUtils.EMPTY, 0);
@@ -131,11 +138,6 @@ public abstract class RedisClusterVisitorOperation {
     }
 
 
-
-
-    protected int adjustExpireTime(int seconds) {
-        return Math.min(seconds, maxExpireTime);
-    }
 
 
 

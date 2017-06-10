@@ -39,6 +39,12 @@ public class RedisClusterFactory {
 
     private JedisCluster dockedJedisCluster;
 
+    private RedisClusterDefaultVisitor redisClusterDefaultVisitor;
+
+    private BatchWriteRedisClusterPipelineVisitor batchWriteRedisClusterPipelineVisitor;
+
+    private RedisClusterPipelineVisitor redisClusterPipelineVisitor;
+
     public void setClientPoolSize(int clientPoolSize){
         if (clientPoolSize > 0){
             RedisClusterFactory.clientPoolSize = clientPoolSize;
@@ -52,22 +58,47 @@ public class RedisClusterFactory {
     }
 
 
-    public RedisClusterDefaultVisitor buildDefaultRedisClusterVisitor(String prefix){
-        JedisCluster t = getJedisCluster();
-        JedisCluster m = getDockedJedisCluster();
-        if (t == null){
-            return null;
+    public synchronized RedisClusterPipelineVisitor buildPipelineRedisClusterVisitor() {
+        if (null == redisClusterPipelineVisitor){
+            JedisCluster t = getJedisCluster();
+            JedisCluster m = getDockedJedisCluster();
+            if (t == null){
+                return null;
+            }
+            if (null == redisClusterPipelineVisitor){
+                redisClusterPipelineVisitor = new RedisClusterPipelineVisitor(t,m);
+            }
         }
-        return new RedisClusterDefaultVisitor(prefix,t,m);
+        return redisClusterPipelineVisitor;
+
     }
 
-    public RedisClusterPipelineVisitor buildPipelineRedisClusterVisitor(){
-        JedisCluster t = getJedisCluster();
-        JedisCluster m = getDockedJedisCluster();
-        if (t == null){
-            return null;
+    public synchronized RedisClusterDefaultVisitor buildDefaultRedisClusterVisitor(){
+        if (null == redisClusterDefaultVisitor){
+            JedisCluster t = getJedisCluster();
+            JedisCluster m = getDockedJedisCluster();
+            if (t == null){
+                return null;
+            }
+            if (null == redisClusterDefaultVisitor){
+                redisClusterDefaultVisitor = new RedisClusterDefaultVisitor(t,m);
+            }
         }
-        return new RedisClusterPipelineVisitor("",t,m);
+        return redisClusterDefaultVisitor;
+    }
+
+    public synchronized BatchWriteRedisClusterPipelineVisitor buildBatchWritePipelineRedisClusterVisitor(){
+        if (null == batchWriteRedisClusterPipelineVisitor ){
+            JedisCluster t = getJedisCluster();
+            JedisCluster m = getDockedJedisCluster();
+            if (t == null){
+                return null;
+            }
+            if (null == batchWriteRedisClusterPipelineVisitor){
+                batchWriteRedisClusterPipelineVisitor = new BatchWriteRedisClusterPipelineVisitor(t,m);
+            }
+        }
+        return batchWriteRedisClusterPipelineVisitor;
     }
 
     private JedisPoolConfig getJedisPoolConfig() {
@@ -107,5 +138,6 @@ public class RedisClusterFactory {
         }
         return dockedJedisCluster;
     }
+
 
 }
