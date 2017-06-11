@@ -1,0 +1,9 @@
+
+redis:
+  cluster:
+    servers: 127.0.0.1:6379
+    dockedServers: 127.0.0.1:6379
+    poolSize: 40
+    timeout: 5000
+server:
+  port: 8031
