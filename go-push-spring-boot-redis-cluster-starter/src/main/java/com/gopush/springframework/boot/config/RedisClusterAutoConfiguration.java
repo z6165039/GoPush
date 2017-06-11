@@ -52,14 +52,15 @@ public class RedisClusterAutoConfiguration {
         if (ArrayUtils.isEmpty(servers)){
             throw new RuntimeException(" redis cluster servers is empty");
         }
-        RedisClusterFactory factory = new RedisClusterFactory();
-
         Set<HostAndPort> serverNodes  =
                 Arrays.stream(servers)
                         .map((x) -> {
                             String[] t = x.split(":");
                             return  new HostAndPort(t[0],Integer.parseInt(t[1]));
                         }).collect(Collectors.toSet());
+
+        RedisClusterFactory factory = new RedisClusterFactory();
+
         factory.setJedisClusterNodes(serverNodes);
 
         if (ArrayUtils.isNotEmpty(dockedServers)){

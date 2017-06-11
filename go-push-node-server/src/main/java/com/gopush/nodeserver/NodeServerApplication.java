@@ -12,9 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @VERSION：
  */
 @SpringBootApplication
-public class Application {
+public class NodeServerApplication {
 
     public static void main(String[] args){
-        SpringApplication.run(Application.class,args);
+        SpringApplication.run(NodeServerApplication.class,args);
     }
 }

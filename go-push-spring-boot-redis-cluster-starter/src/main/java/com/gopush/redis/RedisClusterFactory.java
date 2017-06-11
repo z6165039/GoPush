@@ -1,5 +1,6 @@
 package com.gopush.redis;
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import redis.clients.jedis.HostAndPort;
@@ -18,6 +19,7 @@ import java.util.Set;
  */
 
 @NoArgsConstructor
+@Builder
 public class RedisClusterFactory {
 
     private static int clientPoolSize = 20;
