@@ -22,7 +22,6 @@
         <encoding>UTF-8</encoding>
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
-        <maven.test.skip>true</maven.test.skip>
         <java.version>1.8</java.version>
         <springboot.version>1.5.3.RELEASE</springboot.version>
     </properties>
@@ -138,6 +137,8 @@
                     <encoding>${encoding}</encoding>
                 </configuration>
             </plugin>
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -146,6 +147,8 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
+
+
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
