@@ -1,5 +1,6 @@
 package com.gopush.protocol.node;
 
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
  * @VERSION：
  */
 @Slf4j
+@Builder
 public class DeviceDockedResp extends NodeMessageResp{
     @Override
     protected Type type() {

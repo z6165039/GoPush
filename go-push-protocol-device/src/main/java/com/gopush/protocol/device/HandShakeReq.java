@@ -1,5 +1,6 @@
 package com.gopush.protocol.device;
 
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import org.json.JSONObject;
  */
 
 @Slf4j
+@Builder
 public class HandShakeReq extends DeviceMessageReq {
 
     protected static final JSONObject JSON_OBJECT = new JSONObject();

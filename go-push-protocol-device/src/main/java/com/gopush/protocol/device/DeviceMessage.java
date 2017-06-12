@@ -94,22 +94,22 @@ public abstract class DeviceMessage {
             DeviceMessage message;
             switch (Type.valueOf(jsonObject.getString(D_TYPE_KEY))){
                 case PING:
-                    message = new Ping();
+                    message = Ping.builder().build();
                     break;
                 case PONG:
-                    message = new Pong();
+                    message = Pong.builder().build();
                     break;
                 case HAND_SHAKE_REQ:
-                    message = new HandShakeReq();
+                    message = HandShakeReq.builder().build();
                     break;
                 case HAND_SHAKE_RESP:
-                    message = new HandShakeResp();
+                    message = HandShakeResp.builder().build();
                     break;
                 case PUSH_REQ:
-                    message = new PushReq();
+                    message = PushReq.builder().build();
                     break;
                 case PUSH_RESP:
-                    message = new PushResp();
+                    message = PushResp.builder().build();
                     break;
                 default:
                     throw new DeviceProtocolException("Unknown Device type " + jsonObject.getString(D_TYPE_KEY));

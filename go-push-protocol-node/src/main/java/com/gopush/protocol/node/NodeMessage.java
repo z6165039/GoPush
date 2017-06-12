@@ -102,40 +102,40 @@ public abstract class NodeMessage {
             NodeMessage message;
             switch (Type.valueOf(jsonObject.getString(N_TYPE_KEY))){
                 case PING:
-                    message = new Ping();
+                    message = Ping.builder().build();
                     break;
                 case PONG:
-                    message = new Pong();
+                    message = Pong.builder().build();
                     break;
                 case DEVICE_DOCKED_REQ:
-                    message = new DeviceDockedReq();
+                    message = DeviceDockedReq.builder().build();
                     break;
                 case DEVICE_DOCKED_RESP:
-                    message = new DeviceDockedResp();
+                    message = DeviceDockedResp.builder().build();
                     break;
                 case DEVICE_DISCON_REQ:
-                    message = new DeviceDisconReq();
+                    message = DeviceDisconReq.builder().build();
                     break;
                 case DEVICE_DISCON_RESP:
-                    message = new DeviceDisconResp();
+                    message = DeviceDisconResp.builder().build();
                     break;
                 case MULTI_MSG_TO_ONE_DEVICE_REQ:
-                    message = new MultiMessageToOneDeviceReq();
+                    message = MultiMessageToOneDeviceReq.builder().build();
                     break;
                 case MULTI_MSG_TO_ONE_DEVICE_RESP:
-                    message = new MultiMessageToOneDeviceResp();
+                    message = MultiMessageToOneDeviceResp.builder().build();
                     break;
                 case ONE_MSG_TO_MULTI_DEVICE_REQ:
-                    message = new OneMessageToMultiDeviceReq();
+                    message = OneMessageToMultiDeviceReq.builder().build();
                     break;
                 case ONE_MSG_TO_MULTI_DEVICE_RESP:
-                    message = new OneMessageToMultiDeviceResp();
+                    message = OneMessageToMultiDeviceResp.builder().build();
                     break;
                 case NODE_INFO_REQ:
-                    message = new NodeInfoReq();
+                    message = NodeInfoReq.builder().build();
                     break;
                 case NODE_INFO_RESP:
-                    message = new NodeInfoResp();
+                    message = NodeInfoResp.builder().build();
                     break;
                 default:
                     throw new NodeProtocolException("Unknown Node type " + jsonObject.getString(N_TYPE_KEY));

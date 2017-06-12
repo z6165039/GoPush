@@ -26,10 +26,8 @@ public class RedisClusterFactory {
 
     private static int clusterTimeout = 10000;
 
-    @Setter
     private Set<HostAndPort> jedisClusterNodes;
 
-    @Setter
     private Set<HostAndPort> dockedJedisClusterNodes;
 
 

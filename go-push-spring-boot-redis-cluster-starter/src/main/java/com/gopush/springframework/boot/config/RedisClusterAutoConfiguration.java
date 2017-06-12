@@ -59,9 +59,8 @@ public class RedisClusterAutoConfiguration {
                             return  new HostAndPort(t[0],Integer.parseInt(t[1]));
                         }).collect(Collectors.toSet());
 
-        RedisClusterFactory factory = new RedisClusterFactory();
-
-        factory.setJedisClusterNodes(serverNodes);
+        RedisClusterFactory.RedisClusterFactoryBuilder builder =
+                RedisClusterFactory.builder().jedisClusterNodes(serverNodes);
 
         if (ArrayUtils.isNotEmpty(dockedServers)){
             Set<HostAndPort> dockedServerNodes =
@@ -70,8 +69,9 @@ public class RedisClusterAutoConfiguration {
                         String[] t = x.split(":");
                         return  new HostAndPort(t[0],Integer.parseInt(t[1]));
                     }).collect(Collectors.toSet());
-            factory.setDockedJedisClusterNodes(dockedServerNodes);
+            builder.dockedJedisClusterNodes(dockedServerNodes);
         }
+        RedisClusterFactory factory = builder.build();
         factory.setClientPoolSize(redisClusterProperties.getPoolSize());
         factory.setClusterTimeout(redisClusterProperties.getTimeout());
         log.info("RedisCluster setting success!");

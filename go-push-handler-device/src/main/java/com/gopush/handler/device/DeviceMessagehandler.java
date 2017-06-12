@@ -10,7 +10,9 @@ import com.gopush.protocol.device.DeviceMessage;
  * @创建时间：2017/6/11 上午11:43
  * @VERSION：
  */
-public interface DeviceMessagehandler {
+
+
+public interface DeviceMessagehandler{
     /**
      * 根据各个handler 判断是不是各个handler对应处理的消息
      * @param message 节点消息
