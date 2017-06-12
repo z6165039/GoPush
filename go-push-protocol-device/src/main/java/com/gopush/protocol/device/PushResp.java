@@ -13,17 +13,17 @@ import org.json.JSONObject;
  */
 public class PushResp extends DeviceMessageResp {
     @Override
-    protected Type getType() {
+    protected Type type() {
         return Type.PUSH_RESP;
     }
 
     @Override
-    protected JSONObject to() throws JSONException {
+    protected JSONObject toEncode() throws JSONException {
         return null;
     }
 
     @Override
-    protected void from(JSONObject jsonObject) throws JSONException {
+    protected void toDecode(JSONObject jsonObject) throws JSONException {
 
     }
 }

@@ -39,7 +39,7 @@ public abstract class DeviceMessage {
      * 获取设备消息类型
      * @return
      */
-    protected abstract Type getType();
+    protected abstract Type type();
 
 
 
@@ -48,7 +48,7 @@ public abstract class DeviceMessage {
      * @return
      * @throws JSONException
      */
-    protected abstract JSONObject to() throws JSONException;
+    protected abstract JSONObject toEncode() throws JSONException;
 
 
     /**
@@ -57,8 +57,14 @@ public abstract class DeviceMessage {
      */
     public String encode() throws DeviceProtocolException{
         try {
-            JSONObject jsonObject = to();
-            jsonObject.putOnce(D_TYPE_KEY,getType());
+            JSONObject jsonObject = toEncode();
+            if(jsonObject == null){
+                //直接抛出空指针异常，确保 消息是必须要解码的
+                //throw new NullPointerException("Message is empty");
+                //前端不传 直接新建一个消息json空
+                jsonObject = new JSONObject();
+            }
+            jsonObject.putOnce(D_TYPE_KEY,type());
             return jsonObject.toString();
         } catch (JSONException e) {
             throw new DeviceProtocolException(e);
@@ -70,7 +76,7 @@ public abstract class DeviceMessage {
      * @return
      * @throws JSONException
      */
-    protected abstract void from(JSONObject jsonObject) throws JSONException;
+    protected abstract void toDecode(JSONObject jsonObject) throws JSONException;
 
 
     /**
@@ -103,7 +109,7 @@ public abstract class DeviceMessage {
                 default:
                     throw new DeviceProtocolException("Unknown Device type " + jsonObject.getString(D_TYPE_KEY));
             }
-            message.from(jsonObject);
+            message.toDecode(jsonObject);
             return message;
         } catch (JSONException e) {
             throw new DeviceProtocolException("Exception occur,Message is " + json, e);

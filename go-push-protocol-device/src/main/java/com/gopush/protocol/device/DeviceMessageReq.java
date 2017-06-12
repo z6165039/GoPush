@@ -1,5 +1,7 @@
 package com.gopush.protocol.device;
 
+import org.json.JSONObject;
+
 /**
  * go-push
  *

@@ -1,6 +1,8 @@
 package com.gopush.protocol.device;
 
 
+import org.json.JSONObject;
+
 /**
  * go-push
  *
@@ -10,7 +12,5 @@ package com.gopush.protocol.device;
  * @VERSION：
  */
 public abstract class DeviceMessageResp extends DeviceMessage {
-
-
 
 }

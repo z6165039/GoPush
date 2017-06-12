@@ -13,20 +13,19 @@ import org.json.JSONObject;
  */
 public class HandShakeReq extends DeviceMessageReq {
 
-    
-
+    protected static final JSONObject JSON_OBJECT = new JSONObject();
     @Override
-    protected Type getType() {
+    protected Type type() {
         return Type.HANDSHAKE_REQ;
     }
 
     @Override
-    protected JSONObject to() throws JSONException {
-        return null;
+    protected JSONObject toEncode() throws JSONException {
+        return JSON_OBJECT;
     }
 
     @Override
-    protected void from(JSONObject jsonObject) throws JSONException {
-
+    protected void toDecode(JSONObject jsonObject) throws JSONException {
+        return;
     }
 }
