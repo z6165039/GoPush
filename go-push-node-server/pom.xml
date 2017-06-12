@@ -13,16 +13,18 @@
     <description> NodeServer 服务 </description>
 
     <dependencies>
+
         <dependency>
             <groupId>com.gopush</groupId>
-            <artifactId>go-push-protocol-device</artifactId>
+            <artifactId>go-push-handler-node</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.gopush</groupId>
-            <artifactId>go-push-protocol-node</artifactId>
+            <artifactId>go-push-handler-device</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.gopush</groupId>
             <artifactId>go-push-spring-boot-redis-cluster-starter</artifactId>

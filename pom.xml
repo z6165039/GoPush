@@ -34,6 +34,8 @@
         <module>go-push-data-center</module>
 
         <module>go-push-spring-boot-redis-cluster-starter</module>
+        <module>go-push-handler-device</module>
+        <module>go-push-handler-node</module>
     </modules>
 
 

@@ -1,4 +1,4 @@
-package com.gopush.nodeserver.node.handlers;
+package com.gopush.handler.node;
 
 import com.gopush.protocol.node.NodeMessage;
 
@@ -14,14 +14,17 @@ public interface NodeMessageHandler {
 
     /**
      * 根据各个handler 判断是不是各个handler对应处理的消息
-     * @param message
-     * @return
+     * @param message 节点消息
+     * @return  是否各个NodeMessage 子类的类型
      */
-    boolean is(NodeMessage message);
+    boolean support(NodeMessage message);
 
 
-
-    void invoke(NodeMessage nodeMessage)
+    /**
+     * 各个消息处理句柄调用方法
+     * @param message 节点消息
+     */
+    void call(NodeMessage message);
 
 
 }
