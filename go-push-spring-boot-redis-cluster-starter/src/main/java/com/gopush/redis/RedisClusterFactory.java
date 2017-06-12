@@ -13,7 +13,7 @@ import java.util.Set;
  * go-push
  *
  * @类功能说明：Redis-Cluster 工厂类
- * @作者：chenxiangqi
+ * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/10 上午3:08
  * @VERSION：
  */

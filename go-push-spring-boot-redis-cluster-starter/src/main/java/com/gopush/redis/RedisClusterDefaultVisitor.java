@@ -12,7 +12,7 @@ import java.util.Set;
  * go-push
  *
  * @类功能说明：默认Redis-Cluster工具访问
- * @作者：chenxiangqi
+ * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/10 上午12:33
  * @VERSION：
  */

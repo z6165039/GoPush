@@ -21,7 +21,7 @@ import java.util.Queue;
  * @类功能说明：
  *      Redis-Cluster Pipeline 访问工具
  *          主要用于批量操作,提高性能
- * @作者：chenxiangqi
+ * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/10 上午1:37
  * @VERSION：
  */

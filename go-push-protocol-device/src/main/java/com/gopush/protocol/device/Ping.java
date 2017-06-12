@@ -1,5 +1,6 @@
 package com.gopush.protocol.device;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,10 +8,11 @@ import org.json.JSONObject;
  * go-push
  *
  * @类功能说明：Ping-Pong 心跳
- * @作者：chenxiangqi
+ * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/9
  * @VERSION：
  */
+@Slf4j
 public class Ping extends DeviceMessageReq {
 
     protected static final JSONObject PING = new JSONObject();

@@ -4,7 +4,7 @@ package com.gopush.protocol.exceptions;
  * go-push
  *
  * @类功能说明：设备协议异常
- * @作者：chenxiangqi
+ * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/9
  * @VERSION：
  */

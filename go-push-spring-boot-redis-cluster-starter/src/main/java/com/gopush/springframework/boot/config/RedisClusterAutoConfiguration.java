@@ -28,7 +28,7 @@ import static java.lang.Integer.*;
  * go-push
  *
  * @类功能说明：Redis-Cluster自动配置类
- * @作者：chenxiangqi
+ * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/9 下午9:55
  * @VERSION：
  */

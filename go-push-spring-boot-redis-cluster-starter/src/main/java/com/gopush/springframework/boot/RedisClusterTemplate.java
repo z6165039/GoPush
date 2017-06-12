@@ -15,7 +15,7 @@ import lombok.Setter;
  * @类功能说明：
  *              Redis-Cluster工具类,
  *                  提供给业务层自动注入
- * @作者：chenxiangqi
+ * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/9 下午9:59
  * @VERSION：
  */

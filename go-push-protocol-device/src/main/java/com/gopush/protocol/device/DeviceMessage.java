@@ -1,6 +1,7 @@
 package com.gopush.protocol.device;
 
 import com.gopush.protocol.exceptions.DeviceProtocolException;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,10 +9,12 @@ import org.json.JSONObject;
  * go-push
  *
  * @类功能说明：设备消息基类
- * @作者：chenxiangqi
+ * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/9
  * @VERSION：
  */
+
+@Slf4j
 public abstract class DeviceMessage {
 
     //消息 Type Key
@@ -19,18 +22,18 @@ public abstract class DeviceMessage {
 
     /**
      * 消息类型
-     * 1)握手请求
-     * 2)握手响应
-     * 3)心跳请求
-     * 4)心跳响应
+     * 1)心跳请求
+     * 2)心跳响应
+     * 3)握手请求
+     * 4)握手响应
      * 5)消息推送
      * 6)推送反馈
      */
-    public enum Type {
-        HANDSHAKE_REQ,
-        HANDSHAKE_RESP,
+    protected enum Type {
         PING,
         PONG,
+        HAND_SHAKE_REQ,
+        HAND_SHAKE_RESP,
         PUSH_REQ,
         PUSH_RESP
     }
@@ -44,7 +47,7 @@ public abstract class DeviceMessage {
 
 
     /**
-     * 消息转换 JSONObject
+     * 设备消息转换 JSONObject
      * @return
      * @throws JSONException
      */
@@ -52,7 +55,7 @@ public abstract class DeviceMessage {
 
 
     /**
-     * 消息编码
+     * 设备消息编码
      * @return
      */
     public String encode() throws DeviceProtocolException{
@@ -72,33 +75,35 @@ public abstract class DeviceMessage {
     }
 
     /**
-     * 消息转换 JSONObject
-     * @return
+     * 设备消息转换
+     * @param jsonObject
      * @throws JSONException
      */
     protected abstract void toDecode(JSONObject jsonObject) throws JSONException;
 
 
     /**
-     * 消息编码
+     * 设备消息解码
+     * @param json
      * @return
+     * @throws DeviceProtocolException
      */
     public DeviceMessage decode(String json) throws DeviceProtocolException {
         try {
             JSONObject jsonObject = new JSONObject(json);
             DeviceMessage message;
             switch (Type.valueOf(jsonObject.getString(D_TYPE_KEY))){
-                case HANDSHAKE_REQ:
-                    message = new HandShakeReq();
-                    break;
-                case HANDSHAKE_RESP:
-                    message = new HandShakeResp();
-                    break;
                 case PING:
                     message = new Ping();
                     break;
                 case PONG:
                     message = new Pong();
+                    break;
+                case HAND_SHAKE_REQ:
+                    message = new HandShakeReq();
+                    break;
+                case HAND_SHAKE_RESP:
+                    message = new HandShakeResp();
                     break;
                 case PUSH_REQ:
                     message = new PushReq();
