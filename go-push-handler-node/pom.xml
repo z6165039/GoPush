@@ -19,5 +19,9 @@
             <artifactId>go-push-protocol-node</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-handler</artifactId>
+        </dependency>
     </dependencies>
 </project>
