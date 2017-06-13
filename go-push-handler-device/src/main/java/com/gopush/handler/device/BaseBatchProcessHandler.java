@@ -107,7 +107,7 @@ public abstract class BaseBatchProcessHandler<T>{
     @PostConstruct
     public void init(){
         if (processorNum <  0){
-            throw new RuntimeException(getBatchExecutorName()+"  processorNum less or equal zero");
+            throw new RuntimeException(getBatchExecutorName()+"  processorNum <= 0 ");
         }
         for (int i = 0 ; i< processorNum; i++ ){
             InternalProcessor processor = new InternalProcessor(i);
@@ -151,7 +151,7 @@ public abstract class BaseBatchProcessHandler<T>{
                 .append(retryCounter.get());
 
         if(!internalProcessors.isEmpty()){
-            sb.append(",")
+            sb.append("-> ")
                     .append(
                             internalProcessors.stream()
                                     .map(InternalProcessor::processorInfo)
