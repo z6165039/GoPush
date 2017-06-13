@@ -25,6 +25,7 @@ public class PingHandler extends BaseBatchProcessHandler<Ping> implements Device
 
 
 
+
     @Override
     public boolean support(DeviceMessage message) {
         return message instanceof Ping;
