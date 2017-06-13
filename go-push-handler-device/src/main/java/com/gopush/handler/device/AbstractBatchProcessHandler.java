@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -67,7 +66,10 @@ public abstract class AbstractBatchProcessHandler<T>{
     @Setter
     private int childHandlerCount = 1;
 
+    @Setter
     private ScheduledExecutorService pool;
+
+
 
 
     /**
@@ -98,7 +100,7 @@ public abstract class AbstractBatchProcessHandler<T>{
             throw new RuntimeException(getBatchExecutorName()+" inner child handler counter less or equal zero");
         }
         for (int i = 0 ; i< childHandlerCount; i++ ){
-            InteralProcessHandler handler = new InteralProcessHandler(i)
+            InteralProcessHandler handler = new InteralProcessHandler(i);
         }
     }
 
