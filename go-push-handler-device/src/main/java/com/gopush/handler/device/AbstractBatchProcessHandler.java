@@ -75,6 +75,7 @@ public abstract class AbstractBatchProcessHandler<T>{
 
     @PreDestroy
     public void destory(){
+
     }
 
     protected void putMsg(T message){
