@@ -4,6 +4,7 @@ import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.Ping;
 import lombok.Builder;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * go-push
@@ -16,6 +17,7 @@ import lombok.Data;
 
 @Builder
 @Data
+@Slf4j
 public class PingHandler extends AbstractBatchProcessHandler<Ping> implements DeviceMessagehandler{
 
 
@@ -29,5 +31,15 @@ public class PingHandler extends AbstractBatchProcessHandler<Ping> implements De
     @Override
     public void call(DeviceMessage message) {
 
+    }
+
+    @Override
+    protected String getBatchExecutorName() {
+        return null;
+    }
+
+    @Override
+    protected boolean retryFailure() {
+        return false;
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 /**
  * go-push
@@ -26,6 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 @Builder
 public abstract class AbstractBatchProcessHandler<T>{
+
+    private static final int MAX_QUEUE_NUM = Integer.MAX_VALUE - 1;
 
     //接收消息的计数
     private AtomicInteger counter = new AtomicInteger(0);
@@ -77,7 +80,7 @@ public abstract class AbstractBatchProcessHandler<T>{
 
     protected void putMsg(T message){
         int count = counter.incrementAndGet();
-        if(count == Integer.MAX_VALUE ){
+        if(count >= MAX_QUEUE_NUM ){
             counter.set(0);
         }
         InterChildProcessHandler processHandler = interChildHandlerList.get( count % childHandlerCount );

@@ -4,6 +4,7 @@ import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.PushResp;
 import lombok.Builder;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * go-push
@@ -16,6 +17,7 @@ import lombok.Data;
 
 @Builder
 @Data
+@Slf4j
 public class PushRespHandler extends AbstractBatchProcessHandler<PushRespHandler> implements DeviceMessagehandler {
     @Override
     public boolean support(DeviceMessage message) {
@@ -25,5 +27,15 @@ public class PushRespHandler extends AbstractBatchProcessHandler<PushRespHandler
     @Override
     public void call(DeviceMessage message) {
 
+    }
+
+    @Override
+    protected String getBatchExecutorName() {
+        return null;
+    }
+
+    @Override
+    protected boolean retryFailure() {
+        return false;
     }
 }
