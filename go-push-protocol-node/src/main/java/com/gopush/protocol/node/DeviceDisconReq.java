@@ -14,8 +14,9 @@ import org.json.JSONObject;
  * @VERSION：
  */
 
-@Slf4j
+
 @Builder
+@Slf4j
 public class DeviceDisconReq extends NodeMessageReq{
 
     @Override
@@ -30,6 +31,5 @@ public class DeviceDisconReq extends NodeMessageReq{
 
     @Override
     protected void toDecode(JSONObject jsonObject) throws JSONException {
-
     }
 }

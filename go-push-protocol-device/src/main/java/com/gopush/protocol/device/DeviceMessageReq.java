@@ -1,6 +1,7 @@
 package com.gopush.protocol.device;
 
 
+
 /**
  * go-push
  *
