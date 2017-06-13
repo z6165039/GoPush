@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 /**
  * go-push
  *
@@ -18,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Data
 @Slf4j
-public class PingHandler extends AbstractBatchProcessHandler<Ping> implements DeviceMessagehandler{
+public class PingHandler extends BaseBatchProcessHandler<Ping> implements DeviceMessagehandler{
 
 
 
@@ -41,5 +43,10 @@ public class PingHandler extends AbstractBatchProcessHandler<Ping> implements De
     @Override
     protected boolean retryFailure() {
         return false;
+    }
+
+    @Override
+    protected void batchHandler(List<Ping> list) throws Exception {
+
     }
 }

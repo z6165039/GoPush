@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 /**
  * go-push
  *
@@ -18,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Data
 @Slf4j
-public class HandShakeReqHandler extends AbstractBatchProcessHandler<HandShakeReq> implements DeviceMessagehandler{
+public class HandShakeReqHandler extends BaseBatchProcessHandler<HandShakeReq> implements DeviceMessagehandler{
     @Override
     public boolean support(DeviceMessage message) {
         return message instanceof HandShakeReq;
@@ -36,5 +38,10 @@ public class HandShakeReqHandler extends AbstractBatchProcessHandler<HandShakeRe
     @Override
     protected boolean retryFailure() {
         return false;
+    }
+
+    @Override
+    protected void batchHandler(List<HandShakeReq> list) throws Exception {
+
     }
 }

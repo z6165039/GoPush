@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 /**
  * go-push
  *
@@ -18,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Data
 @Slf4j
-public class PushReqHandler extends AbstractBatchProcessHandler<PushReq> implements DeviceMessagehandler {
+public class PushReqHandler extends BaseBatchProcessHandler<PushReq> implements DeviceMessagehandler {
     @Override
     public boolean support(DeviceMessage message) {
         return message instanceof PushReq;
@@ -37,5 +39,10 @@ public class PushReqHandler extends AbstractBatchProcessHandler<PushReq> impleme
     @Override
     protected boolean retryFailure() {
         return false;
+    }
+
+    @Override
+    protected void batchHandler(List<PushReq> list) throws Exception {
+
     }
 }
