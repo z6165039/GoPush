@@ -18,7 +18,13 @@ import org.json.JSONObject;
 @Builder
 public class HandShakeReq extends DeviceMessageReq {
 
-    protected static final JSONObject JSON_OBJECT = new JSONObject();
+    private static final JSONObject JSON_OBJECT = new JSONObject();
+
+    private String device;
+
+    private String token;
+
+
     @Override
     protected Type type() {
         return Type.HAND_SHAKE_REQ;

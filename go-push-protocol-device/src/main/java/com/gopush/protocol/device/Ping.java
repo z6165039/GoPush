@@ -17,7 +17,7 @@ import org.json.JSONObject;
 @Builder
 public class Ping extends DeviceMessageReq {
 
-    protected static final JSONObject PING = new JSONObject();
+    private static final JSONObject PING = new JSONObject();
     @Override
     protected Type type() {
         return Type.PING;

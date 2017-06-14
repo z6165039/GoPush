@@ -1,5 +1,7 @@
-package com.gopush.handler.device;
+package com.gopush.nodeserver.handler.device;
 
+import com.gopush.handler.device.BaseBatchProcessHandler;
+import com.gopush.handler.device.DeviceMessageHandler;
 import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.PushReq;
 import lombok.Builder;
@@ -20,7 +22,7 @@ import java.util.List;
 @Builder
 @Data
 @Slf4j
-public class PushReqHandler extends BaseBatchProcessHandler<PushReq> implements DeviceMessagehandler {
+public class PushReqHandler extends BaseBatchProcessHandler<PushReq> implements DeviceMessageHandler {
     @Override
     public boolean support(DeviceMessage message) {
         return message instanceof PushReq;
@@ -33,7 +35,7 @@ public class PushReqHandler extends BaseBatchProcessHandler<PushReq> implements 
 
     @Override
     protected String getBatchExecutorName() {
-        return null;
+        return "Req-Push-BatchExecutor";
     }
 
     @Override

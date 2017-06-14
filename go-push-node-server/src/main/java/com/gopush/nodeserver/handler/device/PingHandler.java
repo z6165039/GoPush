@@ -1,5 +1,7 @@
-package com.gopush.handler.device;
+package com.gopush.nodeserver.handler.device;
 
+import com.gopush.handler.device.BaseBatchProcessHandler;
+import com.gopush.handler.device.DeviceMessageHandler;
 import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.Ping;
 import lombok.Builder;
@@ -20,7 +22,7 @@ import java.util.List;
 @Builder
 @Data
 @Slf4j
-public class PingHandler extends BaseBatchProcessHandler<Ping> implements DeviceMessagehandler{
+public class PingHandler extends BaseBatchProcessHandler<Ping> implements DeviceMessageHandler {
 
 
 
@@ -38,7 +40,7 @@ public class PingHandler extends BaseBatchProcessHandler<Ping> implements Device
 
     @Override
     protected String getBatchExecutorName() {
-        return null;
+        return "Ping-BatchExecutor";
     }
 
     @Override

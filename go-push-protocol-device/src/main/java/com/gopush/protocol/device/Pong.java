@@ -17,7 +17,7 @@ import org.json.JSONObject;
 @Builder
 public class Pong extends DeviceMessageResp {
 
-    protected static final JSONObject PONG = new JSONObject();
+    private static final JSONObject PONG = new JSONObject();
 
     @Override
     protected Type type() {

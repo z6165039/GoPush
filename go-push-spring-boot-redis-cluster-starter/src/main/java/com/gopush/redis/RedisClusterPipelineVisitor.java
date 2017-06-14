@@ -1,10 +1,7 @@
 package com.gopush.redis;
 
-import org.apache.commons.collections.SetUtils;
 import redis.clients.jedis.JedisCluster;
 
-import java.util.Map;
-import java.util.Set;
 
 /**
  * go-push

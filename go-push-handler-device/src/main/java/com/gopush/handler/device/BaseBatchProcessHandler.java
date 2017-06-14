@@ -80,8 +80,6 @@ public abstract class BaseBatchProcessHandler<T>{
     @Setter
     private ScheduledExecutorService pool;
 
-
-
     /**
      * 获取定时器执行的name
      * @return
@@ -235,10 +233,10 @@ public abstract class BaseBatchProcessHandler<T>{
                 }
                 //大于批量处理的请求
                 if (this.count.get() > batchSize){
-                    log.warn("{}-InternalProcessor-{} message queue size too long : size = {}",getBatchExecutorName(),this.index,this.count.get());
+                    log.warn("[{}]-InternalProcessor-{} message queue size too long : size = {}",getBatchExecutorName(),this.index,this.count.get());
                 }
                 if(this.count.get() > overNumWarn){
-                    log.info("{}-InternalProcessor-{} message queue size over warn num floor ! size = {} ",getBatchExecutorName(),index,this.count.get());
+                    log.info("[{}]-InternalProcessor-{} message queue size over warn num floor ! size = {} ",getBatchExecutorName(),index,this.count.get());
                     // TODO: 2017/6/13  进行告警处理
                 }
                 List<T> batchList = new ArrayList<>();
@@ -249,7 +247,7 @@ public abstract class BaseBatchProcessHandler<T>{
                     }catch (Exception e){
                         //重置计数值
                         this.count.set(this.queue.size());
-                        log.error("{}-InternalProcessor-{} add message to processs list exception {}",getBatchExecutorName(),this.index,e);
+                        log.error("[{}]-InternalProcessor-{} add message to processs list exception {}",getBatchExecutorName(),this.index,e);
                         break;
                     }
                 }

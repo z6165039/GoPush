@@ -1,7 +1,9 @@
-package com.gopush.handler.device;
+package com.gopush.nodeserver.handler.device;
 
+import com.gopush.handler.device.BaseBatchProcessHandler;
+import com.gopush.handler.device.DeviceMessageHandler;
 import com.gopush.protocol.device.DeviceMessage;
-import com.gopush.protocol.device.Pong;
+import com.gopush.protocol.device.HandShakeReq;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +13,7 @@ import java.util.List;
 /**
  * go-push
  *
- * @类功能说明：
+ * @类功能说明：握手请求
  * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/12 下午10:03
  * @VERSION：
@@ -20,20 +22,19 @@ import java.util.List;
 @Builder
 @Data
 @Slf4j
-public class PongHandler  extends BaseBatchProcessHandler<Pong> implements DeviceMessagehandler{
+public class HandShakeHandler extends BaseBatchProcessHandler<HandShakeReq> implements DeviceMessageHandler {
     @Override
     public boolean support(DeviceMessage message) {
-        return message instanceof Pong;
+        return message instanceof HandShakeReq;
     }
 
     @Override
     public void call(DeviceMessage message) {
-
     }
 
     @Override
     protected String getBatchExecutorName() {
-        return null;
+        return "HandShake-BatchExecutor";
     }
 
     @Override
@@ -42,7 +43,7 @@ public class PongHandler  extends BaseBatchProcessHandler<Pong> implements Devic
     }
 
     @Override
-    protected void batchHandler(List<Pong> list) throws Exception {
+    protected void batchHandler(List<HandShakeReq> list) throws Exception {
 
     }
 }

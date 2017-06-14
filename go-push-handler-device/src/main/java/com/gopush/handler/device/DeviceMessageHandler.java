@@ -12,7 +12,7 @@ import com.gopush.protocol.device.DeviceMessage;
  */
 
 
-public interface DeviceMessagehandler{
+public interface DeviceMessageHandler {
     /**
      * 根据各个handler 判断是不是各个handler对应处理的消息
      * @param message 节点消息

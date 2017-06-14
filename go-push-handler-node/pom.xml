@@ -19,18 +19,17 @@
             <artifactId>go-push-protocol-node</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-handler</artifactId>
-        </dependency>
-        <dependency>
+
+        <!--<dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-        </dependency>
+            <scope>provided</scope>
+        </dependency>-->
     </dependencies>
 </project>
