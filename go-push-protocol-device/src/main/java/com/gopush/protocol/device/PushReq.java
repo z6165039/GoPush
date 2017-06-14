@@ -15,19 +15,32 @@ import org.json.JSONObject;
  */
 @Slf4j
 @Builder
-public class PushReq extends DeviceMessageReq {
+public class PushReq<R> extends DeviceMessageReq {
+
+    private static final String DEVICE_KEY = "D";
+    private static final String MSG_KEY = "ID";
+    private static final String MSG_CONTEXT_KEY = "MC";
+
+    private String id;
+
+    private R msg;
+
     @Override
     protected Type type() {
-        return Type.PUSH_REQ;
+        return Type.P;
     }
 
     @Override
     protected JSONObject toEncode() throws JSONException {
-        return null;
+        JSONObject object = new JSONObject();
+        object.put(MSG_KEY,id);
+        object.put(MSG_CONTEXT_KEY,msg);
+        return object;
     }
 
     @Override
-    protected void toDecode(JSONObject jsonObject) throws JSONException {
-
+    protected void toDecode(JSONObject json) throws JSONException {
+        id = json.getString(MSG_KEY);
+        msg = (R) json.get(MSG_CONTEXT_KEY);
     }
 }

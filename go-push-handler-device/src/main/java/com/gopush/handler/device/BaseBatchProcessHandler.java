@@ -139,7 +139,7 @@ public abstract class BaseBatchProcessHandler<T>{
     protected String getHandlerInfo(){
         StringBuilder sb = new StringBuilder(getBatchExecutorName()).append("[ ");
         sb
-                .append("receiveMCounter:")
+                .append("receiveCounter:")
                 .append(receiveCounter.get())
                 .append(INFO_SEPARATOR)
                 .append("failCounter:")

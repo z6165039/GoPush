@@ -16,18 +16,44 @@ import org.json.JSONObject;
 @Slf4j
 @Builder
 public class PushResp extends DeviceMessageResp {
+
+    private static final String DEVICE_KEY = "D";
+    private final static String MSG_KEY = "ID";
+    private final static String RESULT_KEY = "R";
+
+
+    public enum Result{
+        S,  //SUCCESS,
+        D,  //DUPLICATE,
+        NR, //NOT_REGISTERED,
+        IN  //INTERNAL_ERROR
+    }
+
+
+    private String device;
+
+    private String msgId;
+
+    private Result result;
+
     @Override
     protected Type type() {
-        return Type.PUSH_RESP;
+        return Type.PR;
     }
 
     @Override
     protected JSONObject toEncode() throws JSONException {
-        return null;
+        JSONObject object = new JSONObject();
+        object.put(DEVICE_KEY,device);
+        object.put(MSG_KEY,msgId);
+        object.put(RESULT_KEY,result.ordinal());
+        return object;
     }
 
     @Override
-    protected void toDecode(JSONObject jsonObject) throws JSONException {
-
+    protected void toDecode(JSONObject json) throws JSONException {
+        device = json.getString(DEVICE_KEY);
+        msgId = json.getString(MSG_KEY);
+        result = Result.valueOf(json.getString(RESULT_KEY));
     }
 }

@@ -1,6 +1,7 @@
 package com.gopush.protocol.device;
 
 import lombok.Builder;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +19,8 @@ import org.json.JSONObject;
 @Builder
 public class HandShakeReq extends DeviceMessageReq {
 
-    private static final JSONObject JSON_OBJECT = new JSONObject();
+    private static final String DEVICE_KEY = "D";
+    private static final String DEVICE_TOKEN_KEY = "TK";
 
     private String device;
 
@@ -27,16 +29,20 @@ public class HandShakeReq extends DeviceMessageReq {
 
     @Override
     protected Type type() {
-        return Type.HAND_SHAKE_REQ;
+        return Type.HS;
     }
 
     @Override
     protected JSONObject toEncode() throws JSONException {
-        return JSON_OBJECT;
+        JSONObject object = new JSONObject();
+        object.put(DEVICE_KEY,device);
+        object.put(DEVICE_TOKEN_KEY,token);
+        return object;
     }
 
     @Override
-    protected void toDecode(JSONObject jsonObject) throws JSONException {
-        return;
+    protected void toDecode(JSONObject json) throws JSONException {
+        device = json.getString(DEVICE_KEY);
+        token = json.getString(DEVICE_TOKEN_KEY);
     }
 }

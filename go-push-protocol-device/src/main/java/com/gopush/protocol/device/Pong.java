@@ -21,7 +21,7 @@ public class Pong extends DeviceMessageResp {
 
     @Override
     protected Type type() {
-        return Type.PONG;
+        return Type.PO;
     }
 
     @Override
@@ -30,7 +30,6 @@ public class Pong extends DeviceMessageResp {
     }
 
     @Override
-    protected void toDecode(JSONObject jsonObject) throws JSONException {
-        return;
+    protected void toDecode(JSONObject json) throws JSONException {
     }
 }

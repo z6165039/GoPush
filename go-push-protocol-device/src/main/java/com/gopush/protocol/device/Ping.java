@@ -20,7 +20,7 @@ public class Ping extends DeviceMessageReq {
     private static final JSONObject PING = new JSONObject();
     @Override
     protected Type type() {
-        return Type.PING;
+        return Type.PI;
     }
 
     @Override
@@ -29,7 +29,6 @@ public class Ping extends DeviceMessageReq {
     }
 
     @Override
-    protected void toDecode(JSONObject jsonObject) throws JSONException {
-        return;
+    protected void toDecode(JSONObject json) throws JSONException {
     }
 }

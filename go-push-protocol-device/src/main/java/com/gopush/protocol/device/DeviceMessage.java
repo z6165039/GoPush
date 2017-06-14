@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public abstract class DeviceMessage {
 
     //消息 Type Key
-    protected static final String D_TYPE_KEY = "T";
+    protected static final String DEVICE_TYPE_KEY = "T";
 
     /**
      * 消息类型
@@ -30,12 +30,12 @@ public abstract class DeviceMessage {
      * 6)推送反馈
      */
     protected enum Type {
-        PING,
-        PONG,
-        HAND_SHAKE_REQ,
-        HAND_SHAKE_RESP,
-        PUSH_REQ,
-        PUSH_RESP
+        PI,    // PING
+        PO,   // PONG
+        HS,    // HANDSHAKE_REQ
+        HSR,  // HANDSHAKE_RESP
+        P,    // PUSH_REQ
+        PR    // PUSH_RESP
     }
 
     /**
@@ -67,7 +67,7 @@ public abstract class DeviceMessage {
                 //前端不传 直接新建一个消息json空
                 jsonObject = new JSONObject();
             }
-            jsonObject.putOnce(D_TYPE_KEY,type());
+            jsonObject.putOnce(DEVICE_TYPE_KEY,type());
             return jsonObject.toString();
         } catch (JSONException e) {
             throw new DeviceProtocolException(e);
@@ -76,10 +76,10 @@ public abstract class DeviceMessage {
 
     /**
      * 设备消息转换
-     * @param jsonObject
+     * @param json
      * @throws JSONException
      */
-    protected abstract void toDecode(JSONObject jsonObject) throws JSONException;
+    protected abstract void toDecode(JSONObject json) throws JSONException;
 
 
     /**
@@ -92,27 +92,27 @@ public abstract class DeviceMessage {
         try {
             JSONObject jsonObject = new JSONObject(json);
             DeviceMessage message;
-            switch (Type.valueOf(jsonObject.getString(D_TYPE_KEY))){
-                case PING:
+            switch (Type.valueOf(jsonObject.getString(DEVICE_TYPE_KEY))){
+                case PI:
                     message = Ping.builder().build();
                     break;
-                case PONG:
+                case PO:
                     message = Pong.builder().build();
                     break;
-                case HAND_SHAKE_REQ:
+                case HS:
                     message = HandShakeReq.builder().build();
                     break;
-                case HAND_SHAKE_RESP:
+                case HSR:
                     message = HandShakeResp.builder().build();
                     break;
-                case PUSH_REQ:
+                case P:
                     message = PushReq.builder().build();
                     break;
-                case PUSH_RESP:
+                case PR:
                     message = PushResp.builder().build();
                     break;
                 default:
-                    throw new DeviceProtocolException("Unknown Device type " + jsonObject.getString(D_TYPE_KEY));
+                    throw new DeviceProtocolException("Unknown Device type " + jsonObject.getString(DEVICE_TYPE_KEY));
             }
             message.toDecode(jsonObject);
             return message;

@@ -17,18 +17,26 @@ import org.json.JSONObject;
 @Slf4j
 @Builder
 public class HandShakeResp extends DeviceMessageResp {
+
+
+    private static final String RESULT_KEY = "R";
+
+    private int result;
+
     @Override
     protected Type type() {
-        return Type.HAND_SHAKE_RESP;
+        return Type.HSR;
     }
 
     @Override
     protected JSONObject toEncode() throws JSONException {
-        return null;
+        JSONObject object = new JSONObject();
+        object.put(RESULT_KEY,result);
+        return object;
     }
 
     @Override
-    protected void toDecode(JSONObject jsonObject) throws JSONException {
-        //解码json 获取到分配的token 等
+    protected void toDecode(JSONObject json) throws JSONException {
+        result = json.getInt(RESULT_KEY);
     }
 }
