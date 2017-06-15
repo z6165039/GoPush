@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public class DeviceDisconResp extends NodeMessageResp{
     @Override
     protected Type type() {
-        return Type.DEVICE_DISCON_RESP;
+        return Type.DIS;
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Pong extends NodeMessageResp {
 
     @Override
     protected Type type() {
-        return Type.PONG;
+        return Type.PO;
     }
 
     @Override

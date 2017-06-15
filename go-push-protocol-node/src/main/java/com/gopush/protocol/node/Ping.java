@@ -22,7 +22,7 @@ public class Ping extends NodeMessageReq {
 
     @Override
     protected Type type() {
-        return Type.PING;
+        return Type.PI;
     }
 
     @Override

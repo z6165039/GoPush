@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public class DeviceDockedReq extends NodeMessageReq{
     @Override
     protected Type type() {
-        return Type.DEVICE_DOCKED_REQ;
+        return Type.DO;
     }
 
     @Override

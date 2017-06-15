@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public class DeviceDockedResp extends NodeMessageResp{
     @Override
     protected Type type() {
-        return Type.DEVICE_DOCKED_RESP;
+        return Type.DOS;
     }
 
     @Override

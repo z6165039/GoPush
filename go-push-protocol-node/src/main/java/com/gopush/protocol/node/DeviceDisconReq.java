@@ -21,7 +21,7 @@ public class DeviceDisconReq extends NodeMessageReq{
 
     @Override
     protected Type type() {
-        return Type.DEVICE_DISCON_REQ;
+        return Type.DI;
     }
 
     @Override

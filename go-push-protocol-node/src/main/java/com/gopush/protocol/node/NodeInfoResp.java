@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public class NodeInfoResp extends NodeMessageResp{
     @Override
     protected Type type() {
-        return Type.NODE_INFO_RESP;
+        return Type.NIS;
     }
 
     @Override

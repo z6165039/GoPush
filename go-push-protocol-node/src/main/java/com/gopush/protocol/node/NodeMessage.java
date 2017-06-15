@@ -36,18 +36,18 @@ public abstract class NodeMessage {
      * 12)节点服务信息响应
      */
     protected enum Type{
-        PING,
-        PONG,
-        DEVICE_DOCKED_REQ,
-        DEVICE_DOCKED_RESP,
-        DEVICE_DISCON_REQ,
-        DEVICE_DISCON_RESP,
-        MULTI_MSG_TO_ONE_DEVICE_REQ,
-        MULTI_MSG_TO_ONE_DEVICE_RESP,
-        ONE_MSG_TO_MULTI_DEVICE_REQ,
-        ONE_MSG_TO_MULTI_DEVICE_RESP,
-        NODE_INFO_REQ,
-        NODE_INFO_RESP,
+        PI,       //PING
+        PO,       //PONG
+        DO,       //DEVICE_DOCKED_REQ
+        DOS,      //DEVICE_DOCKED_RESP
+        DI,       //DEVICE_DISCON_REQ
+        DIS,      //DEVICE_DISCON_RESP
+        MTO,      //MULTI_MSG_TO_ONE_DEVICE_REQ
+        MTOS,     //MULTI_MSG_TO_ONE_DEVICE_RESP
+        OTM,     //ONE_MSG_TO_MULTI_DEVICE_REQ
+        OTMS,     //ONE_MSG_TO_MULTI_DEVICE_RESP
+        NI,     //NODE_INFO_REQ
+        NIS,     //NODE_INFO_RESP
     }
 
     /**
@@ -101,40 +101,40 @@ public abstract class NodeMessage {
             JSONObject jsonObject = new JSONObject(json);
             NodeMessage message;
             switch (Type.valueOf(jsonObject.getString(N_TYPE_KEY))){
-                case PING:
+                case PI:
                     message = Ping.builder().build();
                     break;
-                case PONG:
+                case PO:
                     message = Pong.builder().build();
                     break;
-                case DEVICE_DOCKED_REQ:
+                case DO:
                     message = DeviceDockedReq.builder().build();
                     break;
-                case DEVICE_DOCKED_RESP:
+                case DOS:
                     message = DeviceDockedResp.builder().build();
                     break;
-                case DEVICE_DISCON_REQ:
+                case DI:
                     message = DeviceDisconReq.builder().build();
                     break;
-                case DEVICE_DISCON_RESP:
+                case DIS:
                     message = DeviceDisconResp.builder().build();
                     break;
-                case MULTI_MSG_TO_ONE_DEVICE_REQ:
+                case MTO:
                     message = MultiMessageToOneDeviceReq.builder().build();
                     break;
-                case MULTI_MSG_TO_ONE_DEVICE_RESP:
+                case MTOS:
                     message = MultiMessageToOneDeviceResp.builder().build();
                     break;
-                case ONE_MSG_TO_MULTI_DEVICE_REQ:
+                case OTM:
                     message = OneMessageToMultiDeviceReq.builder().build();
                     break;
-                case ONE_MSG_TO_MULTI_DEVICE_RESP:
+                case OTMS:
                     message = OneMessageToMultiDeviceResp.builder().build();
                     break;
-                case NODE_INFO_REQ:
+                case NI:
                     message = NodeInfoReq.builder().build();
                     break;
-                case NODE_INFO_RESP:
+                case NIS:
                     message = NodeInfoResp.builder().build();
                     break;
                 default:

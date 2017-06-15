@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public class NodeInfoReq extends NodeMessageReq{
     @Override
     protected Type type() {
-        return Type.NODE_INFO_REQ;
+        return Type.NI;
     }
 
     @Override

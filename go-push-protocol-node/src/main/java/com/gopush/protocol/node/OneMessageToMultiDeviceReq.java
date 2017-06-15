@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public class OneMessageToMultiDeviceReq extends NodeMessageReq{
     @Override
     protected Type type() {
-        return Type.ONE_MSG_TO_MULTI_DEVICE_REQ;
+        return Type.OTM;
     }
 
     @Override
