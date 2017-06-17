@@ -1,9 +1,9 @@
 package com.gopush.protocol.node;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * go-push
@@ -16,18 +16,21 @@ import org.json.JSONObject;
 @Slf4j
 @Builder
 public class NodeInfoResp extends NodeMessageResp{
+
+
+    @JSONField(name = "R")
+    private int result;
+
+
     @Override
     protected Type type() {
         return Type.NIS;
     }
 
     @Override
-    protected JSONObject toEncode() throws JSONException {
-        return null;
+    protected String toEncode() throws Exception {
+        return JSON.toJSONString(this);
     }
 
-    @Override
-    protected void toDecode(JSONObject jsonObject) throws JSONException {
 
-    }
 }

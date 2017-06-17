@@ -2,8 +2,6 @@ package com.gopush.protocol.node;
 
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * go-push
@@ -18,7 +16,6 @@ import org.json.JSONObject;
 @Builder
 public class Ping extends NodeMessageReq {
 
-    protected static final JSONObject PING = new JSONObject();
 
     @Override
     protected Type type() {
@@ -26,12 +23,9 @@ public class Ping extends NodeMessageReq {
     }
 
     @Override
-    protected JSONObject toEncode() throws JSONException {
-        return PING;
+    protected String toEncode() throws Exception {
+        return null;
     }
 
-    @Override
-    protected void toDecode(JSONObject jsonObject) throws JSONException {
-        return;
-    }
+
 }

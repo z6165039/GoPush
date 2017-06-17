@@ -36,6 +36,7 @@
         <module>go-push-spring-boot-redis-cluster-starter</module>
         <module>go-push-handler-device</module>
         <module>go-push-handler-node</module>
+        <module>go-push-common</module>
     </modules>
 
 
@@ -129,9 +130,9 @@
 
 
             <dependency>
-                <groupId>org.json</groupId>
-                <artifactId>org.json</artifactId>
-                <version>2.0</version>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.32</version>
             </dependency>
 
         </dependencies>

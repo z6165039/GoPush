@@ -1,9 +1,9 @@
 package com.gopush.protocol.device;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * go-push
@@ -18,9 +18,7 @@ import org.json.JSONObject;
 @Builder
 public class HandShakeResp extends DeviceMessageResp {
 
-
-    private static final String RESULT_KEY = "R";
-
+    @JSONField(name = "R")
     private int result;
 
     @Override
@@ -29,14 +27,9 @@ public class HandShakeResp extends DeviceMessageResp {
     }
 
     @Override
-    protected JSONObject toEncode() throws JSONException {
-        JSONObject object = new JSONObject();
-        object.put(RESULT_KEY,result);
-        return object;
+    protected String toEncode() throws Exception {
+       return JSON.toJSONString(this);
     }
 
-    @Override
-    protected void toDecode(JSONObject json) throws JSONException {
-        result = json.getInt(RESULT_KEY);
-    }
+
 }

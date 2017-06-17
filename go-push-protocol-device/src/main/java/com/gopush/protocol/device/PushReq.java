@@ -1,9 +1,9 @@
 package com.gopush.protocol.device;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * go-push
@@ -15,15 +15,13 @@ import org.json.JSONObject;
  */
 @Slf4j
 @Builder
-public class PushReq<R> extends DeviceMessageReq {
+public class PushReq extends DeviceMessageReq {
 
-    private static final String DEVICE_KEY = "D";
-    private static final String MSG_KEY = "ID";
-    private static final String MSG_CONTEXT_KEY = "MC";
-
+    @JSONField(name = "ID")
     private String id;
 
-    private R msg;
+    @JSONField(name = "MC")
+    private String msg;
 
     @Override
     protected Type type() {
@@ -31,16 +29,10 @@ public class PushReq<R> extends DeviceMessageReq {
     }
 
     @Override
-    protected JSONObject toEncode() throws JSONException {
-        JSONObject object = new JSONObject();
-        object.put(MSG_KEY,id);
-        object.put(MSG_CONTEXT_KEY,msg);
-        return object;
+    protected String toEncode() throws Exception {
+        return JSON.toJSONString(this);
     }
 
-    @Override
-    protected void toDecode(JSONObject json) throws JSONException {
-        id = json.getString(MSG_KEY);
-        msg = (R) json.get(MSG_CONTEXT_KEY);
-    }
+
+
 }

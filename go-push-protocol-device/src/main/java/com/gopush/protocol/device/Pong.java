@@ -2,8 +2,6 @@ package com.gopush.protocol.device;
 
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * go-push
@@ -17,7 +15,6 @@ import org.json.JSONObject;
 @Builder
 public class Pong extends DeviceMessageResp {
 
-    private static final JSONObject PONG = new JSONObject();
 
     @Override
     protected Type type() {
@@ -25,11 +22,9 @@ public class Pong extends DeviceMessageResp {
     }
 
     @Override
-    protected JSONObject toEncode() throws JSONException {
-        return PONG;
+    protected String toEncode() throws Exception {
+        return null;
     }
 
-    @Override
-    protected void toDecode(JSONObject json) throws JSONException {
-    }
+
 }

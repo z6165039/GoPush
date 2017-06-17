@@ -2,8 +2,6 @@ package com.gopush.protocol.node;
 
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * go-push
@@ -22,12 +20,9 @@ public class MultiMessageToOneDeviceResp extends NodeMessageResp{
     }
 
     @Override
-    protected JSONObject toEncode() throws JSONException {
+    protected String toEncode() throws Exception {
         return null;
     }
 
-    @Override
-    protected void toDecode(JSONObject jsonObject) throws JSONException {
 
-    }
 }

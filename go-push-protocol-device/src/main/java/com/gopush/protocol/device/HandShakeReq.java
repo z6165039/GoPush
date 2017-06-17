@@ -1,10 +1,9 @@
 package com.gopush.protocol.device;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * go-push
@@ -19,11 +18,10 @@ import org.json.JSONObject;
 @Builder
 public class HandShakeReq extends DeviceMessageReq {
 
-    private static final String DEVICE_KEY = "D";
-    private static final String DEVICE_TOKEN_KEY = "TK";
-
+    @JSONField(name = "D")
     private String device;
 
+    @JSONField(name = "TK")
     private String token;
 
 
@@ -33,16 +31,9 @@ public class HandShakeReq extends DeviceMessageReq {
     }
 
     @Override
-    protected JSONObject toEncode() throws JSONException {
-        JSONObject object = new JSONObject();
-        object.put(DEVICE_KEY,device);
-        object.put(DEVICE_TOKEN_KEY,token);
-        return object;
+    protected String toEncode() throws Exception {
+        return JSON.toJSONString(this);
     }
 
-    @Override
-    protected void toDecode(JSONObject json) throws JSONException {
-        device = json.getString(DEVICE_KEY);
-        token = json.getString(DEVICE_TOKEN_KEY);
-    }
+
 }

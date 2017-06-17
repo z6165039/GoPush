@@ -1,9 +1,10 @@
 package com.gopush.protocol.node;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.gopush.protocol.exceptions.NodeProtocolException;
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * go-push
@@ -18,8 +19,6 @@ import org.json.JSONObject;
 public abstract class NodeMessage {
 
     //消息 Type Key
-    protected static final String N_TYPE_KEY = "T";
-
     /**
      * 消息类型
      * 1)心跳请求
@@ -59,9 +58,9 @@ public abstract class NodeMessage {
     /**
      * 节点消息转换
      * @return
-     * @throws JSONException
+     * @throws Exception
      */
-    protected abstract JSONObject toEncode() throws JSONException;
+    protected abstract String toEncode() throws Exception;
 
 
     /**
@@ -70,24 +69,17 @@ public abstract class NodeMessage {
      */
     public String encode(){
         try{
-            JSONObject jsonObject = toEncode();
-            if (jsonObject == null){
-                jsonObject = new JSONObject();
-            }
-            jsonObject.putOnce(N_TYPE_KEY,type());
-            return jsonObject.toString();
-        }catch (JSONException e){
+            Message message = Message
+                    .builder()
+                    .type(type())
+                    .message(toEncode())
+                    .build();
+            return JSON.toJSONString(message);
+        }catch (Exception e){
             throw new NodeProtocolException(e);
         }
     }
 
-
-    /**
-     * 节点消息转换
-     * @param jsonObject
-     * @throws JSONException
-     */
-    protected abstract void toDecode(JSONObject jsonObject) throws JSONException;
 
 
     /**
@@ -96,56 +88,72 @@ public abstract class NodeMessage {
      * @return
      * @throws NodeProtocolException
      */
-    public NodeMessage decode(String json) throws NodeProtocolException{
+    public static NodeMessage decode(String json) throws NodeProtocolException{
         try{
-            JSONObject jsonObject = new JSONObject(json);
+
+            Message msg = JSON.parseObject(json,Message.class);
             NodeMessage message;
-            switch (Type.valueOf(jsonObject.getString(N_TYPE_KEY))){
+
+            Class cls;
+            switch (msg.type){
                 case PI:
-                    message = Ping.builder().build();
+                    cls = Ping.class;
                     break;
                 case PO:
-                    message = Pong.builder().build();
+                    cls = Ping.class;
                     break;
                 case DO:
-                    message = DeviceDockedReq.builder().build();
+                    cls = DeviceDockedReq.class;
                     break;
                 case DOS:
-                    message = DeviceDockedResp.builder().build();
+                    cls = DeviceDockedResp.class;
                     break;
                 case DI:
-                    message = DeviceDisconReq.builder().build();
+                    cls = DeviceDisconReq.class;
                     break;
                 case DIS:
-                    message = DeviceDisconResp.builder().build();
+                    cls = DeviceDisconResp.class;
                     break;
                 case MTO:
-                    message = MultiMessageToOneDeviceReq.builder().build();
+                    cls = MultiMessageToOneDeviceReq.class;
                     break;
                 case MTOS:
-                    message = MultiMessageToOneDeviceResp.builder().build();
+                    cls = MultiMessageToOneDeviceResp.class;
                     break;
                 case OTM:
-                    message = OneMessageToMultiDeviceReq.builder().build();
+                    cls = OneMessageToMultiDeviceReq.class;
                     break;
                 case OTMS:
-                    message = OneMessageToMultiDeviceResp.builder().build();
+                    cls = OneMessageToMultiDeviceResp.class;
                     break;
                 case NI:
-                    message = NodeInfoReq.builder().build();
+                    cls = NodeInfoReq.class;
                     break;
                 case NIS:
-                    message = NodeInfoResp.builder().build();
+                    cls = NodeInfoResp.class;
                     break;
                 default:
-                    throw new NodeProtocolException("Unknown Node type " + jsonObject.getString(N_TYPE_KEY));
+                    throw new NodeProtocolException("Unknown Node type " + msg.type);
 
             }
-            message.toDecode(jsonObject);
+            message = (NodeMessage) JSON.parseObject(msg.message,cls);
             return message;
-        } catch (JSONException e){
+        } catch (Exception e){
             throw  new NodeProtocolException("Exception occur,Message is "+json, e);
         }
     }
 
+
+
+    //真正的传递消息的类
+    @Slf4j
+    @Builder
+    private class Message{
+        @JSONField(name = "T")
+        private Type type;
+
+        @JSONField(name = "M")
+        private String message;
+
+    }
 }

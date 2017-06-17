@@ -1,9 +1,10 @@
 package com.gopush.protocol.device;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.gopush.protocol.exceptions.DeviceProtocolException;
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * go-push
@@ -16,9 +17,6 @@ import org.json.JSONObject;
 
 @Slf4j
 public abstract class DeviceMessage {
-
-    //消息 Type Key
-    protected static final String DEVICE_TYPE_KEY = "T";
 
     /**
      * 消息类型
@@ -49,9 +47,9 @@ public abstract class DeviceMessage {
     /**
      * 设备消息转换 JSONObject
      * @return
-     * @throws JSONException
+     * @throws Exception
      */
-    protected abstract JSONObject toEncode() throws JSONException;
+    protected abstract String toEncode() throws Exception;
 
 
     /**
@@ -60,26 +58,17 @@ public abstract class DeviceMessage {
      */
     public String encode() throws DeviceProtocolException{
         try {
-            JSONObject jsonObject = toEncode();
-            if(jsonObject == null){
-                //直接抛出空指针异常，确保 消息是必须要解码的
-                //throw new NullPointerException("Message is empty");
-                //前端不传 直接新建一个消息json空
-                jsonObject = new JSONObject();
-            }
-            jsonObject.putOnce(DEVICE_TYPE_KEY,type());
-            return jsonObject.toString();
-        } catch (JSONException e) {
+
+            Message message = Message
+                                .builder()
+                                .type(type())
+                                .message(toEncode())
+                                .build();
+            return JSON.toJSONString(message);
+        } catch (Exception e) {
             throw new DeviceProtocolException(e);
         }
     }
-
-    /**
-     * 设备消息转换
-     * @param json
-     * @throws JSONException
-     */
-    protected abstract void toDecode(JSONObject json) throws JSONException;
 
 
     /**
@@ -88,37 +77,54 @@ public abstract class DeviceMessage {
      * @return
      * @throws DeviceProtocolException
      */
-    public DeviceMessage decode(String json) throws DeviceProtocolException {
+    public static DeviceMessage decode(String json) throws DeviceProtocolException {
         try {
-            JSONObject jsonObject = new JSONObject(json);
-            DeviceMessage message;
-            switch (Type.valueOf(jsonObject.getString(DEVICE_TYPE_KEY))){
+
+            Message msg = JSON.parseObject(json,Message.class);
+
+            Class cls = null;
+
+            switch (msg.type){
                 case PI:
-                    message = Ping.builder().build();
+                    cls = Ping.class;
                     break;
                 case PO:
-                    message = Pong.builder().build();
+                    cls = Pong.class;
                     break;
                 case HS:
-                    message = HandShakeReq.builder().build();
+                    cls = HandShakeReq.class;
                     break;
                 case HSR:
-                    message = HandShakeResp.builder().build();
+                    cls = HandShakeResp.class;
                     break;
                 case P:
-                    message = PushReq.builder().build();
+                    cls = PushReq.class;
                     break;
                 case PR:
-                    message = PushResp.builder().build();
+                    cls = PushResp.class;
                     break;
                 default:
-                    throw new DeviceProtocolException("Unknown Device type " + jsonObject.getString(DEVICE_TYPE_KEY));
+                    throw new DeviceProtocolException("Unknown Device type " + msg.type);
             }
-            message.toDecode(jsonObject);
+            DeviceMessage message = (DeviceMessage) JSON.parseObject(msg.message,cls);
             return message;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             throw new DeviceProtocolException("Exception occur,Message is " + json, e);
         }
     }
+
+
+    //真正的传递消息的类
+    @Slf4j
+    @Builder
+    private class Message{
+        @JSONField(name = "T")
+        private Type type;
+
+        @JSONField(name = "M")
+        private String message;
+
+    }
+
 
 }

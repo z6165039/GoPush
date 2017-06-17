@@ -1,9 +1,12 @@
 package com.gopush.protocol.node;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * go-push
@@ -16,18 +19,34 @@ import org.json.JSONObject;
 @Slf4j
 @Builder
 public class DeviceDockedReq extends NodeMessageReq{
+
+    //需要上报的设备列表(是批量上报的)
+    @JSONField(name = "DEVS")
+    private List<String> devices = new ArrayList<>();
+
+
+    /**
+     * 添加设备
+     * @param device
+     */
+
+    public void addDevice(String device){
+        if (!devices.contains(device)){
+            devices.add(device);
+        }
+    }
+
+
+
     @Override
     protected Type type() {
         return Type.DO;
     }
 
     @Override
-    protected JSONObject toEncode() throws JSONException {
-        return null;
+    protected String toEncode() throws Exception {
+        return JSON.toJSONString(this);
     }
 
-    @Override
-    protected void toDecode(JSONObject jsonObject) throws JSONException {
 
-    }
 }
