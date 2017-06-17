@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Builder
-public class PushResp extends DeviceMessageResp {
+public class PushResp extends DeviceMessageResp<PushResp> {
 
     private static final String DEVICE_KEY = "D";
     private final static String MSG_KEY = "ID";
@@ -44,9 +44,10 @@ public class PushResp extends DeviceMessageResp {
     }
 
     @Override
-    protected String toEncode() throws Exception {
-        return JSON.toJSONString(this);
+    protected PushResp getThis() throws Exception {
+        return this;
     }
+
 
 
 }

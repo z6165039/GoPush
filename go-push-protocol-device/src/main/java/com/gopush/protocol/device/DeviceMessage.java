@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public abstract class DeviceMessage {
+public abstract class DeviceMessage<T> {
 
     /**
      * 消息类型
@@ -44,12 +44,16 @@ public abstract class DeviceMessage {
 
 
 
+    protected abstract T getThis() throws Exception;
+
     /**
-     * 设备消息转换 JSONObject
+     * 节点消息转换
      * @return
      * @throws Exception
      */
-    protected abstract String toEncode() throws Exception;
+    protected String toEncode() throws Exception{
+        return  JSON.toJSONString(getThis());
+    }
 
 
     /**
@@ -115,9 +119,10 @@ public abstract class DeviceMessage {
 
 
     //真正的传递消息的类
+
     @Slf4j
     @Builder
-    private class Message{
+    private static class Message{
         @JSONField(name = "T")
         private Type type;
 
@@ -125,6 +130,5 @@ public abstract class DeviceMessage {
         private String message;
 
     }
-
 
 }

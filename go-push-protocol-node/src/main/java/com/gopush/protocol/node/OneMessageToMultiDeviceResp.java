@@ -13,15 +13,15 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Builder
-public class OneMessageToMultiDeviceResp extends NodeMessageResp{
+public class OneMessageToMultiDeviceResp extends NodeMessageResp<OneMessageToMultiDeviceResp>{
     @Override
     protected Type type() {
         return Type.OTMS;
     }
 
     @Override
-    protected String toEncode() throws Exception {
-        return null;
+    protected OneMessageToMultiDeviceResp getThis() {
+        return this;
     }
 
 

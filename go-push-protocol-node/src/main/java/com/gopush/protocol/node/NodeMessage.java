@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public abstract class NodeMessage {
+public abstract class NodeMessage<T> {
 
     //消息 Type Key
     /**
@@ -55,19 +55,23 @@ public abstract class NodeMessage {
      */
     protected abstract Type type();
 
+
+    protected abstract T getThis();
     /**
      * 节点消息转换
      * @return
      * @throws Exception
      */
-    protected abstract String toEncode() throws Exception;
+    protected String toEncode() throws Exception{
+        return  JSON.toJSONString(getThis());
+    }
 
 
     /**
      * 节点消息编码
      * @return
      */
-    public String encode(){
+    public String encode() throws NodeProtocolException {
         try{
             Message message = Message
                     .builder()
@@ -148,7 +152,7 @@ public abstract class NodeMessage {
     //真正的传递消息的类
     @Slf4j
     @Builder
-    private class Message{
+    private static class Message{
         @JSONField(name = "T")
         private Type type;
 

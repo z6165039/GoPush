@@ -8,5 +8,5 @@ package com.gopush.protocol.node;
  * @创建时间：2017/6/9
  * @VERSION：
  */
-public abstract class NodeMessageReq extends NodeMessage {
+public abstract class NodeMessageReq<T> extends NodeMessage<T> {
 }

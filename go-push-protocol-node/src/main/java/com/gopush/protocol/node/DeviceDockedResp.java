@@ -1,6 +1,5 @@
 package com.gopush.protocol.node;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Builder
-public class DeviceDockedResp extends NodeMessageResp{
+public class DeviceDockedResp extends NodeMessageResp<DeviceDockedResp>{
 
 
     @JSONField(name = "R")
@@ -27,8 +26,8 @@ public class DeviceDockedResp extends NodeMessageResp{
     }
 
     @Override
-    protected String toEncode() throws Exception {
-        return JSON.toJSONString(this);
+    protected DeviceDockedResp getThis() {
+        return this;
     }
 
 

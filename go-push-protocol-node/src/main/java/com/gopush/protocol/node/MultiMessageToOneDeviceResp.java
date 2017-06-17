@@ -1,5 +1,6 @@
 package com.gopush.protocol.node;
 
+import com.alibaba.fastjson.JSON;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,15 +14,15 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Builder
-public class MultiMessageToOneDeviceResp extends NodeMessageResp{
+public class MultiMessageToOneDeviceResp extends NodeMessageResp<MultiMessageToOneDeviceResp>{
     @Override
     protected Type type() {
         return Type.MTOS;
     }
 
     @Override
-    protected String toEncode() throws Exception {
-        return null;
+    protected MultiMessageToOneDeviceResp getThis() {
+        return this;
     }
 
 

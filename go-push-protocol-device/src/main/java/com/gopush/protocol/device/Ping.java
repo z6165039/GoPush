@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Builder
-public class Ping extends DeviceMessageReq {
+public class Ping extends DeviceMessageReq<Ping> {
 
     @Override
     protected Type type() {
@@ -21,7 +21,7 @@ public class Ping extends DeviceMessageReq {
     }
 
     @Override
-    protected String toEncode() throws Exception {
+    protected Ping getThis() throws Exception {
         return null;
     }
 

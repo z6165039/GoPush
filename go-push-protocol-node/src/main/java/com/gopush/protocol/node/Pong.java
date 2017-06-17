@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Builder
-public class Pong extends NodeMessageResp {
+public class Pong extends NodeMessageResp<Pong> {
 
 
     @Override
@@ -22,7 +22,7 @@ public class Pong extends NodeMessageResp {
     }
 
     @Override
-    protected String toEncode() throws Exception {
+    protected Pong getThis() {
         return null;
     }
 

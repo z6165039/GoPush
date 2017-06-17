@@ -19,7 +19,7 @@ import java.util.List;
 
 @Builder
 @Slf4j
-public class DeviceDisconReq extends NodeMessageReq{
+public class DeviceDisconReq extends NodeMessageReq<DeviceDisconReq>{
 
 
 
@@ -45,8 +45,8 @@ public class DeviceDisconReq extends NodeMessageReq{
     }
 
     @Override
-    protected String toEncode() throws Exception {
-        return null;
+    protected DeviceDisconReq getThis() {
+        return this;
     }
 
 }

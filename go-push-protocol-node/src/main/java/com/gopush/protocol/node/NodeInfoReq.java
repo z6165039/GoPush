@@ -13,15 +13,15 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Builder
-public class NodeInfoReq extends NodeMessageReq{
+public class NodeInfoReq extends NodeMessageReq<NodeInfoReq>{
     @Override
     protected Type type() {
         return Type.NI;
     }
 
     @Override
-    protected String toEncode() throws Exception {
-        return null;
+    protected NodeInfoReq getThis() {
+        return this;
     }
 
 

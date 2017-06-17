@@ -1,6 +1,5 @@
 package com.gopush.protocol.device;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Builder
-public class HandShakeResp extends DeviceMessageResp {
+public class HandShakeResp extends DeviceMessageResp<HandShakeResp> {
 
     @JSONField(name = "R")
     private int result;
@@ -27,8 +26,8 @@ public class HandShakeResp extends DeviceMessageResp {
     }
 
     @Override
-    protected String toEncode() throws Exception {
-       return JSON.toJSONString(this);
+    protected HandShakeResp getThis() throws Exception {
+        return this;
     }
 
 

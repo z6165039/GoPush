@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Builder
-public class PushReq extends DeviceMessageReq {
+public class PushReq extends DeviceMessageReq<PushReq> {
 
     @JSONField(name = "ID")
     private String id;
@@ -29,9 +29,10 @@ public class PushReq extends DeviceMessageReq {
     }
 
     @Override
-    protected String toEncode() throws Exception {
-        return JSON.toJSONString(this);
+    protected PushReq getThis() throws Exception {
+        return this;
     }
+
 
 
 
