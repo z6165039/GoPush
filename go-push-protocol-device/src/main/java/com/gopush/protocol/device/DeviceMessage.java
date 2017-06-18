@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
  * @VERSION：
  */
 
-@Slf4j
 public abstract class DeviceMessage<T> {
 
     /**
@@ -120,7 +119,6 @@ public abstract class DeviceMessage<T> {
 
     //真正的传递消息的类
 
-    @Slf4j
     @Builder
     private static class Message{
         @JSONField(name = "T")
@@ -130,5 +128,7 @@ public abstract class DeviceMessage<T> {
         private String message;
 
     }
+
+
 
 }

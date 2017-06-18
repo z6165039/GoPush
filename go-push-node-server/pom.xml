@@ -16,6 +16,11 @@
 
         <dependency>
             <groupId>com.gopush</groupId>
+            <artifactId>go-push-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gopush</groupId>
             <artifactId>go-push-handler-node</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -37,10 +42,15 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-       <!-- <dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-        </dependency>-->
+        </dependency>
 
     </dependencies>
 

@@ -1,9 +1,8 @@
 package com.gopush.protocol.device;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
+import lombok.Getter;
 
 /**
  * go-push
@@ -13,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
  * @创建时间：2017/6/9
  * @VERSION：
  */
-@Slf4j
 @Builder
 public class PushResp extends DeviceMessageResp<PushResp> {
 
@@ -29,12 +27,15 @@ public class PushResp extends DeviceMessageResp<PushResp> {
         IN  //INTERNAL_ERROR
     }
 
+    @Getter
     @JSONField(name = "D")
     private String device;
 
+    @Getter
     @JSONField(name = "ID")
     private String msgId;
 
+    @Getter
     @JSONField(name = "R")
     private Result result;
 

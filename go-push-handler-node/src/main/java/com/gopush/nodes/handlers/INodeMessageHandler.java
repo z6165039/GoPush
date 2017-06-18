@@ -1,4 +1,4 @@
-package com.gopush.handler.node;
+package com.gopush.nodes.handlers;
 
 import com.gopush.protocol.node.NodeMessage;
 
@@ -10,7 +10,7 @@ import com.gopush.protocol.node.NodeMessage;
  * @创建时间：2017/6/12 上午12:28
  * @VERSION：
  */
-public interface NodeMessageHandler {
+public interface INodeMessageHandler {
 
     /**
      * 根据各个handler 判断是不是各个handler对应处理的消息

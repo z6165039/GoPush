@@ -1,7 +1,6 @@
-package com.gopush.handler.device;
+package com.gopush.nodeserver.devices;
 
 
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 /**
  * go-push
  *
- * @类功能说明：
+ * @类功能说明：基础的批处理器接口
  * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/12 下午10:14
  * @VERSION：
@@ -26,8 +25,7 @@ import java.util.stream.Collectors;
 
 
 @Slf4j
-@Builder
-public abstract class BaseBatchProcessHandler<T>{
+public abstract class BatchProcesser<T>{
 
     private static final String INFO_SEPARATOR="\\|";
     private static final int INT_ZERO = 0;
@@ -95,10 +93,10 @@ public abstract class BaseBatchProcessHandler<T>{
 
     /**
      * 批量处理的消息
-     * @param list
+     * @param batchReq
      * @throws Exception
      */
-    protected abstract void batchHandler(List<T> list) throws Exception;
+    protected abstract void batchHandler(List<T> batchReq) throws Exception;
 
 
 
@@ -233,10 +231,10 @@ public abstract class BaseBatchProcessHandler<T>{
                 }
                 //大于批量处理的请求
                 if (this.count.get() > batchSize){
-                    log.warn("[{}]-InternalProcessor-{} message queue size too long : size = {}",getBatchExecutorName(),this.index,this.count.get());
+                    log.warn("[{}]-InternalProcessor-{} message queue size too long ! size = {}",getBatchExecutorName(),this.index,this.count.get());
                 }
                 if(this.count.get() > overNumWarn){
-                    log.info("[{}]-InternalProcessor-{} message queue size over warn num floor ! size = {} ",getBatchExecutorName(),index,this.count.get());
+                    log.warn("[{}]-InternalProcessor-{} message queue size over warn num floor ! size = {} ",getBatchExecutorName(),index,this.count.get());
                     // TODO: 2017/6/13  进行告警处理
                 }
                 List<T> batchList = new ArrayList<>();
@@ -247,7 +245,7 @@ public abstract class BaseBatchProcessHandler<T>{
                     }catch (Exception e){
                         //重置计数值
                         this.count.set(this.queue.size());
-                        log.error("[{}]-InternalProcessor-{} add message to processs list exception {}",getBatchExecutorName(),this.index,e);
+                        log.error("[{}]-InternalProcessor-{} add message to processs list exception :{}",getBatchExecutorName(),this.index,e);
                         break;
                     }
                 }
@@ -255,7 +253,7 @@ public abstract class BaseBatchProcessHandler<T>{
                 try {
                     batchHandler(batchList);
                 }catch (Exception e){
-                    log.error("Exception {}",e);
+                    log.error("Exception :{}",e);
                     if(failCounter.incrementAndGet() >= INT_MAX_VAL){
                         failCounter.set(INT_ZERO);
                     }
@@ -285,7 +283,7 @@ public abstract class BaseBatchProcessHandler<T>{
                 try {
                     processInterval();
                 }catch (Exception e){
-                    log.error("Exception {}",e);
+                    log.error("Exception :{}",e);
                 }
             },0,delay,TimeUnit.MILLISECONDS);
 

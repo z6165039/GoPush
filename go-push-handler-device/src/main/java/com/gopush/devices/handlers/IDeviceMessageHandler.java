@@ -1,6 +1,7 @@
-package com.gopush.handler.device;
+package com.gopush.devices.handlers;
 
 import com.gopush.protocol.device.DeviceMessage;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * go-push
@@ -12,7 +13,7 @@ import com.gopush.protocol.device.DeviceMessage;
  */
 
 
-public interface DeviceMessageHandler {
+public interface IDeviceMessageHandler<R> {
     /**
      * 根据各个handler 判断是不是各个handler对应处理的消息
      * @param message 节点消息
@@ -25,5 +26,5 @@ public interface DeviceMessageHandler {
      * 各个消息处理句柄调用方法
      * @param message 节点消息
      */
-    void call(DeviceMessage message);
+    void call(ChannelHandlerContext context, R message);
 }

@@ -1,7 +1,6 @@
 package com.gopush.protocol.node;
 
 import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
 /**
  * go-push
  *
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
  * @VERSION：
  */
 
-@Slf4j
 @Builder
 public class Pong extends NodeMessageResp<Pong> {
 

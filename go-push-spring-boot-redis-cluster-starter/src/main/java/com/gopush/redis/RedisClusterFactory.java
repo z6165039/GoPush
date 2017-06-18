@@ -18,7 +18,7 @@ import java.util.Set;
  * @VERSION：
  */
 
-@NoArgsConstructor
+//@NoArgsConstructor
 @Builder
 public class RedisClusterFactory {
 

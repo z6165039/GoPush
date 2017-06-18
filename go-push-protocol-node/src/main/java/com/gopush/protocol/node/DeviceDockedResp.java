@@ -2,7 +2,6 @@ package com.gopush.protocol.node;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * go-push
@@ -12,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
  * @创建时间：2017/6/9
  * @VERSION：
  */
-@Slf4j
 @Builder
 public class DeviceDockedResp extends NodeMessageResp<DeviceDockedResp>{
 

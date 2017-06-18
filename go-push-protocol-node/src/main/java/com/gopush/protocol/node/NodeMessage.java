@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.gopush.protocol.exceptions.NodeProtocolException;
 import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * go-push
@@ -15,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
  * @VERSION：
  */
 
-@Slf4j
 public abstract class NodeMessage<T> {
 
     //消息 Type Key
@@ -150,7 +148,6 @@ public abstract class NodeMessage<T> {
 
 
     //真正的传递消息的类
-    @Slf4j
     @Builder
     private static class Message{
         @JSONField(name = "T")
