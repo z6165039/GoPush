@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @VERSION：
  */
 @Builder
-@Data
 @Slf4j
 public class PushSender implements IPushSender<PushReq> {
 

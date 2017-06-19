@@ -24,15 +24,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 
 @Builder
-@Data
 @Slf4j
 public class NodeSender implements INodeSender<NodeMessage> {
 
 
+    private Queue<NodeMessage> failMessage = new ConcurrentLinkedQueue<>();
+
     @Autowired
     private IDataCenterChannelStore dataCenterChannelStore;
 
-    private Queue<NodeMessage> failMessage = new ConcurrentLinkedQueue<>();
+
 
 
     @Override

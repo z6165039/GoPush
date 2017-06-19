@@ -1,7 +1,5 @@
 package com.gopush.nodeserver.devices.senders;
 
-import com.gopush.protocol.device.PushReq;
-
 /**
  * go-push
  *

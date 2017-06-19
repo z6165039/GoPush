@@ -13,7 +13,6 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.Builder;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +32,6 @@ import java.util.concurrent.TimeUnit;
  */
 
 @Builder
-@Data
 @Slf4j
 public class HandShakeHandler extends BatchProcesser<Object[]> implements IDeviceMessageHandler<HandShakeReq> {
 

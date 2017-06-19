@@ -1,6 +1,7 @@
 package com.gopush.nodeserver.devices;
 
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public abstract class BatchProcesser<T>{
      * 批量处理的定时器延时
      */
     @Setter
-    private int delay = 1000;
+    protected int delay = 1000;
 
     /**
      * 批量处理的大小

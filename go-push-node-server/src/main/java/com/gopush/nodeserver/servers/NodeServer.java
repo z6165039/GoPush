@@ -1,4 +1,4 @@
-package com.gopush.nodeserver.nodes;
+package com.gopush.nodeserver.servers;
 
 import lombok.extern.slf4j.Slf4j;
 
