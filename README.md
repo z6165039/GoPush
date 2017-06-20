@@ -8,7 +8,7 @@
 > * 拓展开可以做成客服系统
 
 ##技术架构图
-![技术架构图](https://git.oschina.net/uploads/images/2017/0620/180736_cf5c2431_7872.png "技术架构图")
+![技术架构图](https://git.oschina.net/uploads/images/2017/0620/181145_9eca026b_7872.png "技术架构图")
 
 ##开发者群
 ![互联网计数交流群](https://git.oschina.net/uploads/images/2017/0620/135851_c1d11a6b_7872.png "扫一扫")
