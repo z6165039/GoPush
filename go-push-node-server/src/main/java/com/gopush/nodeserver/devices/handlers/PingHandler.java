@@ -41,7 +41,7 @@ public class PingHandler extends BatchProcesser<Object[]> implements IDeviceMess
 
         Channel channel = context.channel();
         if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)){
-            log.warn("Channel has not handshake, channel :{} will be closed",channel);
+            log.warn("Channel has not handshake, channel {} will be closed",channel);
             context.close();
             return;
         }
@@ -51,7 +51,7 @@ public class PingHandler extends BatchProcesser<Object[]> implements IDeviceMess
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
 
-        log.debug("Receive PING, channel : {}, device : {}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.debug("Receive ping! channel : {}, device : {}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
     }
 
 
@@ -77,7 +77,7 @@ public class PingHandler extends BatchProcesser<Object[]> implements IDeviceMess
         // TODO: 2017/6/18  设置设备保活 在线
         //收到设备发送过来的 PING 请求
 
-        log.debug("process Ping completed! size : {}",batchReq.size());
+        log.debug("Process Ping completed!");
     }
 
 }

@@ -38,7 +38,7 @@ public class DeviceDisconnectHandler extends BatchProcesser<Object[]> implements
             deviceChannelStore.removeChannel(device,channel);
             putMsg(new Object[]{device,channel.hashCode()});
         }
-        log.debug("Channel has closed ! channel :{}, device :{}",channel,device);
+        log.debug("Channel closed ! channel :{}, device :{}",channel,device);
     }
 
     @Override
@@ -60,6 +60,6 @@ public class DeviceDisconnectHandler extends BatchProcesser<Object[]> implements
 
         // TODO: 2017/6/19  当前向node 上报哪些被批量移除  其实也可以不报,那样的话 DeviceDisconnect 请求是不是可以移除
 
-        log.debug("process DeviceDisconnect completed! size : {}",batchReq.size());
+        log.debug("Process DeviceDisconnect request completed!");
     }
 }

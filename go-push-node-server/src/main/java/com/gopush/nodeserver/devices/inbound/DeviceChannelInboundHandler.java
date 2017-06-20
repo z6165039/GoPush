@@ -92,7 +92,7 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("exception from tcp , channel will be closed ! channel:{}", ctx.channel(),cause.getMessage());
+        log.error("exception , channel will be closed ! channel:{}", ctx.channel(),cause.getMessage());
         ctx.close();
     }
 

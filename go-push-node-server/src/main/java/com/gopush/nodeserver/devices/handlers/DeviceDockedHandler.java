@@ -32,7 +32,7 @@ public class DeviceDockedHandler extends BatchProcesser<Object[]> implements IDe
     @Override
     public void report(String device, int channel, int[] idles) {
         putMsg(new Object[]{device,channel,idles});
-        log.debug(" report device docked ! device :{},channelId : {}, idles: {}",device,channel, Arrays.toString(idles));
+        log.debug("Report device docked ! device :{},channelId : {}, idles: {}",device,channel, Arrays.toString(idles));
     }
 
     @Override
@@ -51,6 +51,6 @@ public class DeviceDockedHandler extends BatchProcesser<Object[]> implements IDe
 
 
         //nodeSender.send();
-        log.debug("process DeviceDocked completed! size : {}",batchReq.size());
+        log.debug("Process DeviceDocked request completed!");
     }
 }

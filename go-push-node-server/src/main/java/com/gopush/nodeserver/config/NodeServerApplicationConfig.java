@@ -5,6 +5,8 @@ import com.gopush.nodeserver.devices.handlers.*;
 import com.gopush.nodeserver.devices.inbound.DeviceChannelInboundHandler;
 import com.gopush.nodeserver.devices.senders.PushSender;
 import com.gopush.nodeserver.devices.stores.DeviceChannelStore;
+import com.gopush.nodeserver.nodes.NodeServerBootstrap;
+import com.gopush.nodeserver.nodes.inbound.NodeChannelInBoundHandler;
 import com.gopush.nodeserver.nodes.senders.NodeSender;
 import com.gopush.nodeserver.nodes.stores.DataCenterChannelStore;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +17,32 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class NodeServerApplicationConfig {
+
+
+    @Bean
+    public DeviceServerBootstrap deviceServerBootstrap(){
+        return new DeviceServerBootstrap();
+    }
+
+
+    @Bean
+    public DeviceChannelStore deviceChannelStore(){
+
+        return  new DeviceChannelStore();
+    }
+
+
+    @Bean
+    public PushSender pushSender(){
+        return new PushSender();
+    }
+
+
+    @Bean
+    public DeviceChannelInboundHandler deviceChannelInboundHandler(){
+        return new DeviceChannelInboundHandler();
+    }
+
 
 
     @Bean
@@ -49,16 +77,19 @@ public class NodeServerApplicationConfig {
     }
 
 
-    @Bean
-    public DeviceChannelStore deviceChannelStore(){
 
-        return  new DeviceChannelStore();
+
+
+
+
+    @Bean
+    public NodeServerBootstrap nodeServerBootstrap(){
+        return new NodeServerBootstrap();
     }
 
-
     @Bean
-    public PushSender pushSender(){
-        return new PushSender();
+    public DataCenterChannelStore dataCenterChannelStore(){
+        return new DataCenterChannelStore();
     }
 
 
@@ -68,19 +99,15 @@ public class NodeServerApplicationConfig {
     }
 
 
-    @Bean
-    public DataCenterChannelStore dataCenterChannelStore(){
-        return new DataCenterChannelStore();
-    }
 
     @Bean
-    public DeviceChannelInboundHandler deviceChannelInboundHandler(){
-        return new DeviceChannelInboundHandler();
+    public NodeChannelInBoundHandler nodeChannelInBoundHandler(){
+        return new NodeChannelInBoundHandler();
     }
 
 
-    @Bean
-    public DeviceServerBootstrap deviceServerBootstrap(){
-        return new DeviceServerBootstrap();
-    }
+
+
+
+
 }

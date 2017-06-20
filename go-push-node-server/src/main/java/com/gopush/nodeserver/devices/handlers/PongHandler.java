@@ -35,14 +35,14 @@ public class PongHandler  extends BatchProcesser<Object[]> implements IDeviceMes
 
         Channel channel = context.channel();
         if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)){
-            log.warn("Channel has not handshake, channel :{} will be closed",channel);
+            log.warn("Channel has not handshake, channel {} will be closed",channel);
             context.close();
             return;
         }
         putMsg(new Object[]{
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
-        log.debug("Receive PONG, channel : {}, device : {}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.debug("Receive Pong, channel : {}, device : {}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
 
     }
 
@@ -64,7 +64,7 @@ public class PongHandler  extends BatchProcesser<Object[]> implements IDeviceMes
 
         // TODO: 2017/6/18 设置设备保活 在线
 
-        log.debug("process Pong completed! size : {}",batchReq.size());
+        log.debug("Process Pong completed!");
     }
 
 }

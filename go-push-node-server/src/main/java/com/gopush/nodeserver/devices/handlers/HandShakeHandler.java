@@ -50,7 +50,7 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
     @Override
     public void call(ChannelHandlerContext context, HandShakeReq message) {
         putMsg(new Object[]{context.channel(),message});
-        log.info("HandShakeRequest has received, application will be process later, message :{}, channel :{}", message,context.channel());
+        log.info("HandShakeRequest received! message :{}, channel :{}", message,context.channel());
     }
 
 
@@ -107,7 +107,7 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
                     if (resp.getResult() != HANDSAHKE_OK){
                         //将写出握手响应后关闭链接
                         channel.writeAndFlush(respEncode).addListener(ChannelFutureListener.CLOSE);
-                        log.debug("Handshake fail, channel will be closed,channel :{}, device :{}, handshake response :{}",channel, req.getDevice(), respEncode);
+                        log.debug("Handshake fail, channel will be closed! channel :{}, device :{}, handshake response :{}",channel, req.getDevice(), respEncode);
                     }
                     else{
 
@@ -126,8 +126,6 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
 
                         //重设读写超时器
                         channel.pipeline().replace("idleStateHandler","idleStateHandler",new IdleStateHandler(idles[0],idles[1],idles[2], TimeUnit.SECONDS));
-                        log.debug("replace idleStateHandler ,channel :{}, idles :{}",channel, Arrays.toString(idles));
-
 
                         //添加本地 设备-channel 绑定
                         //// TODO: 2017/6/18 添加本地 设备-channel 绑定
@@ -147,12 +145,12 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
 
                     }
                 }catch (Exception ex){
-                    log.error("Exception at HandShake , error :{}",ex);
+                    log.error("Exception HandShake , error :{}",ex);
                 }
 
             });
 
-            log.debug("process Handshake request completed! size : {}",batchReq.size());
+            log.debug("Process Handshake request completed!");
         }
 
     }
