@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public abstract class BatchProcesser<T>{
 
-    private static final String INFO_SEPARATOR="|";
     private static final int INT_ZERO = 0;
     private static final int INT_MAX_VAL = Integer.MAX_VALUE - 1;
 
