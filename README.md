@@ -10,4 +10,4 @@
 
 
 ##开发者群
-![互联网计数交流群](https://git.oschina.net/uploads/images/2017/0620/135555_119cfeeb_7872.jpeg "欢迎指点一二")
+![互联网计数交流群](https://git.oschina.net/uploads/images/2017/0620/135851_c1d11a6b_7872.png "扫一扫")
