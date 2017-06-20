@@ -1,5 +1,9 @@
-node:
-  port: 9090
+gopush:
+  node-server:
+    name: NodeServer001
+    node-port: 9002
+    device-port: 9001
+
 redis:
   cluster:
     servers: 127.0.0.1:6379
@@ -7,4 +11,5 @@ redis:
     poolSize: 40
     timeout: 5000
 server:
-  port: 8021
+  port: 8001
+

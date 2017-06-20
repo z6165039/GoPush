@@ -10,5 +10,5 @@ package com.gopush.devices.handlers;
  */
 public interface IDeviceDockedHandler {
 
-    void report(String device,int channel,int[] idles);
+    void upReport(String device,int channel,int[] idles);
 }

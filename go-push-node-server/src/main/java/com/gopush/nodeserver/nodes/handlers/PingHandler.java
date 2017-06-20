@@ -1,7 +1,7 @@
 package com.gopush.nodeserver.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
-import com.gopush.protocol.node.NodeMessage;
+import com.gopush.protocol.node.Ping;
 
 /**
  * go-push
@@ -11,14 +11,15 @@ import com.gopush.protocol.node.NodeMessage;
  * @创建时间：2017/6/20 下午11:00
  * @VERSION：
  */
-public class PingHandler implements INodeMessageHandler{
+public class PingHandler implements INodeMessageHandler<Ping> {
+
     @Override
-    public boolean support(NodeMessage message) {
-        return false;
+    public boolean support(Ping message) {
+        return message instanceof Ping;
     }
 
     @Override
-    public void call(NodeMessage message) {
+    public void call(Ping message) {
 
     }
 }
