@@ -1,7 +1,8 @@
 package com.gopush.nodeserver.devices;
 
 
-import lombok.Builder;
+import com.gopush.nodeserver.devices.infos.HandlerInfo;
+import com.gopush.nodeserver.devices.infos.ProcessorInfo;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public abstract class BatchProcesser<T>{
 
-    private static final String INFO_SEPARATOR="\\|";
+    private static final String INFO_SEPARATOR="|";
     private static final int INT_ZERO = 0;
     private static final int INT_MAX_VAL = Integer.MAX_VALUE - 1;
 
@@ -109,6 +110,7 @@ public abstract class BatchProcesser<T>{
         for (int i = 0 ; i< processorNum; i++ ){
             InternalProcessor processor = new InternalProcessor(i);
             internalProcessors.add(processor);
+            processor.start();
         }
     }
 
@@ -135,30 +137,19 @@ public abstract class BatchProcesser<T>{
     /**
      * 获取handler的基础信息
      */
-    protected String getHandlerInfo(){
-        StringBuilder sb = new StringBuilder(getBatchExecutorName()).append("[ ");
-        sb
-                .append("receiveCounter:")
-                .append(receiveCounter.get())
-                .append(INFO_SEPARATOR)
-                .append("failCounter:")
-                .append(failCounter.get())
-                .append(INFO_SEPARATOR)
-                .append("retryCounter:")
-                .append(retryCounter.get());
-
-        if(!internalProcessors.isEmpty()){
-            sb.append("-> ")
-                    .append(
-                            internalProcessors.stream()
-                                    .map(InternalProcessor::processorInfo)
-                                    .collect(Collectors.joining(","))
-                    );
-
-        }
-        sb.append(" ]");
-        return sb.toString();
-
+    protected HandlerInfo getHandlerInfo(){
+        return HandlerInfo
+                        .builder()
+                        .batchExecutorName(getBatchExecutorName())
+                        .failCounter(failCounter.get())
+                        .receiveCounter(receiveCounter.get())
+                        .retryCounter(retryCounter.get())
+                        .processorInfos(
+                                internalProcessors
+                                        .stream()
+                                        .map(InternalProcessor::processorInfo)
+                                        .collect(Collectors.toList())
+                        ).build();
     }
 
 
@@ -314,14 +305,11 @@ public abstract class BatchProcesser<T>{
          * 返回该处理器的基础信息
          * @return
          */
-        private String processorInfo(){
-            return new StringBuilder()
-                    .append("index:")
-                    .append(this.index)
-                    .append(INFO_SEPARATOR)
-                    .append("load:")
-                    .append(this.count.get())
-                    .toString();
+        private ProcessorInfo processorInfo(){
+            return ProcessorInfo.builder()
+                    .batchName(getBatchExecutorName())
+                    .index(this.index)
+                    .loader(this.count.get()).build();
         }
 
 
