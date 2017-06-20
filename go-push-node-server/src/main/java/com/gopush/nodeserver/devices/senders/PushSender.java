@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * go-push
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @创建时间：2017/6/18 下午11:32
  * @VERSION：
  */
-@Builder
 @Slf4j
 public class PushSender implements IPushSender<PushReq> {
 

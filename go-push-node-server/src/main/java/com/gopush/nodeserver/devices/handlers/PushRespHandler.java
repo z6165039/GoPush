@@ -9,6 +9,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -22,7 +23,6 @@ import java.util.List;
  * @VERSION：
  */
 
-@Builder
 @Slf4j
 public class PushRespHandler extends BatchProcesser<PushResp> implements IDeviceMessageHandler<PushResp> {
     @Override

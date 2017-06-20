@@ -1,8 +1,7 @@
 package com.gopush.nodeserver.devices.inbound;
 
 import com.gopush.devices.handlers.IDeviceMessageHandler;
-import com.gopush.nodeserver.devices.handlers.DeviceDisconnectHandler;
-import com.gopush.nodeserver.devices.handlers.DeviceDockedHandler;
+import com.gopush.nodeserver.devices.handlers.*;
 import com.gopush.protocol.device.DeviceMessage;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,8 +9,13 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.Builder;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,13 +29,33 @@ import java.util.List;
  */
 
 @Slf4j
-@Builder
 @ChannelHandler.Sharable
 public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<String> {
 
+    @Autowired
     private DeviceDisconnectHandler deviceDisconnectHandler;
 
-    private List<IDeviceMessageHandler> deviceMessageHandlers;
+    @Autowired
+    private HandShakeHandler handShakeHandler;
+
+    @Autowired
+    private PingHandler pingHandler;
+
+    @Autowired
+    private PongHandler pongHandler;
+
+    @Autowired
+    private PushRespHandler pushRespHandler;
+
+    private List<IDeviceMessageHandler> deviceMessageHandlers = new ArrayList<>();
+
+    @PostConstruct
+    public void init(){
+        deviceMessageHandlers.add(handShakeHandler);
+        deviceMessageHandlers.add(pingHandler);
+        deviceMessageHandlers.add(pongHandler);
+        deviceMessageHandlers.add(pushRespHandler);
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String message) throws Exception {

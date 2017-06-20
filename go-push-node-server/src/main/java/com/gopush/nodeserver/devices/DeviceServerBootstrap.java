@@ -4,10 +4,7 @@ import com.gopush.devices.handlers.IDeviceMessageHandler;
 import com.gopush.nodeserver.devices.handlers.*;
 import com.gopush.nodeserver.devices.inbound.DeviceChannelInboundHandler;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -20,7 +17,14 @@ import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -37,33 +41,20 @@ import java.util.List;
  */
 
 @Slf4j
-@Builder
-public class DeviceServerBootstrap {
+public class DeviceServerBootstrap{
 
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
-    private EventLoopGroup workGroup = new NioEventLoopGroup();
+    private EventLoopGroup workGroup =  new NioEventLoopGroup();
 
-
+    @Value("${node.port}")
     private int port;
 
-
     @Autowired
-    private DeviceDisconnectHandler deviceDisconnectHandler;
-
-    @Autowired
-    private HandShakeHandler handShakeHandler;
-
-    @Autowired
-    private PingHandler pingHandler;
-
-    @Autowired
-    private PongHandler pongHandler;
-
-    @Autowired
-    private PushRespHandler pushRespHandler;
+    private DeviceChannelInboundHandler deviceChannelInboundHandler;
 
     @PostConstruct
     public void start() throws Exception {
+
 
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup,workGroup)
@@ -72,11 +63,6 @@ public class DeviceServerBootstrap {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
 
-                        List<IDeviceMessageHandler> deviceHandlers = new ArrayList<>();
-                        deviceHandlers.add(handShakeHandler);
-                        deviceHandlers.add(pingHandler);
-                        deviceHandlers.add(pongHandler);
-                        deviceHandlers.add(pushRespHandler);
                         ChannelPipeline pipeline = socketChannel.pipeline();
                         pipeline.addLast("logHandler",new LoggingHandler());
                         pipeline.addLast("frameDecoder",new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,0,4,0,4));
@@ -85,12 +71,7 @@ public class DeviceServerBootstrap {
                         pipeline.addLast("stringEncoder",new StringEncoder(CharsetUtil.UTF_8));
                         pipeline.addLast("idleStateHandler", new IdleStateHandler(300,0,0));
 
-                        pipeline.addLast("handler",
-                                DeviceChannelInboundHandler
-                                        .builder()
-                                        .deviceDisconnectHandler(deviceDisconnectHandler)
-                                        .deviceMessageHandlers(deviceHandlers)
-                                        .build());
+                        pipeline.addLast("handler",deviceChannelInboundHandler);
                     }
                 })
 
@@ -111,7 +92,9 @@ public class DeviceServerBootstrap {
 
     @PreDestroy
     public void destory(){
+        log.debug("Device Server will be stoped!");
         bossGroup.shutdownGracefully();
         workGroup.shutdownGracefully();
     }
+
 }

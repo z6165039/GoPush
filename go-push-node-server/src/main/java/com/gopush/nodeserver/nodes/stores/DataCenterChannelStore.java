@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @VERSION：
  */
 
-@Builder
 @Slf4j
 public class DataCenterChannelStore implements IDataCenterChannelStore {
 

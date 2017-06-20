@@ -1,7 +1,10 @@
 package com.gopush.nodeserver;
 
+import com.gopush.nodeserver.devices.DeviceServerBootstrap;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * go-push
@@ -17,4 +20,6 @@ public class NodeServerApplication {
     public static void main(String[] args){
         SpringApplication.run(NodeServerApplication.class,args);
     }
+
+
 }

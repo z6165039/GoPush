@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -17,7 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @VERSION：
  */
 
-@Builder
 @Slf4j
 public class DeviceChannelStore implements IDeviceChannelStore {
 

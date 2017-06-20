@@ -6,6 +6,7 @@ import com.gopush.nodeserver.nodes.senders.INodeSender;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +20,6 @@ import java.util.List;
  * @VERSION：
  */
 
-@Builder
 @Slf4j
 public class DeviceDockedHandler extends BatchProcesser<Object[]> implements IDeviceDockedHandler {
 

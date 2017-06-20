@@ -23,7 +23,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @VERSION：
  */
 
-@Builder
 @Slf4j
 public class NodeSender implements INodeSender<NodeMessage> {
 

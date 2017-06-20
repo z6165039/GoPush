@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +32,6 @@ import java.util.concurrent.TimeUnit;
  * @VERSION：
  */
 
-@Builder
 @Slf4j
 public class HandShakeHandler extends BatchProcesser<Object[]> implements IDeviceMessageHandler<HandShakeReq> {
 
