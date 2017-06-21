@@ -14,6 +14,7 @@ import com.gopush.protocol.node.NodeInfoReq;
 public class NodeInfoHandler implements INodeMessageHandler<NodeInfoReq> {
     @Override
     public boolean support(NodeInfoReq message) {
+
         return message instanceof  NodeInfoReq;
     }
 
