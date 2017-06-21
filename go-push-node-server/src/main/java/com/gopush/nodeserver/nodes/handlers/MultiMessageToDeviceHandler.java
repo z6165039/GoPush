@@ -1,9 +1,11 @@
 package com.gopush.nodeserver.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
+import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.protocol.node.MultiMessageToDeviceReq;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -16,6 +18,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMessageToDeviceReq> {
+
+    @Autowired
+    private IDeviceChannelStore deviceChannelStore;
+
     @Override
     public boolean support(MultiMessageToDeviceReq message) {
         return message instanceof  MultiMessageToDeviceReq;
@@ -23,6 +29,8 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
 
     @Override
     public void call(ChannelHandlerContext ctx, MultiMessageToDeviceReq message) {
+        //找寻到对应设备的channel 将消息全部推送给这个设备
 
+        //没有找到,将该信息存储在redis中,添加超时机制
     }
 }

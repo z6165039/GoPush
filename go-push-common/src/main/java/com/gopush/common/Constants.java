@@ -22,6 +22,12 @@ public class Constants {
     public static final int ALL_IDLE = 50;
 
 
+
+    /*****
+     *
+     * Device 和 NodeServer 之间
+     *
+     * ***/
     //绑定设备
     public static final AttributeKey<String> CHANNEL_ATTR_DEVICE = AttributeKey.newInstance("device");
 
@@ -38,6 +44,17 @@ public class Constants {
     public static final String R_DEVICE_TOKEN_KEY ="D:T:";
 
     public static final String R_DEIVCE_TOKEN_FIELD = "token";
+
+
+
+    /*****
+     *
+     * NodeServer 与 DataCenter 之间
+     *
+     * ***/
+    public static final AttributeKey<String> CHANNEL_ATTR_DATACENTER = AttributeKey.newInstance("datacenter");
+
+
 
 
 

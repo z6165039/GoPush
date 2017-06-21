@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @Slf4j
-public class DevicePingHandler extends BatchProcesser<Object[]> implements IDeviceMessageHandler<Ping> {
+public class DevicePingHandler extends PingPongProcesser<Object[]> implements IDeviceMessageHandler<Ping> {
 
 
     //响应
@@ -37,13 +37,11 @@ public class DevicePingHandler extends BatchProcesser<Object[]> implements IDevi
     public void call(ChannelHandlerContext context, Ping message) {
 
         Channel channel = context.channel();
-        if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)){
-            log.warn("channel not handshake, channel:{}",channel);
+        if (!checkHandShake(channel)){
             context.close();
             return;
         }
         channel.writeAndFlush(PONG);
-
         putMsg(new Object[]{
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});

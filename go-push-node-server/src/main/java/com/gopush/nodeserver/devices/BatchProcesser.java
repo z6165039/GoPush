@@ -3,6 +3,7 @@ package com.gopush.nodeserver.devices;
 
 import com.gopush.nodeserver.devices.infos.HandlerInfo;
 import com.gopush.nodeserver.devices.infos.ProcessorInfo;
+import io.netty.channel.Channel;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -98,6 +99,8 @@ public abstract class BatchProcesser<T>{
      * @throws Exception
      */
     protected abstract void batchHandler(List<T> batchReq) throws Exception;
+
+
 
 
 

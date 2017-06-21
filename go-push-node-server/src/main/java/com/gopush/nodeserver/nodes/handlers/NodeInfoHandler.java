@@ -1,6 +1,7 @@
 package com.gopush.nodeserver.nodes.handlers;
 
 
+import com.gopush.common.Constants;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.NodeInfoResp;
 import io.netty.channel.ChannelHandlerContext;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public class NodeInfoHandler implements INodeMessageHandler<NodeInfoResp> {
+public class NodeInfoHandler extends NodeBaseHandler implements INodeMessageHandler<NodeInfoResp> {
     @Override
     public boolean support(NodeInfoResp message) {
         return message instanceof NodeInfoResp;
@@ -24,6 +25,8 @@ public class NodeInfoHandler implements INodeMessageHandler<NodeInfoResp> {
 
     @Override
     public void call(ChannelHandlerContext ctx, NodeInfoResp message) {
+        saveLiveDc(ctx.channel());
+        log.debug("receive NodeInfoResp, channel:{}, node:{}",ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
 
     }
 }

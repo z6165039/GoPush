@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 @Slf4j
-public class DevicePongHandler extends BatchProcesser<Object[]> implements IDeviceMessageHandler<Pong> {
+public class DevicePongHandler extends PingPongProcesser<Object[]> implements IDeviceMessageHandler<Pong> {
 
     @Override
     public boolean support(Pong message) {
@@ -31,8 +31,7 @@ public class DevicePongHandler extends BatchProcesser<Object[]> implements IDevi
     public void call(ChannelHandlerContext context, Pong message) {
 
         Channel channel = context.channel();
-        if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)){
-            log.warn("channel not handshake, channel:{}",channel);
+        if (!checkHandShake(channel)){
             context.close();
             return;
         }

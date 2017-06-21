@@ -3,6 +3,7 @@ package com.gopush.nodeserver.nodes.handlers;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.Ping;
 import com.gopush.protocol.node.Pong;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,9 +16,12 @@ import lombok.extern.slf4j.Slf4j;
  * @VERSION：
  */
 @Slf4j
-public class NodePingHandler implements INodeMessageHandler<Ping> {
+public class NodePingHandler extends NodeBaseHandler implements INodeMessageHandler<Ping> {
 
     private static final String PONG = Pong.builder().build().encode();
+
+
+
     @Override
     public boolean support(Ping message) {
         return message instanceof Ping;
@@ -25,7 +29,9 @@ public class NodePingHandler implements INodeMessageHandler<Ping> {
 
     @Override
     public void call(ChannelHandlerContext ctx, Ping message) {
-        ctx.channel().writeAndFlush(message);
-        log.debug("node send ping to data center, channel:{}",ctx.channel());
+        Channel channel = ctx.channel();
+        saveLiveDc(channel);
+        channel.writeAndFlush(PONG);
+        log.debug("node send pong to data center, channel:{}",ctx.channel());
     }
 }
