@@ -6,6 +6,7 @@ import com.gopush.nodeserver.devices.inbound.DeviceChannelInboundHandler;
 import com.gopush.nodeserver.devices.senders.PushSender;
 import com.gopush.nodeserver.devices.stores.DeviceChannelStore;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * go-push
@@ -15,6 +16,8 @@ import org.springframework.context.annotation.Bean;
  * @创建时间：2017/6/21 下午1:28
  * @VERSION：
  */
+
+@Configuration
 public class DeviceConfig {
 
     /*    */
