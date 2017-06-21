@@ -32,7 +32,7 @@ public class PingHandler extends BatchProcesser<Object[]> implements IDeviceMess
 
 
     @Override
-    public boolean support(DeviceMessage message) {
+    public boolean support(Ping message) {
         return message instanceof Ping;
     }
 

@@ -26,7 +26,7 @@ import java.util.List;
 public class PongHandler  extends BatchProcesser<Object[]> implements IDeviceMessageHandler<Pong> {
 
     @Override
-    public boolean support(DeviceMessage message) {
+    public boolean support(Pong message) {
         return message instanceof Pong;
     }
 

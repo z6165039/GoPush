@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 public class PushRespHandler extends BatchProcesser<PushResp> implements IDeviceMessageHandler<PushResp> {
     @Override
-    public boolean support(DeviceMessage message) {
+    public boolean support(PushResp message) {
         return message instanceof PushResp;
     }
 

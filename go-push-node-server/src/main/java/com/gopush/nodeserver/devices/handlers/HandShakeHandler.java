@@ -43,7 +43,7 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
     private IDeviceDockedHandler deviceDockedHandler;
 
     @Override
-    public boolean support(DeviceMessage message) {
+    public boolean support(HandShakeReq message) {
         return message instanceof HandShakeReq;
     }
 
@@ -136,7 +136,7 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
 
                         //报告设备上线
                         // TODO: 2017/6/18 报告设备上线
-                        deviceDockedHandler.report(req.getDevice(),channel.hashCode(),new int[]{idles[0],idles[1],idles[2]});
+                        deviceDockedHandler.upReport(req.getDevice(),channel.hashCode(),new int[]{idles[0],idles[1],idles[2]});
 
                         //写出握手响应
                         channel.writeAndFlush(respEncode);

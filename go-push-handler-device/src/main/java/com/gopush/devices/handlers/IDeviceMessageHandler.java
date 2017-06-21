@@ -19,7 +19,7 @@ public interface IDeviceMessageHandler<R> {
      * @param message 节点消息
      * @return  是否各个NodeMessage 子类的类型
      */
-    boolean support(DeviceMessage message);
+    boolean support(R message);
 
 
     /**

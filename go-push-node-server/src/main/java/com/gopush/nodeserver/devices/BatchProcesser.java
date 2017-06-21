@@ -52,13 +52,13 @@ public abstract class BatchProcesser<T>{
      * 批量处理的大小
      */
     @Setter
-    private int batchSize = 500;
+    private int batchSize = 300;
 
     /**
      * 消息队列里面超过这个大小就要进行告警
      */
     @Setter
-    private int overNumWarn = 500;
+    private int overNumWarn = 300;
 
     /**
      * 子处理器的个数
