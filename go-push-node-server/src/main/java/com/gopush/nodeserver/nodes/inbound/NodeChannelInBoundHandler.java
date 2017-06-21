@@ -33,10 +33,10 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
     private NodeDeviceDockedHandler deviceDockedHandler;
 
     @Autowired
-    private PingHandler pingHandler;
+    private NodePingHandler nodePingHandler;
 
     @Autowired
-    private PongHandler pongHandler;
+    private NodePongHandler nodePongHandler;
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {

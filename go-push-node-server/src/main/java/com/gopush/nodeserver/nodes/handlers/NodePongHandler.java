@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public class PongHandler implements INodeMessageHandler<Pong>{
+public class NodePongHandler implements INodeMessageHandler<Pong>{
     @Override
     public boolean support(Pong message) {
         return message instanceof Pong;

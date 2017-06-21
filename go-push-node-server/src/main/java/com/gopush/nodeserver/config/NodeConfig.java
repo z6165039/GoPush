@@ -73,14 +73,14 @@ public class NodeConfig {
     }
 
     @Bean
-    public PingHandler pingHandler(){
-        return  new PingHandler();
+    public NodePingHandler nodePingHandler(){
+        return  new NodePingHandler();
     }
 
 
     @Bean
-    public PongHandler pongHandler(){
-        return new PongHandler();
+    public NodePongHandler nodePongHandler(){
+        return new NodePongHandler();
     }
 
 }

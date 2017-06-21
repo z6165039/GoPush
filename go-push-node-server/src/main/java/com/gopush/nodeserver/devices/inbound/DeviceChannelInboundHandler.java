@@ -36,10 +36,10 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
     private HandShakeHandler handShakeHandler;
 
     @Autowired
-    private PingHandler pingHandler;
+    private DevicePingHandler devicePingHandler;
 
     @Autowired
-    private PongHandler pongHandler;
+    private DevicePongHandler devicePongHandler;
 
     @Autowired
     private PushRespHandler pushRespHandler;
@@ -49,8 +49,8 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
     @PostConstruct
     public void init(){
         deviceMessageHandlers.add(handShakeHandler);
-        deviceMessageHandlers.add(pingHandler);
-        deviceMessageHandlers.add(pongHandler);
+        deviceMessageHandlers.add(devicePingHandler);
+        deviceMessageHandlers.add(devicePongHandler);
         deviceMessageHandlers.add(pushRespHandler);
     }
 

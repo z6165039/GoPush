@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  * @VERSION：
  */
 @Slf4j
-public class PingHandler implements INodeMessageHandler<Ping> {
+public class NodePingHandler implements INodeMessageHandler<Ping> {
 
     @Override
     public boolean support(Ping message) {

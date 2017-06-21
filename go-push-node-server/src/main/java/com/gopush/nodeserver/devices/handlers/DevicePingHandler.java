@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @Slf4j
-public class PingHandler extends BatchProcesser<Object[]> implements IDeviceMessageHandler<Ping> {
+public class DevicePingHandler extends BatchProcesser<Object[]> implements IDeviceMessageHandler<Ping> {
 
 
     //响应

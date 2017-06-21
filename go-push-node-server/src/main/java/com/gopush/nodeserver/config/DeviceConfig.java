@@ -64,13 +64,13 @@ public class DeviceConfig {
 
 
     @Bean
-    public PingHandler pingHandler(){
-        return  new PingHandler();
+    public DevicePingHandler devicePingHandler(){
+        return  new DevicePingHandler();
     }
 
     @Bean
-    public PongHandler pongHandler(){
-        return  new PongHandler();
+    public DevicePongHandler devicePongHandler(){
+        return  new DevicePongHandler();
     }
 
     @Bean

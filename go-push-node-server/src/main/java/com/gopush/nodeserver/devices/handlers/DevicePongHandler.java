@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 @Slf4j
-public class PongHandler  extends BatchProcesser<Object[]> implements IDeviceMessageHandler<Pong> {
+public class DevicePongHandler extends BatchProcesser<Object[]> implements IDeviceMessageHandler<Pong> {
 
     @Override
     public boolean support(Pong message) {
