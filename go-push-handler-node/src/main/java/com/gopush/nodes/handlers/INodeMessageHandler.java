@@ -1,6 +1,8 @@
 package com.gopush.nodes.handlers;
 
 
+import io.netty.channel.ChannelHandlerContext;
+
 /**
  * go-push
  *
@@ -23,7 +25,7 @@ public interface INodeMessageHandler<R> {
      * 各个消息处理句柄调用方法
      * @param message 节点消息
      */
-    void call(R message);
+    void call(ChannelHandlerContext ctx, R message);
 
 
 }

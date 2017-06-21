@@ -31,17 +31,17 @@ public class PushRespHandler extends BatchProcesser<PushResp> implements IDevice
     public void call(ChannelHandlerContext context, PushResp message) {
         Channel channel = context.channel();
         if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)){
-            log.warn("Channel has not handshake, channel {} will be closed",channel);
+            log.warn("channel not handshake, channel:{}",channel);
             context.close();
             return;
         }
         //接收成功后,将推送的消息置换成已读或删除等操作
         if (PushResp.Result.S.equals(message.getResult()) || PushResp.Result.D.equals(message.getResult())){
             putMsg(message);
-            log.debug("Receive pushResp , device :{}, msg id :{}, reason :{}!", message.getDevice(),message.getMsgId(),message.getResult());
+            log.debug("receive pushResp, device:{}, msg_id:{}, result:{}!", message.getDevice(),message.getMsgId(),message.getResult());
         }
         else {
-            log.warn("Receive pushResp , message not be received, device :{}, msg id :{}, reason :{}",message.getDevice(),message.getMsgId(),message.getResult());
+            log.warn("receive pushResp, device:{}, msg_id:{}, result:{}",message.getDevice(),message.getMsgId(),message.getResult());
         }
 
     }

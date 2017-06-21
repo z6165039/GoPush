@@ -2,6 +2,7 @@ package com.gopush.nodeserver.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDockedResp;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -21,7 +22,7 @@ public class NodeDeviceDockedHandler implements INodeMessageHandler<DeviceDocked
     }
 
     @Override
-    public void call(DeviceDockedResp message) {
+    public void call(ChannelHandlerContext ctx, DeviceDockedResp message) {
 
     }
 }

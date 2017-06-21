@@ -32,14 +32,14 @@ public class DevicePongHandler extends BatchProcesser<Object[]> implements IDevi
 
         Channel channel = context.channel();
         if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)){
-            log.warn("Channel has not handshake, channel {} will be closed",channel);
+            log.warn("channel not handshake, channel:{}",channel);
             context.close();
             return;
         }
         putMsg(new Object[]{
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
-        log.debug("Receive Pong, channel : {}, device : {}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.debug("receive pong, channel:{}, device:{}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
 
     }
 
@@ -61,7 +61,6 @@ public class DevicePongHandler extends BatchProcesser<Object[]> implements IDevi
 
         // TODO: 2017/6/18 设置设备保活 在线
 
-        log.debug("Process Pong completed!");
     }
 
 }

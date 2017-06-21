@@ -244,7 +244,7 @@ public abstract class BatchProcesser<T>{
                 try {
                     batchHandler(batchList);
                 }catch (Exception e){
-                    log.error("Exception :{}",e);
+                    log.error("Exception error:{}",e);
                     if(failCounter.incrementAndGet() >= INT_MAX_VAL){
                         failCounter.set(INT_ZERO);
                     }
@@ -269,12 +269,13 @@ public abstract class BatchProcesser<T>{
             if(this.cpool == null){
                 this.cpool = Executors.newScheduledThreadPool(corePoolSize);
                 inBuilder = true;
+
             }
             this.cpool.scheduleWithFixedDelay(() -> {
                 try {
                     processInterval();
                 }catch (Exception e){
-                    log.error("Exception :{}",e);
+                    log.error("Exception error:{}",e);
                 }
             },0,delay,TimeUnit.MILLISECONDS);
 

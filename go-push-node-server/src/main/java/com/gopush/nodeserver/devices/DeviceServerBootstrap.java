@@ -73,14 +73,13 @@ public class DeviceServerBootstrap{
                 .childOption(ChannelOption.SO_LINGER,0);
 
         bootstrap.bind(port).sync();
-        log.info("Device server start successful!  listening port: {}",port);
+        log.info("device server start successful! listening port: {}",port);
     }
 
 
 
     @PreDestroy
     public void destory(){
-        log.debug("Device Server will be stoped!");
         bossGroup.shutdownGracefully();
         workGroup.shutdownGracefully();
     }

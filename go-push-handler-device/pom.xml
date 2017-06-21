@@ -18,7 +18,7 @@
             <artifactId>go-push-protocol-device</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
+    <!--    <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
@@ -29,7 +29,7 @@
             <artifactId>logback-classic</artifactId>
             <scope>provided</scope>
         </dependency>
-
+-->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>

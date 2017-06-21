@@ -30,7 +30,7 @@ public class DeviceDeviceDockedHandler extends BatchProcesser<Object[]> implemen
     @Override
     public void upReport(String device, int channel, int[] idles) {
         putMsg(new Object[]{device,channel,idles});
-        log.debug("Up report device docked ! device :{},channelId : {}, idles: {}",device,channel, Arrays.toString(idles));
+        log.debug("up report device docked, device:{}, channel:{}, idles:{}",device,channel, Arrays.toString(idles));
     }
 
     @Override
@@ -49,6 +49,5 @@ public class DeviceDeviceDockedHandler extends BatchProcesser<Object[]> implemen
 
 
         //nodeSender.send();
-        log.debug("Process DeviceDocked request completed!");
     }
 }

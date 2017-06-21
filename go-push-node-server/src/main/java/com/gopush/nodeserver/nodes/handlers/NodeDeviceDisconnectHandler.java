@@ -2,6 +2,7 @@ package com.gopush.nodeserver.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDisconResp;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -20,7 +21,7 @@ public class NodeDeviceDisconnectHandler implements INodeMessageHandler<DeviceDi
     }
 
     @Override
-    public void call(DeviceDisconResp message) {
+    public void call(ChannelHandlerContext ctx, DeviceDisconResp message) {
 
     }
 }

@@ -46,7 +46,7 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
     @Override
     public void call(ChannelHandlerContext context, HandShakeReq message) {
         putMsg(new Object[]{context.channel(),message});
-        log.info("HandShakeRequest received! message :{}, channel :{}", message,context.channel());
+        log.info("handshake request received, message:{}, channel:{}", message,context.channel());
     }
 
 
@@ -103,7 +103,7 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
                     if (resp.getResult() != HANDSAHKE_OK){
                         //将写出握手响应后关闭链接
                         channel.writeAndFlush(respEncode).addListener(ChannelFutureListener.CLOSE);
-                        log.debug("Handshake fail, channel will be closed! channel :{}, device :{}, handshake response :{}",channel, req.getDevice(), respEncode);
+                        log.debug("handshake fail, channel:{}, device:{}, response:{}",channel, req.getDevice(), respEncode);
                     }
                     else{
 
@@ -136,17 +136,16 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
 
                         //写出握手响应
                         channel.writeAndFlush(respEncode);
-                        log.debug("HandShake successful, channel :{}, device :{}, send to device message :{}",channel,req.getDevice(),respEncode);
+                        log.debug("handshake successful, channel:{}, device:{}, message:{}",channel,req.getDevice(),respEncode);
 
 
                     }
                 }catch (Exception ex){
-                    log.error("Exception HandShake , error :{}",ex);
+                    log.error("handshake error:{}",ex);
                 }
 
             });
 
-            log.debug("Process Handshake request completed!");
         }
 
     }

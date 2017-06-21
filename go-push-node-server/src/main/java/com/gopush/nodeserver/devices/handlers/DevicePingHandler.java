@@ -38,7 +38,7 @@ public class DevicePingHandler extends BatchProcesser<Object[]> implements IDevi
 
         Channel channel = context.channel();
         if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)){
-            log.warn("Channel has not handshake, channel {} will be closed",channel);
+            log.warn("channel not handshake, channel:{}",channel);
             context.close();
             return;
         }
@@ -48,7 +48,7 @@ public class DevicePingHandler extends BatchProcesser<Object[]> implements IDevi
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
 
-        log.debug("Receive ping! channel : {}, device : {}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.debug("receive ping, channel:{}, device:{}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
     }
 
 
@@ -74,7 +74,6 @@ public class DevicePingHandler extends BatchProcesser<Object[]> implements IDevi
         // TODO: 2017/6/18  设置设备保活 在线
         //收到设备发送过来的 PING 请求
 
-        log.debug("Process Ping completed!");
     }
 
 }

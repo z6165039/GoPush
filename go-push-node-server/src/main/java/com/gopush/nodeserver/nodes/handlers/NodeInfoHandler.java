@@ -3,6 +3,7 @@ package com.gopush.nodeserver.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.NodeInfoResp;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,7 +23,7 @@ public class NodeInfoHandler implements INodeMessageHandler<NodeInfoResp> {
     }
 
     @Override
-    public void call(NodeInfoResp message) {
+    public void call(ChannelHandlerContext ctx, NodeInfoResp message) {
 
     }
 }
