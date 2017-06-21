@@ -5,11 +5,9 @@ import com.gopush.devices.handlers.IDeviceDisconnectHandler;
 import com.gopush.nodeserver.devices.BatchProcesser;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import io.netty.channel.Channel;
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

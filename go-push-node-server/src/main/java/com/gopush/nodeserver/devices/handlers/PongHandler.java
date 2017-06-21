@@ -3,13 +3,10 @@ package com.gopush.nodeserver.devices.handlers;
 import com.gopush.common.Constants;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
 import com.gopush.nodeserver.devices.BatchProcesser;
-import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.Pong;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

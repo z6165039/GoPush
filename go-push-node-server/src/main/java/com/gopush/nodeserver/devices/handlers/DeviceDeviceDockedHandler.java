@@ -3,10 +3,8 @@ package com.gopush.nodeserver.devices.handlers;
 import com.gopush.devices.handlers.IDeviceDockedHandler;
 import com.gopush.nodeserver.devices.BatchProcesser;
 import com.gopush.nodeserver.nodes.senders.INodeSender;
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;

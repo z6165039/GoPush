@@ -4,7 +4,6 @@ import com.gopush.common.Constants;
 import com.gopush.devices.handlers.IDeviceDockedHandler;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
 import com.gopush.nodeserver.devices.BatchProcesser;
-import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.HandShakeReq;
 import com.gopush.protocol.device.HandShakeResp;
 import com.gopush.springframework.boot.RedisClusterTemplate;
@@ -12,14 +11,11 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateHandler;
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
