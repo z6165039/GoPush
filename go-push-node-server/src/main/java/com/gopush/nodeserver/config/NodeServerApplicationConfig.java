@@ -51,13 +51,13 @@ public class NodeServerApplicationConfig {
 
 
     @Bean
-    public DeviceDisconnectHandler deviceDisconnectHandler(){
-        return  new DeviceDisconnectHandler();
+    public DeviceDeviceDisconnectHandler deviceDisconnectHandler(){
+        return  new DeviceDeviceDisconnectHandler();
     }
 
     @Bean
-    public DeviceDockedHandler deviceDockedHandler(){
-        return  new DeviceDockedHandler();
+    public DeviceDeviceDockedHandler deviceDockedHandler(){
+        return  new DeviceDeviceDockedHandler();
     }
 
     @Bean

@@ -16,14 +16,14 @@ import java.util.List;
 /**
  * go-push
  *
- * @类功能说明：
+ * @类功能说明： 批处理设备断连接后需要触发上报
  * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/19 上午12:25
  * @VERSION：
  */
 
 @Slf4j
-public class DeviceDisconnectHandler extends BatchProcesser<Object[]> implements IDeviceDisconnectHandler {
+public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> implements IDeviceDisconnectHandler {
 
 
     @Autowired

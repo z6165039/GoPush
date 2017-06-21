@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @Slf4j
-public class DeviceDockedHandler extends BatchProcesser<Object[]> implements IDeviceDockedHandler {
+public class DeviceDeviceDockedHandler extends BatchProcesser<Object[]> implements IDeviceDockedHandler {
 
 
 

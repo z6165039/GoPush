@@ -1,7 +1,7 @@
 package com.gopush.nodeserver.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
-import com.gopush.protocol.node.Ping;
+import com.gopush.protocol.node.Pong;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -9,19 +9,19 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @类功能说明：
  * @作者：喝咖啡的囊地鼠
- * @创建时间：2017/6/20 下午11:00
+ * @创建时间：2017/6/21 下午11:00
  * @VERSION：
  */
-@Slf4j
-public class PingHandler implements INodeMessageHandler<Ping> {
 
+@Slf4j
+public class PongHandler implements INodeMessageHandler<Pong>{
     @Override
-    public boolean support(Ping message) {
-        return message instanceof Ping;
+    public boolean support(Pong message) {
+        return message instanceof Pong;
     }
 
     @Override
-    public void call(Ping message) {
+    public void call(Pong message) {
 
     }
 }

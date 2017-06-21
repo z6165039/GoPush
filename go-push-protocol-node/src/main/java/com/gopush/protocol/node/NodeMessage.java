@@ -117,16 +117,16 @@ public abstract class NodeMessage<T> {
                     cls = DeviceDisconResp.class;
                     break;
                 case MTO:
-                    cls = MultiMessageToOneDeviceReq.class;
+                    cls = MultiMessageToDeviceReq.class;
                     break;
                 case MTOS:
-                    cls = MultiMessageToOneDeviceResp.class;
+                    cls = MultiMessageToDeviceResp.class;
                     break;
                 case OTM:
-                    cls = OneMessageToMultiDeviceReq.class;
+                    cls = MessageToMultiDeviceReq.class;
                     break;
                 case OTMS:
-                    cls = OneMessageToMultiDeviceResp.class;
+                    cls = MessageToMultiDeviceResp.class;
                     break;
                 case NI:
                     cls = NodeInfoReq.class;

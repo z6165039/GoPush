@@ -8,11 +8,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
-import lombok.Builder;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -33,7 +30,7 @@ import java.util.List;
 public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<String> {
 
     @Autowired
-    private DeviceDisconnectHandler deviceDisconnectHandler;
+    private DeviceDeviceDisconnectHandler deviceDisconnectHandler;
 
     @Autowired
     private HandShakeHandler handShakeHandler;
