@@ -5,12 +5,7 @@ import com.gopush.nodeserver.devices.handlers.*;
 import com.gopush.nodeserver.devices.inbound.DeviceChannelInboundHandler;
 import com.gopush.nodeserver.devices.senders.PushSender;
 import com.gopush.nodeserver.devices.stores.DeviceChannelStore;
-import com.gopush.nodeserver.nodes.NodeServerBootstrap;
-import com.gopush.nodeserver.nodes.inbound.NodeChannelInBoundHandler;
-import com.gopush.nodeserver.nodes.senders.NodeSender;
-import com.gopush.nodeserver.nodes.stores.DataCenterChannelStore;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * go-push
@@ -20,10 +15,9 @@ import org.springframework.context.annotation.Configuration;
  * @创建时间：2017/6/21 下午1:28
  * @VERSION：
  */
-@Configuration
-public class NodeServerApplicationConfig {
+public class DeviceConfig {
 
-
+    /*    */
     @Bean
     public DeviceServerBootstrap deviceServerBootstrap(){
         return new DeviceServerBootstrap();
@@ -80,39 +74,6 @@ public class NodeServerApplicationConfig {
     public PushRespHandler pushRespHandler(){
         return  new PushRespHandler();
     }
-
-
-
-
-
-
-
-    @Bean
-    public NodeServerBootstrap nodeServerBootstrap(){
-        return new NodeServerBootstrap();
-    }
-
-    @Bean
-    public DataCenterChannelStore dataCenterChannelStore(){
-        return new DataCenterChannelStore();
-    }
-
-
-    @Bean
-    public NodeSender nodeSender(){
-        return new  NodeSender();
-    }
-
-
-
-    @Bean
-    public NodeChannelInBoundHandler nodeChannelInBoundHandler(){
-        return new NodeChannelInBoundHandler();
-    }
-
-
-
-
 
 
 }
