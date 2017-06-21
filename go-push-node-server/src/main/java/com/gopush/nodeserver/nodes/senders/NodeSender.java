@@ -45,8 +45,7 @@ public class NodeSender implements INodeSender<NodeMessage> {
                 });
             }
         }else{
-            // 如果无DC channel可用，则加入列表，以后再次尝试发送
-            log.warn("Can not find DataCenter channel ! retry later!");
+            log.warn("can not find data center, retry later!");
             addFailMessage(message);
         }
     }
@@ -58,12 +57,10 @@ public class NodeSender implements INodeSender<NodeMessage> {
                 Channel channel = dataCenterChannelStore.getChannel(dcId);
                 channel.writeAndFlush(message.encode());
             }else {
-                log.warn("can not find channel for dataCenter! dataCenter :{}",dcId);
                 addFailMessage(message);
             }
         }else{
-            // 如果无DC channel可用，则加入列表，以后再次尝试发送
-            log.warn("Can not find DataCenter channel ! retry later!");
+            log.warn("can not find data center, retry later!");
             addFailMessage(message);
         }
     }
@@ -86,8 +83,7 @@ public class NodeSender implements INodeSender<NodeMessage> {
                 channel.writeAndFlush(message.encode());
             });
         }else{
-            // 如果无DC channel可用，则加入列表，以后再次尝试发送
-            log.warn("Can not find DataCenter channel ! retry later!");
+            log.warn("can not find data center, retry later!");
             addFailMessage(message);
         }
     }
@@ -100,8 +96,7 @@ public class NodeSender implements INodeSender<NodeMessage> {
             Channel channel = list.get(0);
             channel.writeAndFlush(message.encode());
         }else{
-            // 如果无DC channel可用，则加入列表，以后再次尝试发送
-            log.warn("Can not find DataCenter channel ! retry later!");
+            log.warn("can not find data center, retry later!");
             addFailMessage(message);
         }
     }
