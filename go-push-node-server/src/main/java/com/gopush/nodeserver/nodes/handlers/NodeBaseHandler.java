@@ -20,17 +20,7 @@ public abstract class NodeBaseHandler {
     private IDataCenterChannelStore dataCenterChannelStore;
 
     protected void saveLiveDc(Channel channel){
-        if (!channel.hasAttr(Constants.CHANNEL_ATTR_DATACENTER)){
-            //添加相应的值
-            String dcId = new StringBuilder()
-                    .append(channel.id())
-                    .append(channel.remoteAddress().toString())
-                    .toString();
-            channel.attr(Constants.CHANNEL_ATTR_DATACENTER).set(dcId);
-            if (!dataCenterChannelStore.contains(dcId)){
-                dataCenterChannelStore.addChannel(dcId,channel);
-            }
-        }
+        dataCenterChannelStore.isDcChannelToSave(channel);
     }
 
 }

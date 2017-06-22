@@ -1,5 +1,6 @@
 package com.gopush.nodeserver.nodes.stores;
 
+import com.gopush.common.Constants;
 import io.netty.channel.Channel;
 import lombok.Builder;
 import lombok.Data;
@@ -51,23 +52,8 @@ public class DataCenterChannelStore implements IDataCenterChannelStore {
         return dataCenterChannels.get(dcId);
     }
 
-    @Override
-    public void removeChannel(String dcId) {
 
-        dataCenterChannels.remove(dcId);
 
-        int count = counter.decrementAndGet();
-        if (count < 0){
-            counter.set(0);
-        }
-    }
-
-    @Override
-    public void removeChannel(String dcId, Channel channel) {
-        if (channel.equals(dataCenterChannels.get(dcId))){
-            removeChannel(dcId);
-        }
-    }
 
     @Override
     public void clear() {
@@ -75,16 +61,89 @@ public class DataCenterChannelStore implements IDataCenterChannelStore {
         counter.set(0);
     }
 
-    @Override
-    public void addChannel(String dcId, Channel channel) {
-        dataCenterChannels.put(dcId,channel);
-        counter.incrementAndGet();
-    }
 
     @Override
     public int count() {
         return counter.get();
     }
+
+
+
+    @Override
+    public void isDcChannelToSave(Channel channel){
+        if (!channel.hasAttr(Constants.CHANNEL_ATTR_DATACENTER)){
+            //添加相应的值
+            String dcId = dataCenterId(channel);
+            channel.attr(Constants.CHANNEL_ATTR_DATACENTER).set(dcId);
+            if (!contains(dcId)){
+                addChannel(dcId,channel);
+            }
+        }
+    }
+
+    @Override
+    public void isDcChannelToRemove(Channel channel) {
+        String dcId = null;
+        if (!channel.hasAttr(Constants.CHANNEL_ATTR_DATACENTER)){
+            dcId = dataCenterId(channel);
+        }else {
+            dcId = channel.attr(Constants.CHANNEL_ATTR_DATACENTER).get();
+        }
+        if(contains(dcId)){
+            removeChannel(dcId,channel);
+        }
+    }
+
+
+
+
+    /**
+     * 生产DC-ID
+     * @param channel
+     * @return
+     */
+    private String dataCenterId(Channel channel){
+        return  new StringBuilder()
+                .append(channel.id())
+                .append(channel.remoteAddress().toString())
+                .toString();
+    }
+
+
+    /**
+     * 根据DCID移除channel,对比 channel存不存在
+     * @param dcId
+     * @param channel
+     */
+    private void removeChannel(String dcId, Channel channel) {
+        if (channel.equals(dataCenterChannels.get(dcId))){
+            removeChannel(dcId);
+        }
+    }
+
+
+    /**
+     * 添加DC
+     * @param dcId
+     * @param channel
+     */
+    private void addChannel(String dcId, Channel channel) {
+        dataCenterChannels.put(dcId,channel);
+        counter.incrementAndGet();
+    }
+
+    /**
+     * 根据DCID删除 channel
+     * @param dcId
+     */
+    private void removeChannel(String dcId) {
+        dataCenterChannels.remove(dcId);
+        int count = counter.decrementAndGet();
+        if (count < 0){
+            counter.set(0);
+        }
+    }
+
 }
 
 

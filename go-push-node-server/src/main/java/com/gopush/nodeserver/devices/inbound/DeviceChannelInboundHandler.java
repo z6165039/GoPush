@@ -3,6 +3,7 @@ package com.gopush.nodeserver.devices.inbound;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
 import com.gopush.nodeserver.devices.handlers.*;
 import com.gopush.protocol.device.DeviceMessage;
+import com.gopush.protocol.device.Ping;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,9 @@ import java.util.List;
 @Slf4j
 @ChannelHandler.Sharable
 public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<String> {
+
+
+    private static final String PING = Ping.builder().build().encode();
 
     @Autowired
     private DeviceDeviceDisconnectHandler deviceDisconnectHandler;
@@ -52,6 +57,12 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
         deviceMessageHandlers.add(devicePingHandler);
         deviceMessageHandlers.add(devicePongHandler);
         deviceMessageHandlers.add(pushRespHandler);
+    }
+
+    @PreDestroy
+    public void destory(){
+        deviceMessageHandlers.clear();
+        deviceMessageHandlers = null;
     }
 
     @Override
@@ -98,17 +109,17 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (IdleStateEvent.class.isAssignableFrom(evt.getClass())){
             IdleStateEvent event = (IdleStateEvent) evt;
-
-
             if (event.state() == IdleState.READER_IDLE){
-                //发送心跳
+                ctx.writeAndFlush(PING);
             }
             if (event.state() == IdleState.WRITER_IDLE){
-                //发送心跳
+                ctx.writeAndFlush(PING);
             }
             if (event.state() == IdleState.ALL_IDLE){
-                //发送心跳
+                ctx.writeAndFlush(PING);
             }
+        }else{
+            super.userEventTriggered(ctx,evt);
         }
     }
 

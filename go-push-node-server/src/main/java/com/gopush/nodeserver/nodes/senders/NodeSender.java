@@ -33,8 +33,6 @@ public class NodeSender implements INodeSender<NodeMessage> {
     private IDataCenterChannelStore dataCenterChannelStore;
 
 
-
-
     @Override
     public void send(NodeMessage message) {
         if (dataCenterChannelStore.count() > 0){

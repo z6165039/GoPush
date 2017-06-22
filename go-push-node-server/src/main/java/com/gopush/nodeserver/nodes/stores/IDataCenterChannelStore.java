@@ -27,31 +27,12 @@ public interface IDataCenterChannelStore {
      */
     Channel getChannel(String dcId);
 
-    /**
-     * 根据DCID删除 channel
-     * @param dcId
-     */
-    void removeChannel(String dcId);
-
-    /**
-     * 根据DCID移除channel,对比 channel存不存在
-     * @param dcId
-     * @param channel
-     */
-    void removeChannel(String dcId,Channel channel);
-
 
     /**
      * 清空channel
      */
     void clear();
 
-    /**
-     * 添加DC
-     * @param dcId
-     * @param channel
-     */
-    void addChannel(String dcId, Channel channel);
 
 
     /**
@@ -59,5 +40,15 @@ public interface IDataCenterChannelStore {
      * @return
      */
     int count();
+
+
+    /**
+     * 检测此channel是不是已经存在的channel，不是的话加入缓存中
+     * @param channel
+     */
+    void isDcChannelToSave(Channel channel);
+
+
+    void isDcChannelToRemove(Channel channel);
 
 }
