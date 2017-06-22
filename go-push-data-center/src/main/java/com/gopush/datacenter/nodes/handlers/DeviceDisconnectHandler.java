@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDisconReq;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * go-push
@@ -19,7 +20,7 @@ public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDiscon
     }
 
     @Override
-    public void call(DeviceDisconReq message) {
+    public void call(ChannelHandlerContext ctx, DeviceDisconReq message) {
 
     }
 }

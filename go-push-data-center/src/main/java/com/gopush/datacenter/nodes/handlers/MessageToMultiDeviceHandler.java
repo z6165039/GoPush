@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.MultiMessageToDeviceReq;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * go-push
@@ -18,7 +19,7 @@ public class MessageToMultiDeviceHandler implements INodeMessageHandler<MultiMes
     }
 
     @Override
-    public void call(MultiMessageToDeviceReq message) {
+    public void call(ChannelHandlerContext ctx, MultiMessageToDeviceReq message) {
 
     }
 }

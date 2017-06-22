@@ -5,13 +5,14 @@ import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.Channel;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -27,10 +28,54 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class NodeSender implements INodeSender<NodeMessage> {
 
 
-    private Queue<NodeMessage> failMessage = new ConcurrentLinkedQueue<>();
+    private Queue<InnerMessageInfo> failMessage = new ConcurrentLinkedQueue<>();
 
     @Autowired
     private IDataCenterChannelStore dataCenterChannelStore;
+
+    @Setter
+    private int delay = 1000;
+
+    private Timer timer;
+
+    @PostConstruct
+    public  void init(){
+        timer = new Timer("SendNodeMessage-Fail-Retry");
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try{
+                    if(failMessage.isEmpty()){
+                        return;
+                    }
+                    failMessage.stream().forEach((e) -> {
+                        switch (e.st){
+                            case ALL:
+                                send(e.message);
+                                break;
+                            case ZD:
+                                send(e.dcId,e.message);
+                                break;
+                            case SJO:
+                                sendShuffle(e.message);
+                                break;
+                            case SJM:
+                                sendShuffle(e.dcCount,e.message);
+                                break;
+                        }
+                    });
+                }catch (Exception e){
+                    log.error("Exception error:{}",e);
+                }
+            }
+        }, delay, delay);
+    }
+
+    @PreDestroy
+    public void destory(){
+        failMessage.clear();
+    }
+
 
 
     @Override
@@ -44,7 +89,7 @@ public class NodeSender implements INodeSender<NodeMessage> {
             }
         }else{
             log.warn("can not find data center, retry later!");
-            addFailMessage(message);
+            addFailMessage(message,SendType.ALL,null,0);
         }
     }
 
@@ -55,11 +100,11 @@ public class NodeSender implements INodeSender<NodeMessage> {
                 Channel channel = dataCenterChannelStore.getChannel(dcId);
                 channel.writeAndFlush(message.encode());
             }else {
-                addFailMessage(message);
+                addFailMessage(message,SendType.ZD,dcId,0);
             }
         }else{
             log.warn("can not find data center, retry later!");
-            addFailMessage(message);
+            addFailMessage(message,SendType.SJO,null,0);
         }
     }
 
@@ -82,7 +127,7 @@ public class NodeSender implements INodeSender<NodeMessage> {
             });
         }else{
             log.warn("can not find data center, retry later!");
-            addFailMessage(message);
+            addFailMessage(message,SendType.SJM,null,dcConunt);
         }
     }
 
@@ -95,13 +140,45 @@ public class NodeSender implements INodeSender<NodeMessage> {
             channel.writeAndFlush(message.encode());
         }else{
             log.warn("can not find data center, retry later!");
-            addFailMessage(message);
+            addFailMessage(message,SendType.SJO,null,0);
         }
     }
 
-    private void addFailMessage(NodeMessage message){
-        if(!failMessage.contains(message)){
-            failMessage.add(message);
+
+
+    private void addFailMessage(NodeMessage message, SendType st,String dcId,int dcCount){
+
+        InnerMessageInfo.InnerMessageInfoBuilder builder =  InnerMessageInfo
+                .builder()
+                .message(message)
+                .st(st);
+        switch (st){
+            case ZD:
+                builder.dcId(dcId);
+                break;
+            case SJM:
+                builder.dcCount(dcCount);
+                break;
         }
+        InnerMessageInfo info = builder.build();
+        if(!failMessage.contains(info)){
+            failMessage.add(info);
+        }
+    }
+
+
+    private enum SendType{
+        ALL,
+        ZD,
+        SJO,
+        SJM
+    }
+
+    @Builder
+    private class InnerMessageInfo{
+        private SendType st;
+        private NodeMessage message;
+        private String dcId;
+        private int dcCount;
     }
 }

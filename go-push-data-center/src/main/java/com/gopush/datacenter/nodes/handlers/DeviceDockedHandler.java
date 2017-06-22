@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDockedReq;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * go-push
@@ -18,7 +19,7 @@ public class DeviceDockedHandler implements INodeMessageHandler<DeviceDockedReq>
     }
 
     @Override
-    public void call(DeviceDockedReq message) {
+    public void call(ChannelHandlerContext ctx, DeviceDockedReq message) {
 
     }
 }

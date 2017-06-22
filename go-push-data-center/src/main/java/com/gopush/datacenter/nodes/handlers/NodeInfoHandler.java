@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.NodeInfoReq;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * go-push
@@ -19,7 +20,7 @@ public class NodeInfoHandler implements INodeMessageHandler<NodeInfoReq> {
     }
 
     @Override
-    public void call(NodeInfoReq message) {
+    public void call(ChannelHandlerContext ctx, NodeInfoReq message) {
 
     }
 }

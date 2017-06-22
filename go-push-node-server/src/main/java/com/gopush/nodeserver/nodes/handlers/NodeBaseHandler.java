@@ -1,6 +1,5 @@
 package com.gopush.nodeserver.nodes.handlers;
 
-import com.gopush.common.Constants;
 import com.gopush.nodeserver.nodes.stores.IDataCenterChannelStore;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;

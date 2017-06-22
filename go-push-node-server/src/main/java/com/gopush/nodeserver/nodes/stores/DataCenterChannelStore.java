@@ -2,8 +2,6 @@ package com.gopush.nodeserver.nodes.stores;
 
 import com.gopush.common.Constants;
 import io.netty.channel.Channel;
-import lombok.Builder;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;

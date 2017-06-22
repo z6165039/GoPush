@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.Ping;
+import io.netty.channel.ChannelHandlerContext;
 
 
 /**
@@ -19,7 +20,7 @@ public class PingHandler implements INodeMessageHandler<Ping> {
     }
 
     @Override
-    public void call(Ping message) {
+    public void call(ChannelHandlerContext ctx, Ping message) {
 
     }
 }
