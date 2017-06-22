@@ -37,6 +37,7 @@
         <module>go-push-handler-device</module>
         <module>go-push-handler-node</module>
         <module>go-push-common</module>
+        <module>go-push-adapter-sdk</module>
     </modules>
 
 
