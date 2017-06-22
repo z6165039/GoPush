@@ -12,11 +12,6 @@ package com.gopush.nodeserver.nodes.senders;
 public interface INodeSender<T> {
 
 
-    /**
-     * 向所有的数据中心发送
-     * @param message
-     */
-    void send(T message);
 
     /**
      * 向指定的数据中心发送
@@ -25,12 +20,6 @@ public interface INodeSender<T> {
      */
     void send(String dcId,T message);
 
-
-    /**
-     * 随机选择几台发送
-     * @param message
-     */
-    void sendShuffle(int dcConunt,T message);
 
     /**
      * 随机选择一台发送
