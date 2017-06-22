@@ -80,8 +80,8 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
         if (!nodeMessageHandlers.isEmpty()){
             nodeMessageHandlers.stream().forEach((handler) ->{
                 try{
-                    if (handler.support(message)){
-                        handler.call(ctx,message);
+                    if (handler.support(nodeMessage)){
+                        handler.call(ctx,nodeMessage);
                     }
                 }catch (Exception e){
                     log.error("Exception error:{}",e);
