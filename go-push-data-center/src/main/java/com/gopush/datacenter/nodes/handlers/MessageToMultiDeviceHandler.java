@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.MessageToMultiDeviceResp;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +24,9 @@ public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageT
 
     @Override
     public void call(ChannelHandlerContext ctx, MessageToMultiDeviceResp message) {
+        Channel channel = ctx.channel();
 
+
+        log.debug("receive MessageToMultiDeviceResp, channel:{}",channel);
     }
 }

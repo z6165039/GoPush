@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.NodeInfoReq;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +25,9 @@ public class NodeInfoHandler implements INodeMessageHandler<NodeInfoReq> {
 
     @Override
     public void call(ChannelHandlerContext ctx, NodeInfoReq message) {
-        log.debug("receive ping,channel:{}",ctx.channel());
+        Channel channel = ctx.channel();
+
+
+        log.debug("receive ping,channel:{}",channel);
     }
 }

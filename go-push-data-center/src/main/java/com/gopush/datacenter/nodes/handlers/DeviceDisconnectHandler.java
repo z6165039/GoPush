@@ -2,7 +2,9 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDisconReq;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * go-push
@@ -12,6 +14,8 @@ import io.netty.channel.ChannelHandlerContext;
  * @创建时间：2017/6/21 下午11:03
  * @VERSION：
  */
+
+@Slf4j
 public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDisconReq> {
 
     @Override
@@ -21,6 +25,9 @@ public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDiscon
 
     @Override
     public void call(ChannelHandlerContext ctx, DeviceDisconReq message) {
+        Channel channel = ctx.channel();
 
+
+        log.debug("receive DeviceDisconReq, channel:{}",channel);
     }
 }

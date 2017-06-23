@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.Pong;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +25,9 @@ public class PongHandler implements INodeMessageHandler<Pong> {
 
     @Override
     public void call(ChannelHandlerContext ctx, Pong message) {
-        log.debug("receive pong! channel:{}",ctx.channel());
+        Channel channel = ctx.channel();
+
+
+        log.debug("receive pong! channel:{}",channel);
     }
 }
