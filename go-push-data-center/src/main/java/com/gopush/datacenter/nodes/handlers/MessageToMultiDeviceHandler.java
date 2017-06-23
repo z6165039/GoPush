@@ -1,8 +1,9 @@
 package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
-import com.gopush.protocol.node.MultiMessageToDeviceReq;
+import com.gopush.protocol.node.MessageToMultiDeviceResp;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * go-push
@@ -12,14 +13,16 @@ import io.netty.channel.ChannelHandlerContext;
  * @创建时间：2017/6/21 下午11:07
  * @VERSION：
  */
-public class MessageToMultiDeviceHandler implements INodeMessageHandler<MultiMessageToDeviceReq> {
+
+@Slf4j
+public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageToMultiDeviceResp> {
     @Override
-    public boolean support(MultiMessageToDeviceReq message) {
-        return message instanceof  MultiMessageToDeviceReq;
+    public boolean support(MessageToMultiDeviceResp message) {
+        return message instanceof  MessageToMultiDeviceResp;
     }
 
     @Override
-    public void call(ChannelHandlerContext ctx, MultiMessageToDeviceReq message) {
+    public void call(ChannelHandlerContext ctx, MessageToMultiDeviceResp message) {
 
     }
 }
