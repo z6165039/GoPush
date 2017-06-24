@@ -67,7 +67,7 @@ public class NodeServerBootstrap {
                 .option(ChannelOption.SO_SNDBUF,2048)
                 .option(ChannelOption.SO_RCVBUF,1024);
         bootstrap.bind(port).sync();
-        log.info("Node server start successful!  listening port: {}",port);
+        log.info("Node server start successful! listening port: {}",port);
     }
 
 
