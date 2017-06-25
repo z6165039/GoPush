@@ -146,6 +146,18 @@ public class RedisClusterDefaultVisitor extends RedisClusterVisitorOperation {
     }
 
 
+
+    public boolean expire(String key,int expire){
+        return new WriteBooleanTemplate(key,null,expire){
+            @Override
+            public Boolean write(JedisCluster cluster, String redisKey, int expire) {
+                cluster.expire(redisKey,expire);
+                return true;
+            }
+        }.call();
+    }
+
+
     public String hget(String key,String field,String defaultValue){
         return  new ReadTemplate<String>(key, defaultValue){
             @Override

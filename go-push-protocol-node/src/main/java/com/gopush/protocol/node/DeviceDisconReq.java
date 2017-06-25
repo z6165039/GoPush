@@ -23,8 +23,10 @@ public class DeviceDisconReq extends NodeMessageReq<DeviceDisconReq>{
 
     //需要上报的设备列表(是批量上报的)
     @JSONField(name = "DEVS")
-    private List<String> devices = new ArrayList<>();
+    private List<String> devices;
 
+    @JSONField(name = "N")
+    private String node;
 
     /**
      * 添加设备
@@ -32,6 +34,9 @@ public class DeviceDisconReq extends NodeMessageReq<DeviceDisconReq>{
      */
 
     public void addDevice(String device){
+        if (devices == null){
+            devices = new ArrayList<>();
+        }
         if (!devices.contains(device)){
             devices.add(device);
         }

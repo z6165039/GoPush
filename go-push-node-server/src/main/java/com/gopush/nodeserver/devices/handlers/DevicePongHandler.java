@@ -57,8 +57,7 @@ public class DevicePongHandler extends PingPongProcesser<Object[]> implements ID
 
         //发出去的PING请求的响应
         //也可以设置 保活设置
-
-        // TODO: 2017/6/18 设置设备保活 在线
+        liveHandShake(batchReq);
 
     }
 

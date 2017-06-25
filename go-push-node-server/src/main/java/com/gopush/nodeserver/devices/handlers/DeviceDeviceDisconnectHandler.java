@@ -1,11 +1,17 @@
 package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
+import com.gopush.common.utils.IpUtils;
 import com.gopush.devices.handlers.IDeviceDisconnectHandler;
 import com.gopush.nodeserver.devices.BatchProcesser;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
+import com.gopush.nodeserver.nodes.senders.INodeSender;
+import com.gopush.protocol.node.DeviceDisconReq;
+import com.gopush.redis.RedisClusterDefaultVisitor;
+import com.gopush.springframework.boot.RedisClusterTemplate;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,7 +31,13 @@ public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> impl
 
 
     @Autowired
+    private RedisClusterTemplate redisClusterTemplate;
+
+    @Autowired
     private IDeviceChannelStore deviceChannelStore;
+
+    @Autowired
+    private INodeSender nodeSender;
 
 
     @Override
@@ -52,11 +64,34 @@ public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> impl
     @Override
     protected void batchHandler(List<Object[]> batchReq) throws Exception {
 
-        // TODO: 2017/6/19 移除redis 中的保存的 设备-节点-channel信息
         // 因为异步,要求 channel id 一样才能移除,防止 异步时间差删除了新建的Channel
+        if (CollectionUtils.isNotEmpty(batchReq)) {
+            RedisClusterDefaultVisitor visitor = redisClusterTemplate.defaultVisitor();
+            String nodeIp = IpUtils.intranetIp();
+            DeviceDisconReq req = DeviceDisconReq.builder().node(nodeIp).build();
+            final boolean[] flag = {Boolean.FALSE};
+            batchReq.stream().forEach((ele) -> {
+                String device = (String) ele[0];
+                int channelHashCode = (int) ele[1];
 
+                String channel = visitor.hget(
+                        Constants.DEVICE_KEY + device,
+                        Constants.DEVICE_CHANNEL_FIELD, null);
+                if (channel != null && Integer.parseInt(channel) == channelHashCode) {
+                    if(!flag[0]) {
+                        flag[0] = Boolean.TRUE;
+                    }
+                    req.addDevice(device);
+                    visitor.hdel(Constants.DEVICE_KEY + device, Constants.DEVICE_CHANNEL_FIELD);
+                    visitor.hdel(Constants.DEVICE_KEY + device, Constants.DEVICE_NODE_FIELD);
+                }
+            });
 
-        // TODO: 2017/6/19  当前向node 上报哪些被批量移除  其实也可以不报,那样的话 DeviceDisconnect 请求是不是可以移除
+            if (flag[0]){
+                nodeSender.sendShuffle(req);
+            }
+
+        }
 
     }
 }

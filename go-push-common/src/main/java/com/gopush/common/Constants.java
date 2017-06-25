@@ -37,16 +37,6 @@ public class Constants {
     //绑定的心跳间隔 // read ,write, all
     public static final AttributeKey<Integer[]> CHANNEL_ATTR_IDLE = AttributeKey.newInstance("idle");
 
-
-    /**
-     * redis 中存储设备Token的键
-     */
-    public static final String R_DEVICE_TOKEN_KEY ="D:T:";
-
-    public static final String R_DEIVCE_TOKEN_FIELD = "token";
-
-
-
     /*****
      *
      * NodeServer 与 DataCenter 之间
@@ -54,6 +44,22 @@ public class Constants {
      * ***/
     public static final AttributeKey<String> CHANNEL_ATTR_DATACENTER = AttributeKey.newInstance("datacenter");
 
+
+
+
+
+
+
+    /**
+     * redis 中存储设备Token的键
+     */
+    public static final String DEVICE_KEY ="DE:";
+
+    public static final String DEIVCE_TOKEN_FIELD = "token";
+
+    public static final String DEVICE_NODE_FIELD = "node";
+
+    public static final String DEVICE_CHANNEL_FIELD = "channel";
 
 
 

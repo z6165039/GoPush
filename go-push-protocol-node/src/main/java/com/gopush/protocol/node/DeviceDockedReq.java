@@ -19,15 +19,19 @@ public class DeviceDockedReq extends NodeMessageReq<DeviceDockedReq>{
 
     //需要上报的设备列表(是批量上报的)
     @JSONField(name = "DEVS")
-    private List<String> devices = new ArrayList<>();
+    private List<String> devices;
 
-
+    @JSONField(name = "N")
+    private String node;
     /**
      * 添加设备
      * @param device
      */
 
     public void addDevice(String device){
+        if (devices == null){
+            devices = new ArrayList<>();
+        }
         if (!devices.contains(device)){
             devices.add(device);
         }

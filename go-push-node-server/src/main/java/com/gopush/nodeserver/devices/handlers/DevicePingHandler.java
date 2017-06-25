@@ -8,6 +8,7 @@ import com.gopush.protocol.device.Pong;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.List;
 
@@ -68,10 +69,8 @@ public class DevicePingHandler extends PingPongProcesser<Object[]> implements ID
      */
     @Override
     protected void batchHandler(List<Object[]> batchReq) throws Exception {
-
-        // TODO: 2017/6/18  设置设备保活 在线
         //收到设备发送过来的 PING 请求
-
+        liveHandShake(batchReq);
     }
 
 }

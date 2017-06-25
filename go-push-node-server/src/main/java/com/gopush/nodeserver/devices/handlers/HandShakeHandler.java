@@ -4,6 +4,7 @@ import com.gopush.common.Constants;
 import com.gopush.devices.handlers.IDeviceDockedHandler;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
 import com.gopush.nodeserver.devices.BatchProcesser;
+import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.protocol.device.HandShakeReq;
 import com.gopush.protocol.device.HandShakeResp;
 import com.gopush.springframework.boot.RedisClusterTemplate;
@@ -37,6 +38,9 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
 
     @Autowired
     private IDeviceDockedHandler deviceDockedHandler;
+
+    @Autowired
+    private IDeviceChannelStore deviceChannelStore;
 
     @Override
     public boolean support(HandShakeReq message) {
@@ -79,6 +83,8 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
                 try {
                     Channel channel = (Channel) e[0];
                     HandShakeReq req = (HandShakeReq) e[1];
+
+                    String devcieId = req.getDevice();
                     //建立 握手响应
                     HandShakeResp.HandShakeRespBuilder respBuilder =
                             HandShakeResp.builder();
@@ -87,8 +93,8 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
                     }
                     else{
                         String token = redisClusterTemplate.defaultVisitor().hget(
-                                Constants.R_DEVICE_TOKEN_KEY+req.getDevice(),
-                                Constants.R_DEIVCE_TOKEN_FIELD,null);
+                                Constants.DEVICE_KEY + devcieId ,
+                                Constants.DEIVCE_TOKEN_FIELD,null);
                         //所有的token 都不为空 且 两个token相等
                         if(StringUtils.isAnyEmpty(token,req.getToken()) ||  !StringUtils.equals(req.getToken(),token)){
                             respBuilder.result(HANDSHAKE_INVALID_TOKEN);
@@ -107,7 +113,13 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
                     }
                     else{
 
+
                         //将已经存在的链接关闭
+                        Channel exist = deviceChannelStore.getChannel(devcieId);
+                        if(exist != null){
+                            log.warn("exist channel - device in cache, channel:{},device:{}",exist,devcieId);
+                            exist.close();
+                        }
 
 
                         //将握手结果, 设备信息  绑定到 通道属性里面
@@ -117,22 +129,17 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
                                 req.getAllInterval() + Constants.ALL_IDLE
                         };
                         channel.attr(Constants.CHANNEL_ATTR_IDLE).set(idles);
-                        channel.attr(Constants.CHANNEL_ATTR_DEVICE).set(req.getDevice());
+                        channel.attr(Constants.CHANNEL_ATTR_DEVICE).set(devcieId);
                         channel.attr(Constants.CHANNEL_ATTR_HANDSHAKE).set(Boolean.TRUE);
 
                         //重设读写超时器
                         channel.pipeline().replace("idleStateHandler","idleStateHandler",new IdleStateHandler(idles[0],idles[1],idles[2], TimeUnit.SECONDS));
 
                         //添加本地 设备-channel 绑定
-                        //// TODO: 2017/6/18 添加本地 设备-channel 绑定
-
-
-                        //添加缓存 设备-节点-channel 绑定
-                        // TODO: 2017/6/18 添加缓存 设备-节点-channel 绑定
+                        deviceChannelStore.addChannel(devcieId,channel);
 
                         //报告设备上线
-                        // TODO: 2017/6/18 报告设备上线
-                        deviceDockedHandler.upReport(req.getDevice(),channel.hashCode(),new int[]{idles[0],idles[1],idles[2]});
+                        deviceDockedHandler.upReport(devcieId,channel.hashCode(),new int[]{idles[0],idles[1],idles[2]});
 
                         //写出握手响应
                         channel.writeAndFlush(respEncode);
