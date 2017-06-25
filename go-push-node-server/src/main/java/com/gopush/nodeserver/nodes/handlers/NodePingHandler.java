@@ -30,8 +30,8 @@ public class NodePingHandler extends NodeBaseHandler implements INodeMessageHand
     @Override
     public void call(ChannelHandlerContext ctx, Ping message) {
         Channel channel = ctx.channel();
-        saveLiveDc(channel);
         channel.writeAndFlush(PONG);
+        saveLiveDc(channel);
         log.debug("node send pong to data center, channel:{}",ctx.channel());
     }
 }
