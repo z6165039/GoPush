@@ -2,6 +2,7 @@ package com.gopush.protocol.node;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
+import lombok.Getter;
 
 /**
  * go-push
@@ -14,6 +15,7 @@ import lombok.Builder;
 @Builder
 public class MessageToMultiDeviceResp extends NodeMessageResp<MessageToMultiDeviceResp>{
 
+    @Getter
     @JSONField(name = "R")
     private int result;
 

@@ -2,6 +2,7 @@ package com.gopush.protocol.node;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -17,10 +18,11 @@ import java.util.List;
 public class MultiMessageToDeviceReq extends NodeMessageReq<MultiMessageToDeviceReq> {
 
 
-    //需要上报的设备列表(是批量上报的)
+    @Getter
     @JSONField(name = "MESS")
     private List<String> messages;
 
+    @Getter
     @JSONField(name = "DEV")
     private String device;
 

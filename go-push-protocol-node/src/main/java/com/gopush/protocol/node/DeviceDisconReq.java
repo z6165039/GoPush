@@ -2,6 +2,7 @@ package com.gopush.protocol.node;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,11 @@ public class DeviceDisconReq extends NodeMessageReq<DeviceDisconReq>{
 
 
     //需要上报的设备列表(是批量上报的)
+    @Getter
     @JSONField(name = "DEVS")
     private List<String> devices;
 
+    @Getter
     @JSONField(name = "N")
     private String node;
 

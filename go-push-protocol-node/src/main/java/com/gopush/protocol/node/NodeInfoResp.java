@@ -2,6 +2,7 @@ package com.gopush.protocol.node;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
+import lombok.Getter;
 
 /**
  * go-push
@@ -15,6 +16,7 @@ import lombok.Builder;
 public class NodeInfoResp extends NodeMessageResp<NodeInfoResp>{
 
 
+    @Getter
     @JSONField(name = "R")
     private int result;
 

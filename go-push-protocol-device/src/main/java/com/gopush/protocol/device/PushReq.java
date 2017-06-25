@@ -4,6 +4,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 /**
  * go-push
  *
@@ -20,8 +22,8 @@ public class PushReq extends DeviceMessageReq<PushReq> {
     private String id;
 
     @Getter
-    @JSONField(name = "MC")
-    private String msg;
+    @JSONField(name = "MCS")
+    private List<String> msgs;
 
     @Override
     protected Type type() {
