@@ -4,8 +4,9 @@
 > * 依赖**redis**
 > * 依赖**Java8**
 > * 依赖**SpringBoot**
+> * 依赖**Zookeeper**
 > * 不存在单点问题
-> * 拓展开可以做成客服系统
+> * 拓展开可以做成客服、聊天、推送等诸多系统
 
 ##技术架构图
 ![技术架构图](https://git.oschina.net/uploads/images/2017/0627/092129_ddd20f29_7872.png "技术架构图")
