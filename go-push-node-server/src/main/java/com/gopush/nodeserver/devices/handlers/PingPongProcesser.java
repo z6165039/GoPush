@@ -2,14 +2,14 @@ package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
 import com.gopush.nodeserver.devices.BatchProcesser;
-import com.gopush.redis.RedisClusterDefaultVisitor;
-import com.gopush.springframework.boot.RedisClusterTemplate;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * go-push
@@ -24,7 +24,7 @@ public  abstract class PingPongProcesser<T> extends BatchProcesser<T>{
 
 
     @Autowired
-    private RedisClusterTemplate redisClusterTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     /**
      * 检测是否已经握手
@@ -43,12 +43,10 @@ public  abstract class PingPongProcesser<T> extends BatchProcesser<T>{
     protected void liveHandShake(List<Object[]> batchReq){
         if (CollectionUtils.isNotEmpty(batchReq)){
 
-            RedisClusterDefaultVisitor visitor = redisClusterTemplate.defaultVisitor();
-
             batchReq.stream().forEach((ele) -> {
                 String device = (String) ele[0];
                 int[] idles = (int[]) ele[1];
-                visitor.expire(Constants.DEVICE_KEY+device,idles[0]);
+                redisTemplate.expire(Constants.DEVICE_KEY+device,idles[0], TimeUnit.SECONDS);
             });
 
         }

@@ -7,13 +7,12 @@ import com.gopush.nodeserver.devices.BatchProcesser;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.nodeserver.nodes.senders.INodeSender;
 import com.gopush.protocol.node.DeviceDisconReq;
-import com.gopush.redis.RedisClusterDefaultVisitor;
-import com.gopush.springframework.boot.RedisClusterTemplate;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 
@@ -29,9 +28,8 @@ import java.util.List;
 @Slf4j
 public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> implements IDeviceDisconnectHandler {
 
-
     @Autowired
-    private RedisClusterTemplate redisClusterTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
     private IDeviceChannelStore deviceChannelStore;
@@ -66,7 +64,6 @@ public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> impl
 
         // 因为异步,要求 channel id 一样才能移除,防止 异步时间差删除了新建的Channel
         if (CollectionUtils.isNotEmpty(batchReq)) {
-            RedisClusterDefaultVisitor visitor = redisClusterTemplate.defaultVisitor();
             String nodeIp = IpUtils.intranetIp();
             DeviceDisconReq req = DeviceDisconReq.builder().node(nodeIp).build();
             final boolean[] flag = {Boolean.FALSE};
@@ -74,16 +71,16 @@ public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> impl
                 String device = (String) ele[0];
                 int channelHashCode = (int) ele[1];
 
-                String channel = visitor.hget(
+                String channel = (String) redisTemplate.opsForHash().get(
                         Constants.DEVICE_KEY + device,
-                        Constants.DEVICE_CHANNEL_FIELD, null);
+                        Constants.DEVICE_CHANNEL_FIELD);
                 if (channel != null && Integer.parseInt(channel) == channelHashCode) {
                     if(!flag[0]) {
                         flag[0] = Boolean.TRUE;
                     }
                     req.addDevice(device);
-                    visitor.hdel(Constants.DEVICE_KEY + device, Constants.DEVICE_CHANNEL_FIELD);
-                    visitor.hdel(Constants.DEVICE_KEY + device, Constants.DEVICE_NODE_FIELD);
+                    redisTemplate.opsForHash().delete(Constants.DEVICE_KEY + device, Constants.DEVICE_CHANNEL_FIELD);
+                    redisTemplate.opsForHash().delete(Constants.DEVICE_KEY + device, Constants.DEVICE_NODE_FIELD);
                 }
             });
 

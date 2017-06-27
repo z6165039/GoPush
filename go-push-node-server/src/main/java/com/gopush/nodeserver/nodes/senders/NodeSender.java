@@ -49,12 +49,12 @@ public class NodeSender implements INodeSender<NodeMessage> {
                         return;
                     }
                     failMessage.stream().forEach((e) -> {
-                        switch (e.st){
+                        switch (e.getSt()){
                             case ZD:
-                                send(e.dcId,e.message);
+                                send(e.getDcId(),e.getMessage());
                                 break;
                             case SJO:
-                                sendShuffle(e.message);
+                                sendShuffle(e.getMessage());
                                 break;
                         }
                     });
@@ -164,11 +164,15 @@ public class NodeSender implements INodeSender<NodeMessage> {
         SJO
     }
 
-    @Builder
-    @Data
-    private class InnerMessageInfo{
-        private SendType st;
-        private NodeMessage message;
-        private String dcId;
-    }
+
+
+}
+
+
+@Builder
+@Data
+class InnerMessageInfo{
+    private NodeSender.SendType st;
+    private NodeMessage message;
+    private String dcId;
 }

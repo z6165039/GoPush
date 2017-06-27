@@ -6,11 +6,10 @@ import com.gopush.devices.handlers.IDeviceDockedHandler;
 import com.gopush.nodeserver.devices.BatchProcesser;
 import com.gopush.nodeserver.nodes.senders.INodeSender;
 import com.gopush.protocol.node.DeviceDockedReq;
-import com.gopush.redis.RedisClusterDefaultVisitor;
-import com.gopush.springframework.boot.RedisClusterTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.*;
 
@@ -32,7 +31,7 @@ public class DeviceDeviceDockedHandler extends BatchProcesser<Object[]> implemen
     private INodeSender nodeSender;
 
     @Autowired
-    private RedisClusterTemplate redisClusterTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Override
     public void upReport(String device, int channelHashCode, int[] idles) {
@@ -54,7 +53,6 @@ public class DeviceDeviceDockedHandler extends BatchProcesser<Object[]> implemen
     protected void batchHandler(List<Object[]> batchReq) throws Exception {
         //添加缓存 设备-节点-channel 绑定
         if(CollectionUtils.isNotEmpty(batchReq)){
-            RedisClusterDefaultVisitor visitor = redisClusterTemplate.defaultVisitor();
             String  nodeIp = IpUtils.intranetIp();
             DeviceDockedReq req = DeviceDockedReq.builder().node(nodeIp).build();
             batchReq.stream().forEach((ele) -> {
@@ -63,7 +61,7 @@ public class DeviceDeviceDockedHandler extends BatchProcesser<Object[]> implemen
                 hash.put(Constants.DEVICE_CHANNEL_FIELD,String.valueOf(ele[1]));
                 hash.put(Constants.DEVICE_NODE_FIELD,nodeIp);
                 int[] idles = (int[]) ele[2];
-                visitor.hmset(Constants.DEVICE_KEY + ele[0],hash,idles[0]);
+                redisTemplate.opsForHash().put(Constants.DEVICE_KEY + ele[0],hash,idles[0]);
             });
             //将需要上报的device 加到list 构造上报请求 使用 nodeSender 发送出去
             nodeSender.sendShuffle(req);

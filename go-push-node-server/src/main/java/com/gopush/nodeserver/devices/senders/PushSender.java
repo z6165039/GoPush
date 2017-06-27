@@ -34,12 +34,12 @@ public class PushSender implements IPushSender<PushReq> {
 
         channel.writeAndFlush(message.encode()).addListener((channelFuture) -> {
             if (!channelFuture.isSuccess()){
-                log.error("send message error, device:{}, msg_id:{}, msg:{} ",device,message.getId(),message.getMsg());
+                log.error("send message error, device:{}, msg_id:{}, msg:{} ",device,message.getId(),message.getMsgs());
                 // TODO: 2017/6/19  这边可以做重试操作
                 //并且记录错误次数
 
             }else {
-                log.debug("send message successful, device:{}, msg_id:{}, msg:{} ",device,message.getId(),message.getMsg());
+                log.debug("send message successful, device:{}, msg_id:{}, msg:{} ",device,message.getId(),message.getMsgs());
             }
         });
     }

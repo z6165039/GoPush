@@ -7,7 +7,6 @@ import com.gopush.nodeserver.devices.BatchProcesser;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.protocol.device.HandShakeReq;
 import com.gopush.protocol.device.HandShakeResp;
-import com.gopush.springframework.boot.RedisClusterTemplate;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -16,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -34,7 +34,7 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
 
 
     @Autowired
-    private RedisClusterTemplate redisClusterTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
     private IDeviceDockedHandler deviceDockedHandler;
@@ -92,9 +92,9 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
                         respBuilder.result(HANDSHAKE_INVALID_DEVICE);
                     }
                     else{
-                        String token = redisClusterTemplate.defaultVisitor().hget(
+                        String token = (String) redisTemplate.opsForHash().get(
                                 Constants.DEVICE_KEY + devcieId ,
-                                Constants.DEIVCE_TOKEN_FIELD,null);
+                                Constants.DEIVCE_TOKEN_FIELD);
                         //所有的token 都不为空 且 两个token相等
                         if(StringUtils.isAnyEmpty(token,req.getToken()) ||  !StringUtils.equals(req.getToken(),token)){
                             respBuilder.result(HANDSHAKE_INVALID_TOKEN);

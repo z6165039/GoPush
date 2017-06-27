@@ -37,7 +37,6 @@
         <module>go-push-handler-node</module>
         <module>go-push-common</module>
         <module>go-push-adapter-sdk</module>
-        <module>go-push-spring-boot-redis-cluster</module>
     </modules>
 
 
@@ -68,6 +67,13 @@
                 <artifactId>spring-boot-starter-thymeleaf</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -107,6 +113,22 @@
                 <version>1.4.195</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.5</version>
+            </dependency>
+
 
             <!-- https://mvnrepository.com/artifact/org.spockframework/spock-core -->
             <dependency>
@@ -142,11 +164,6 @@
                 <version>3.4.8</version>
             </dependency>
 
-            <dependency>
-                <groupId>redis.clients</groupId>
-                <artifactId>jedis</artifactId>
-                <version>2.7.2</version>
-            </dependency>
 
 
 

@@ -1,9 +1,13 @@
 
 redis:
   cluster:
-    servers: 127.0.0.1:6379
-    dockedServers: 127.0.0.1:6379
-    poolSize: 40
-    timeout: 5000
+    servers: 127.0.0.1:6379,127.0.0.1:6379
+    maxActive: 300
+    maxIdle: 100
+    minIdle: 8
+    maxTotal: 1000
+    maxWaitMillis: 3000
+    testOnBorrow: true
+    timeout: 10000
 server:
   port: 8031
