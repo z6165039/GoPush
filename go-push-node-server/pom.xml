@@ -30,11 +30,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.gopush</groupId>
-            <artifactId>go-push-spring-boot-redis-cluster-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
 
         <dependency>

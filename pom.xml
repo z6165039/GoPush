@@ -33,7 +33,6 @@
         <module>go-push-node-server</module>
         <module>go-push-data-center</module>
 
-        <module>go-push-spring-boot-redis-cluster-starter</module>
         <module>go-push-handler-device</module>
         <module>go-push-handler-node</module>
         <module>go-push-common</module>
@@ -135,6 +134,14 @@
                 <artifactId>fastjson</artifactId>
                 <version>1.2.32</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>3.4.8</version>
+            </dependency>
+
+
 
         </dependencies>
     </dependencyManagement>

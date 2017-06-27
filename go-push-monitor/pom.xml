@@ -19,11 +19,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.gopush</groupId>
-            <artifactId>go-push-spring-boot-redis-cluster-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
 </project>
