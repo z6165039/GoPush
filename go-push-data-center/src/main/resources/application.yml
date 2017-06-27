@@ -1,13 +1,11 @@
 
-redis:
-  cluster:
-    servers: 127.0.0.1:6379,127.0.0.1:6379
-    maxActive: 300
-    maxIdle: 100
-    minIdle: 8
-    maxTotal: 1000
-    maxWaitMillis: 3000
-    testOnBorrow: true
-    timeout: 10000
+
+spring:
+  redis:
+    cluster:
+      nodes:
+        - 127.0.0.1:6379
+        - 127.0.0.1:6379
+
 server:
   port: 8031
