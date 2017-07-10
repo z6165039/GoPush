@@ -1,6 +1,8 @@
 package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
+import com.gopush.common.constants.IdleEnum;
+import com.gopush.common.constants.RedisKeyEnum;
 import com.gopush.devices.handlers.IDeviceDockedHandler;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
 import com.gopush.nodeserver.devices.BatchProcesser;
@@ -16,7 +18,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -94,8 +95,8 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
                     }
                     else{
                         String token = (String) redisTemplate.opsForHash().get(
-                                Constants.DEVICE_KEY + devcieId ,
-                                Constants.DEIVCE_TOKEN_FIELD);
+                                RedisKeyEnum.DEVICE_KEY.getValue() + devcieId ,
+                                RedisKeyEnum.DEIVCE_TOKEN_FIELD.getValue());
                         //所有的token 都不为空 且 两个token相等
                         if(StringUtils.isAnyEmpty(token,req.getToken()) ||  !StringUtils.equals(req.getToken(),token)){
                             respBuilder.result(HANDSHAKE_INVALID_TOKEN);
@@ -125,9 +126,9 @@ public class HandShakeHandler extends BatchProcesser<Object[]> implements IDevic
 
                         //将握手结果, 设备信息  绑定到 通道属性里面
                         Integer[] idles  = new Integer[]{
-                                req.getReadInterval() + Constants.READ_IDLE,
-                                req.getWriteInterval() + Constants.WRITE_IDLE,
-                                req.getAllInterval() + Constants.ALL_IDLE
+                                req.getReadInterval() + IdleEnum.READ_IDLE.getValue(),
+                                req.getWriteInterval() + IdleEnum.WRITE_IDLE.getValue(),
+                                req.getAllInterval() + IdleEnum.ALL_IDLE.getValue()
                         };
                         channel.attr(Constants.CHANNEL_ATTR_IDLE).set(idles);
                         channel.attr(Constants.CHANNEL_ATTR_DEVICE).set(devcieId);

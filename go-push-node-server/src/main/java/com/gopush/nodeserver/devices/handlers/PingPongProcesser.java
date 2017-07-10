@@ -1,6 +1,7 @@
 package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
+import com.gopush.common.constants.RedisKeyEnum;
 import com.gopush.nodeserver.devices.BatchProcesser;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public  abstract class PingPongProcesser<T> extends BatchProcesser<T>{
             batchReq.stream().forEach((ele) -> {
                 String device = (String) ele[0];
                 int[] idles = (int[]) ele[1];
-                redisTemplate.expire(Constants.DEVICE_KEY+device,idles[0], TimeUnit.SECONDS);
+                redisTemplate.expire(RedisKeyEnum.DEVICE_KEY.getValue()+device,idles[0], TimeUnit.SECONDS);
             });
 
         }

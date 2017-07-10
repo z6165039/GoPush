@@ -1,10 +1,6 @@
 package com.gopush.nodeserver.config;
 
-import com.gopush.nodeserver.devices.DeviceServerBootstrap;
 import com.gopush.nodeserver.devices.handlers.*;
-import com.gopush.nodeserver.devices.inbound.DeviceChannelInboundHandler;
-import com.gopush.nodeserver.devices.senders.PushSender;
-import com.gopush.nodeserver.devices.stores.DeviceChannelStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,9 +15,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DeviceConfig {
-
-
-
 
 
     @Bean

@@ -1,6 +1,6 @@
 package com.gopush.nodeserver.devices.handlers;
 
-import com.gopush.common.Constants;
+import com.gopush.common.constants.RedisKeyEnum;
 import com.gopush.common.utils.IpUtils;
 import com.gopush.devices.handlers.IDeviceDockedHandler;
 import com.gopush.nodeserver.devices.BatchProcesser;
@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -59,10 +58,10 @@ public class DeviceDeviceDockedHandler extends BatchProcesser<Object[]> implemen
             batchReq.stream().forEach((ele) -> {
                 req.addDevice((String)ele[0]);
                 Map<String,String> hash = new HashMap<>();
-                hash.put(Constants.DEVICE_CHANNEL_FIELD,String.valueOf(ele[1]));
-                hash.put(Constants.DEVICE_NODE_FIELD,nodeIp);
+                hash.put(RedisKeyEnum.DEVICE_CHANNEL_FIELD.getValue(),String.valueOf(ele[1]));
+                hash.put(RedisKeyEnum.DEVICE_NODE_FIELD.getValue(),nodeIp);
                 int[] idles = (int[]) ele[2];
-                redisTemplate.opsForHash().put(Constants.DEVICE_KEY + ele[0],hash,idles[0]);
+                redisTemplate.opsForHash().put(RedisKeyEnum.DEVICE_KEY.getValue() + ele[0],hash,idles[0]);
             });
             //将需要上报的device 加到list 构造上报请求 使用 nodeSender 发送出去
             nodeSender.sendShuffle(req);
