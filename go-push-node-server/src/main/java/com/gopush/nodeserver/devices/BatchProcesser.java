@@ -219,7 +219,7 @@ public abstract class BatchProcesser<T>{
          */
         private void processInterval(){
 
-            log.info(" ...... {} ",getHandlerInfo().toString());
+            //log.info(" ...... {} ",processorInfo().toString());
 
             //不管三七二十一先处理一次
             do{
