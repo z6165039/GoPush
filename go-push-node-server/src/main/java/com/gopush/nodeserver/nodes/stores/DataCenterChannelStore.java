@@ -3,6 +3,7 @@ package com.gopush.nodeserver.nodes.stores;
 import com.gopush.common.Constants;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 @Slf4j
+@Component
 public class DataCenterChannelStore implements IDataCenterChannelStore {
 
 

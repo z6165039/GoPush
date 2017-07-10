@@ -6,6 +6,7 @@ import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.NodeInfoResp;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * go-push
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@Component
 public class NodeInfoHandler extends NodeBaseHandler implements INodeMessageHandler<NodeInfoResp> {
     @Override
     public boolean support(NodeInfoResp message) {

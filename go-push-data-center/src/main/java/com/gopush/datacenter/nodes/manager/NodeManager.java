@@ -15,15 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NodeManager {
 
-    private String intranetIp;
-
-    private int intranetPort;
-
-    private String internetIp;
-
-    private int internetPort;
-
-    private transient EventLoopGroup group;
 
 
 

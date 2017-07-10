@@ -11,6 +11,7 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -29,6 +30,7 @@ import java.util.List;
 
 @Slf4j
 @ChannelHandler.Sharable
+@Component
 public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<String> {
 
 

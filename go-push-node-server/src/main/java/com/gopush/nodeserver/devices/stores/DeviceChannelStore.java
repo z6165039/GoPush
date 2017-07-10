@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 @Slf4j
+@Component
 public class DeviceChannelStore implements IDeviceChannelStore {
 
     //计数器

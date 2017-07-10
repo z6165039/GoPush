@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * go-push
  *
- * @类功能说明：
+ * @类功能说明：设备处理器配置类
  * @作者：喝咖啡的囊地鼠
  * @创建时间：2017/6/21 下午1:28
  * @VERSION：
@@ -20,30 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DeviceConfig {
 
-    /*    */
-    @Bean
-    public DeviceServerBootstrap deviceServerBootstrap(){
-        return new DeviceServerBootstrap();
-    }
 
-
-    @Bean
-    public DeviceChannelStore deviceChannelStore(){
-
-        return  new DeviceChannelStore();
-    }
-
-
-    @Bean
-    public PushSender pushSender(){
-        return new PushSender();
-    }
-
-
-    @Bean
-    public DeviceChannelInboundHandler deviceChannelInboundHandler(){
-        return new DeviceChannelInboundHandler();
-    }
 
 
 

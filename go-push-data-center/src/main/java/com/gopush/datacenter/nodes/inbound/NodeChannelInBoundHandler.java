@@ -1,8 +1,10 @@
 package com.gopush.datacenter.nodes.inbound;
 
+import com.gopush.datacenter.nodes.manager.Node;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -15,8 +17,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@Builder
 @ChannelHandler.Sharable
 public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<String> {
+
+
+    /**
+     * 对应的Node节点
+     */
+    private Node node;
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
 
@@ -36,6 +47,11 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
         super.channelInactive(ctx);
     }
 
+
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        super.channelUnregistered(ctx);
+    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {

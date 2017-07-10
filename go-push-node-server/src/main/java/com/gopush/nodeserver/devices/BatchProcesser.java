@@ -41,7 +41,7 @@ public abstract class BatchProcesser<T>{
     private AtomicInteger retryCounter = new AtomicInteger(0);
 
     //存储handler下的处理器
-    private List<InternalProcessor> internalProcessors = new ArrayList<>();
+    private List<InternalProcessor> internalProcessors = new CopyOnWriteArrayList<>();
 
     /**
      * 批量处理的定时器延时
@@ -65,7 +65,7 @@ public abstract class BatchProcesser<T>{
      * 子处理器的个数
      */
     @Setter
-    private int processorNum = 1;
+    private int processorNum = 5;
 
     /**
      * 不指定线程池的时候,指定初始化默认创建的线程池的大小
@@ -106,10 +106,10 @@ public abstract class BatchProcesser<T>{
 
     @PostConstruct
     public void init(){
-        if (processorNum <  0){
+        if (processorNum <=  0){
             throw new RuntimeException(getBatchExecutorName()+"  processorNum <= 0 ");
         }
-        for (int i = 0 ; i< processorNum; i++ ){
+        for (int i = 0 ; i < processorNum; i++ ){
             InternalProcessor processor = new InternalProcessor(i);
             internalProcessors.add(processor);
             processor.start();
@@ -218,6 +218,9 @@ public abstract class BatchProcesser<T>{
          * 处理器批处理方法
          */
         private void processInterval(){
+
+            log.info(" ...... {} ",getHandlerInfo().toString());
+
             //不管三七二十一先处理一次
             do{
                 if (this.queue.isEmpty()){

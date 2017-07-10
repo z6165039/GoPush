@@ -18,6 +18,8 @@ import io.netty.util.CharsetUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -32,12 +34,13 @@ import javax.annotation.PreDestroy;
  */
 
 @Slf4j
+@Component
 public class NodeServerBootstrap {
 
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
     private EventLoopGroup workGroup =  new NioEventLoopGroup();
 
-    @Setter
+    @Value("${gopush.node-server.node-port}")
     private int port;
 
     @Autowired

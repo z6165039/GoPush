@@ -9,6 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
  * @VERSION：
  */
 @Slf4j
+@Component
 public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageToMultiDeviceReq> {
 
     @Autowired

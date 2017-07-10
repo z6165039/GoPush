@@ -6,6 +6,7 @@ import com.gopush.protocol.node.Pong;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * go-push
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  * @VERSION：
  */
 @Slf4j
+@Component
 public class NodePingHandler extends NodeBaseHandler implements INodeMessageHandler<Ping> {
 
     private static final String PONG = Pong.builder().build().encode();

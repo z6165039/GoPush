@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
  * @VERSION：
  */
 @Slf4j
+@Component
 public class PushSender implements IPushSender<PushReq> {
 
 

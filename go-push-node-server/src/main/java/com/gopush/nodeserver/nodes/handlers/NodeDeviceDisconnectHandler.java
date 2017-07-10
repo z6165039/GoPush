@@ -5,6 +5,7 @@ import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDisconResp;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * go-push
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
  * @VERSION：
  */
 @Slf4j
+@Component
 public class NodeDeviceDisconnectHandler extends NodeBaseHandler implements INodeMessageHandler<DeviceDisconResp> {
     @Override
     public boolean support(DeviceDisconResp message) {
