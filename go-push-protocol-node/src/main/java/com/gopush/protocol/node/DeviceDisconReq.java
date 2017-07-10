@@ -18,12 +18,13 @@ import java.util.List;
 
 
 @Builder
+@Getter
 public class DeviceDisconReq extends NodeMessageReq<DeviceDisconReq>{
 
 
 
     //需要上报的设备列表(是批量上报的)
-    @Getter
+
     @JSONField(name = "DEVS")
     private List<String> devices;
 

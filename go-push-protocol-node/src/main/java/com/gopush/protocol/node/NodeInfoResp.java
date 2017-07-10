@@ -13,10 +13,10 @@ import lombok.Getter;
  * @VERSION：
  */
 @Builder
+@Getter
 public class NodeInfoResp extends NodeMessageResp<NodeInfoResp>{
 
 
-    @Getter
     @JSONField(name = "R")
     private int result;
 

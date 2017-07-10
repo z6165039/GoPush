@@ -13,6 +13,7 @@ import lombok.Getter;
  * @VERSION：
  */
 @Builder
+@Getter
 public class PushResp extends DeviceMessageResp<PushResp> {
 
     private static final String DEVICE_KEY = "D";
@@ -27,15 +28,12 @@ public class PushResp extends DeviceMessageResp<PushResp> {
         IN  //INTERNAL_ERROR
     }
 
-    @Getter
     @JSONField(name = "D")
     private String device;
 
-    @Getter
     @JSONField(name = "ID")
     private String msgId;
 
-    @Getter
     @JSONField(name = "R")
     private Result result;
 

@@ -16,15 +16,14 @@ import java.util.List;
  * @VERSION：
  */
 @Builder
+@Getter
 public class DeviceDockedReq extends NodeMessageReq<DeviceDockedReq>{
 
     //需要上报的设备列表(是批量上报的)
-    @Getter
     @JSONField(name = "DEVS")
     private List<String> devices;
 
 
-    @Getter
     @JSONField(name = "N")
     private String node;
     /**

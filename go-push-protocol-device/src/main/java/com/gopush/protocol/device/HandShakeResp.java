@@ -14,9 +14,9 @@ import lombok.Getter;
  */
 
 @Builder
+@Getter
 public class HandShakeResp extends DeviceMessageResp<HandShakeResp> {
 
-    @Getter
     @JSONField(name = "R")
     private int result;
 

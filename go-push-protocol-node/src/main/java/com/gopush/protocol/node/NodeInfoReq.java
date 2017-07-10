@@ -1,6 +1,7 @@
 package com.gopush.protocol.node;
 
 import lombok.Builder;
+import lombok.Getter;
 
 /**
  * go-push
@@ -11,6 +12,7 @@ import lombok.Builder;
  * @VERSION：
  */
 @Builder
+@Getter
 public class NodeInfoReq extends NodeMessageReq<NodeInfoReq>{
     @Override
     protected Type type() {
