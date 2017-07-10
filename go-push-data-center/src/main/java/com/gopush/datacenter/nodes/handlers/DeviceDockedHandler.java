@@ -5,6 +5,7 @@ import com.gopush.protocol.node.DeviceDockedReq;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * go-push
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@Component
 public class DeviceDockedHandler implements INodeMessageHandler<DeviceDockedReq> {
     @Override
     public boolean support(DeviceDockedReq message) {
