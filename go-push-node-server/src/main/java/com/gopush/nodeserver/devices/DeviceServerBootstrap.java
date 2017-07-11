@@ -38,7 +38,7 @@ public class DeviceServerBootstrap{
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
     private EventLoopGroup workGroup =  new NioEventLoopGroup();
     
-    @Value("${gopush.node-server.device-port}")
+    @Value("${gopush.node-server.device-port:9001}")
     private int port;
 
     @Autowired
