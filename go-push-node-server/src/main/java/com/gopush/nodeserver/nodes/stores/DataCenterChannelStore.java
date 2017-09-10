@@ -44,7 +44,7 @@ public class DataCenterChannelStore implements IDataCenterChannelStore {
 
     @Override
     public boolean contains(String dcId) {
-        return dataCenterChannels.contains(dcId);
+        return dataCenterChannels.containsKey(dcId);
     }
 
     @Override
@@ -52,7 +52,16 @@ public class DataCenterChannelStore implements IDataCenterChannelStore {
         return dataCenterChannels.get(dcId);
     }
 
-
+    @Override
+    public String getDcId(Channel channel) {
+        final String[] dcId = {null};
+        dataCenterChannels.forEach((String key, Channel target) ->{
+            if (channel.equals(target)){
+                dcId[0] = key;
+            }
+        });
+        return dcId[0];
+    }
 
 
     @Override

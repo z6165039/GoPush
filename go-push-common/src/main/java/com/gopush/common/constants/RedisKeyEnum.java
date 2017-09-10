@@ -17,6 +17,7 @@ public enum RedisKeyEnum {
     DEIVCE_TOKEN_FIELD("token"),
     DEVICE_NODE_FIELD("node"),
     DEVICE_CHANNEL_FIELD("channel")
+
     ;
 
     private final String value;

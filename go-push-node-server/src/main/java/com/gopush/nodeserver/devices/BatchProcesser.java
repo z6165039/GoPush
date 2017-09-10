@@ -1,8 +1,8 @@
 package com.gopush.nodeserver.devices;
 
 
-import com.gopush.nodeserver.devices.infos.HandlerInfo;
-import com.gopush.nodeserver.devices.infos.ProcessorInfo;
+import com.gopush.nodeserver.devices.infos.bo.HandlerInfo;
+import com.gopush.nodeserver.devices.infos.bo.ProcessorInfo;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -80,6 +80,8 @@ public abstract class BatchProcesser<T>{
     @Setter
     private ScheduledExecutorService pool;
 
+
+
     /**
      * 获取定时器执行的name
      * @return
@@ -139,7 +141,7 @@ public abstract class BatchProcesser<T>{
     /**
      * 获取handler的基础信息
      */
-    protected HandlerInfo getHandlerInfo(){
+    public HandlerInfo getHandlerInfo(){
         return HandlerInfo
                         .builder()
                         .batchExecutorName(getBatchExecutorName())
@@ -219,7 +221,7 @@ public abstract class BatchProcesser<T>{
          */
         private void processInterval(){
 
-            log.info(" ...... {} ",processorInfo().toString());
+//            log.info(" ...... {} ",processorInfo().toString());
 
             //不管三七二十一先处理一次
             do{

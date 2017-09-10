@@ -5,10 +5,12 @@ import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.Channel;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -58,6 +60,9 @@ public class NodeSender implements INodeSender<NodeMessage> {
                             case SJO:
                                 sendShuffle(e.getMessage());
                                 break;
+                            case ALL:
+                                send(e.getMessage());
+                                break;
                         }
                     });
 
@@ -91,11 +96,11 @@ public class NodeSender implements INodeSender<NodeMessage> {
                         addFailMessage(message,SendType.SJO,null);
                     }else{
                         //从哪边移除
-                        removeFailMessage(message,SendType.ZD,dcId);
+                        removeFailMessage(message, SendType.ZD, dcId);
                     }
                 });
             }else {
-                addFailMessage(message,SendType.ZD,dcId);
+                addFailMessage(message,SendType.SJO,null);
             }
         }else{
             log.warn("can not find data center, retry later!");
@@ -125,6 +130,27 @@ public class NodeSender implements INodeSender<NodeMessage> {
         }
     }
 
+    @Override
+    public void send(NodeMessage message) {
+        if (dataCenterChannelStore.count() > 0){
+            List<Channel> list = new ArrayList<>(dataCenterChannelStore.getAllChannels());
+            for (Channel channel: list) {
+                channel.writeAndFlush(message.encode()).addListener((future) -> {
+                    if (!future.isSuccess()) {
+                        String dcId = dataCenterChannelStore.getDcId(channel);
+                        if (dcId != null) {
+                            addFailMessage(message, SendType.ZD, dcId);
+                        }
+                        dataCenterChannelStore.isDcChannelToRemove(channel);
+                    }
+                });
+            }
+            removeFailMessage(message, SendType.ALL,null );
+        }else{
+            log.warn("can not find data center, retry later!");
+            addFailMessage(message, SendType.ALL,null);
+        }
+    }
 
 
     private void removeFailMessage(NodeMessage message,SendType st,String dcId){
@@ -163,7 +189,8 @@ public class NodeSender implements INodeSender<NodeMessage> {
 
     enum SendType{
         ZD,
-        SJO
+        SJO,
+        ALL
     }
 
 
@@ -172,6 +199,7 @@ public class NodeSender implements INodeSender<NodeMessage> {
 
 @Builder
 @Data
+@EqualsAndHashCode
 class InnerMessageInfo{
     private NodeSender.SendType st;
     private NodeMessage message;

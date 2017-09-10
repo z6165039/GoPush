@@ -1,6 +1,8 @@
 package com.gopush.nodeserver.nodes.senders;
 
 
+import com.gopush.protocol.node.NodeMessage;
+
 /**
  * go-push
  *
@@ -9,7 +11,7 @@ package com.gopush.nodeserver.nodes.senders;
  * @创建时间：2017/6/19 上午1:01
  * @VERSION：
  */
-public interface INodeSender<T> {
+public interface INodeSender<T extends NodeMessage> {
 
 
 
@@ -26,5 +28,11 @@ public interface INodeSender<T> {
      * @param message
      */
     void sendShuffle(T message);
+
+    /**
+     * 全部数据中心发送
+     * @param message
+     */
+    void send(T message);
 
 }

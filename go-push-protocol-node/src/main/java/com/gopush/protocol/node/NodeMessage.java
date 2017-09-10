@@ -102,7 +102,7 @@ public abstract class NodeMessage<T> {
                     cls = Ping.class;
                     break;
                 case PO:
-                    cls = Ping.class;
+                    cls = Pong.class;
                     break;
                 case DO:
                     cls = DeviceDockedReq.class;

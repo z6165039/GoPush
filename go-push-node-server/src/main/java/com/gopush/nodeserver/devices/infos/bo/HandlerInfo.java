@@ -1,7 +1,7 @@
-package com.gopush.nodeserver.devices.infos;
+package com.gopush.nodeserver.devices.infos.bo;
 
 import lombok.Builder;
-import lombok.ToString;
+import lombok.Data;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @VERSION：
  */
 @Builder
-@ToString
+@Data
 public class HandlerInfo {
 
     private String batchExecutorName;
