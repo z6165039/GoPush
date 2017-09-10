@@ -40,7 +40,7 @@ public class NodeServerBootstrap {
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
     private EventLoopGroup workGroup =  new NioEventLoopGroup();
 
-    @Value("${gopush.node-server.node-port:9002}")
+    @Value("${go-push.node-server.node-port:9002}")
     private int port;
 
     @Autowired

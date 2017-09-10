@@ -14,6 +14,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ import java.util.List;
  */
 
 @Slf4j
+@Component
 public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> implements IDeviceDisconnectHandler {
 
     @Autowired

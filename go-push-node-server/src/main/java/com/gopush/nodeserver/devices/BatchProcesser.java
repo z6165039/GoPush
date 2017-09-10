@@ -3,10 +3,10 @@ package com.gopush.nodeserver.devices;
 
 import com.gopush.nodeserver.devices.infos.HandlerInfo;
 import com.gopush.nodeserver.devices.infos.ProcessorInfo;
-import io.netty.channel.Channel;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -46,32 +46,32 @@ public abstract class BatchProcesser<T>{
     /**
      * 批量处理的定时器延时
      */
-    @Setter
-    protected int delay = 1000;
+    @Value("${go-push.node-server.device-batch.delay:1000}")
+    protected int delay;
 
     /**
      * 批量处理的大小
      */
-    @Setter
-    private int batchSize = 300;
+    @Value("${go-push.node-server.device-batch.batch-size:300}")
+    private int batchSize;
 
     /**
      * 消息队列里面超过这个大小就要进行告警
      */
-    @Setter
-    private int overNumWarn = 300;
+    @Value("${go-push.node-server.device-batch.warn-threshold:300}")
+    private int overNumWarn;
 
     /**
      * 子处理器的个数
      */
-    @Setter
-    private int processorNum = 5;
+    @Value("${go-push.node-server.device-batch.processor-size:5}")
+    private int processorNum;
 
     /**
      * 不指定线程池的时候,指定初始化默认创建的线程池的大小
      */
-    @Setter
-    private int corePoolSize = 0;
+    @Value("${go-push.node-server.device-batch.core-pool-size:0}")
+    private int corePoolSize;
 
 
     /**
@@ -219,7 +219,7 @@ public abstract class BatchProcesser<T>{
          */
         private void processInterval(){
 
-            //log.info(" ...... {} ",processorInfo().toString());
+            log.info(" ...... {} ",processorInfo().toString());
 
             //不管三七二十一先处理一次
             do{

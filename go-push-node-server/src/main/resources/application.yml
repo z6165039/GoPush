@@ -1,8 +1,14 @@
-gopush:
+go-push:
   node-server:
     name: NodeServer001
     node-port: 9002
     device-port: 9001
+    device-batch:
+      delay: 1000
+      batch-size: 300
+      warn-threshold: 300
+      processor-size: 2
+      core-pool-size: 1
 
 
 spring:

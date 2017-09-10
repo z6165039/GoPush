@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @VERSION：
  */
 @Slf4j
+@Component
 public  abstract class PingPongProcesser<T> extends BatchProcesser<T>{
 
 

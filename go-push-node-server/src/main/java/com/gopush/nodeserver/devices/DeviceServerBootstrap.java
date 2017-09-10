@@ -13,7 +13,6 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +37,7 @@ public class DeviceServerBootstrap{
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
     private EventLoopGroup workGroup =  new NioEventLoopGroup();
     
-    @Value("${gopush.node-server.device-port:9001}")
+    @Value("${go-push.node-server.device-port:9001}")
     private int port;
 
     @Autowired

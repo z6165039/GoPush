@@ -39,41 +39,9 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
     @Autowired
     private IDataCenterChannelStore dataCenterChannelStore;
 
-    @Autowired
-    private MessageToMultiDeviceHandler messageToMultiDeviceHandler;
 
     @Autowired
-    private MultiMessageToDeviceHandler multiMessageToDeviceHandler;
-
-    @Autowired
-    private NodeDeviceDisconnectHandler deviceDisconnectHandler;
-
-    @Autowired
-    private NodeDeviceDockedHandler deviceDockedHandler;
-
-    @Autowired
-    private NodePingHandler nodePingHandler;
-
-    @Autowired
-    private NodePongHandler nodePongHandler;
-
-
-    private List<INodeMessageHandler> nodeMessageHandlers = new ArrayList<>();
-
-    @PostConstruct
-    public void init(){
-        nodeMessageHandlers.add(nodePingHandler);
-        nodeMessageHandlers.add(nodePongHandler);
-        nodeMessageHandlers.add(deviceDockedHandler);
-        nodeMessageHandlers.add(deviceDisconnectHandler);
-        nodeMessageHandlers.add(multiMessageToDeviceHandler);
-        nodeMessageHandlers.add(messageToMultiDeviceHandler);
-    }
-    @PreDestroy
-    public void destory(){
-        nodeMessageHandlers.clear();
-        nodeMessageHandlers = null;
-    }
+    private List<INodeMessageHandler> nodeMessageHandlers;
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String message) throws Exception {

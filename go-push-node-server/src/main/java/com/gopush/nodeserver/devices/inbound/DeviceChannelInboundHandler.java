@@ -40,32 +40,7 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
     private DeviceDeviceDisconnectHandler deviceDisconnectHandler;
 
     @Autowired
-    private HandShakeHandler handShakeHandler;
-
-    @Autowired
-    private DevicePingHandler devicePingHandler;
-
-    @Autowired
-    private DevicePongHandler devicePongHandler;
-
-    @Autowired
-    private PushRespHandler pushRespHandler;
-
-    private List<IDeviceMessageHandler> deviceMessageHandlers = new ArrayList<>();
-
-    @PostConstruct
-    public void init(){
-        deviceMessageHandlers.add(handShakeHandler);
-        deviceMessageHandlers.add(devicePingHandler);
-        deviceMessageHandlers.add(devicePongHandler);
-        deviceMessageHandlers.add(pushRespHandler);
-    }
-
-    @PreDestroy
-    public void destory(){
-        deviceMessageHandlers.clear();
-        deviceMessageHandlers = null;
-    }
+    private List<IDeviceMessageHandler> deviceMessageHandlers;
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String message) throws Exception {

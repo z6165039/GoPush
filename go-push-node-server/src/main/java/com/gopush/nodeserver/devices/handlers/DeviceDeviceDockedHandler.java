@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -23,6 +24,7 @@ import java.util.*;
  */
 
 @Slf4j
+@Component
 public class DeviceDeviceDockedHandler extends BatchProcesser<Object[]> implements IDeviceDockedHandler {
 
 

@@ -1,6 +1,5 @@
 package com.gopush.devices.handlers;
 
-import com.gopush.protocol.device.DeviceMessage;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
