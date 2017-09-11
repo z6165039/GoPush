@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author chenxiangqi
+ * @author 喝咖啡的囊地鼠
  * @date 2017/9/11 下午11:02
  */
 @Data
