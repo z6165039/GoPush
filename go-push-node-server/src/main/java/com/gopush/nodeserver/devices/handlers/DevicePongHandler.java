@@ -21,7 +21,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class DevicePongHandler extends PingPongProcesser<Object[]> implements IDeviceMessageHandler<Pong> {
+public class DevicePongHandler extends PingPongProcessor<Object[]> implements IDeviceMessageHandler<Pong> {
 
     @Override
     public boolean support(Pong message) {

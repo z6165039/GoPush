@@ -4,7 +4,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.state.ConnectionState;
 
 /**
- * @author chenxiangqi
+ * @author 喝咖啡的囊地鼠
  * @date 2017/9/11 下午8:58
  */
 public interface ZkStateListener {

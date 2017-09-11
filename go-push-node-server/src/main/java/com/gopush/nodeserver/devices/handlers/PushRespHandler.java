@@ -2,7 +2,7 @@ package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
-import com.gopush.nodeserver.devices.BatchProcesser;
+import com.gopush.nodeserver.devices.BatchProcessor;
 import com.gopush.protocol.device.PushResp;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -23,7 +23,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class PushRespHandler extends BatchProcesser<PushResp> implements IDeviceMessageHandler<PushResp> {
+public class PushRespHandler extends BatchProcessor<PushResp> implements IDeviceMessageHandler<PushResp> {
     @Override
     public boolean support(PushResp message) {
         return message instanceof PushResp;

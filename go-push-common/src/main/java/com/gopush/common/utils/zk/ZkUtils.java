@@ -29,7 +29,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * @author chenxiangqi
+ * @author 喝咖啡的囊地鼠
  * @date 2017/9/11 下午5:17
  */
 @Slf4j
@@ -145,6 +145,7 @@ public class ZkUtils {
                 }
                 return Objects.equal(opResult, path);
             }
+            return Boolean.TRUE;
         } catch (Exception e) {
             log.error("create node fail! path: {}, error: {}", path, e);
         }
@@ -237,6 +238,15 @@ public class ZkUtils {
             log.error("check node exists fail! path: {}, error: {}", path, e);
         }
         return null;
+    }
+
+    /**
+     * 检查节点是否存在
+     * @param path
+     * @return
+     */
+    public boolean checkExists(String path){
+        return exists(path)==null?Boolean.FALSE:Boolean.TRUE;
     }
 
     /**

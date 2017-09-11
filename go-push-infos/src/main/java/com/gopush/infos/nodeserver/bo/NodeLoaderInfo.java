@@ -1,7 +1,6 @@
-package com.gopush.infos.bo;
+package com.gopush.infos.nodeserver.bo;
 
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
 
 @Builder
 @Data
-public class NodeServerInfo {
+public class NodeLoaderInfo {
     private int onlineDeviceCounter;
     private int onlineDcCounter;
     private List<HandlerInfo> handlerInfos;

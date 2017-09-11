@@ -22,7 +22,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class DevicePingHandler extends PingPongProcesser<Object[]> implements IDeviceMessageHandler<Ping> {
+public class DevicePingHandler extends PingPongProcessor<Object[]> implements IDeviceMessageHandler<Ping> {
 
 
     //响应

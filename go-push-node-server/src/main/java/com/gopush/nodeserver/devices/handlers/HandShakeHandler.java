@@ -5,7 +5,7 @@ import com.gopush.common.constants.IdleEnum;
 import com.gopush.common.constants.RedisKeyEnum;
 import com.gopush.devices.handlers.IDeviceDockedHandler;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
-import com.gopush.nodeserver.devices.BatchProcesser;
+import com.gopush.nodeserver.devices.BatchProcessor;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.protocol.device.HandShakeReq;
 import com.gopush.protocol.device.HandShakeResp;
@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class HandShakeHandler extends BatchProcesser<Object[]> implements IDeviceMessageHandler<HandShakeReq> {
+public class HandShakeHandler extends BatchProcessor<Object[]> implements IDeviceMessageHandler<HandShakeReq> {
 
 
     @Autowired

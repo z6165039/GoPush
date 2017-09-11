@@ -2,7 +2,7 @@ package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
 import com.gopush.common.constants.RedisKeyEnum;
-import com.gopush.nodeserver.devices.BatchProcesser;
+import com.gopush.nodeserver.devices.BatchProcessor;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
-public  abstract class PingPongProcesser<T> extends BatchProcesser<T>{
+public  abstract class PingPongProcessor<T> extends BatchProcessor<T> {
 
 
     @Autowired

@@ -3,7 +3,7 @@ package com.gopush.nodeserver.devices.handlers;
 import com.gopush.common.constants.RedisKeyEnum;
 import com.gopush.common.utils.ip.IpUtils;
 import com.gopush.devices.handlers.IDeviceDockedHandler;
-import com.gopush.nodeserver.devices.BatchProcesser;
+import com.gopush.nodeserver.devices.BatchProcessor;
 import com.gopush.nodeserver.nodes.senders.INodeSender;
 import com.gopush.protocol.node.DeviceDockedReq;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.*;
 
 @Slf4j
 @Component
-public class DeviceDeviceDockedHandler extends BatchProcesser<Object[]> implements IDeviceDockedHandler {
+public class DeviceDeviceDockedHandler extends BatchProcessor<Object[]> implements IDeviceDockedHandler {
 
 
 

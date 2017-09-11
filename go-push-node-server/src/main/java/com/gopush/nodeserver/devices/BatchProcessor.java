@@ -1,12 +1,13 @@
 package com.gopush.nodeserver.devices;
 
 
-import com.gopush.infos.bo.HandlerInfo;
-import com.gopush.infos.bo.ProcessorInfo;
+import com.gopush.infos.nodeserver.bo.HandlerInfo;
+import com.gopush.infos.nodeserver.bo.ProcessorInfo;
+import com.gopush.nodeserver.config.BatchProcessorConfig;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 
 
 @Slf4j
-public abstract class BatchProcesser<T>{
+public abstract class BatchProcessor<T>{
 
     private static final int INT_ZERO = 0;
     private static final int INT_MAX_VAL = Integer.MAX_VALUE - 1;
@@ -43,36 +44,9 @@ public abstract class BatchProcesser<T>{
     //存储handler下的处理器
     private List<InternalProcessor> internalProcessors = new CopyOnWriteArrayList<>();
 
-    /**
-     * 批量处理的定时器延时
-     */
-    @Value("${go-push.node-server.device-batch.delay:1000}")
-    protected int delay;
 
-    /**
-     * 批量处理的大小
-     */
-    @Value("${go-push.node-server.device-batch.batch-size:300}")
-    private int batchSize;
-
-    /**
-     * 消息队列里面超过这个大小就要进行告警
-     */
-    @Value("${go-push.node-server.device-batch.warn-threshold:300}")
-    private int overNumWarn;
-
-    /**
-     * 子处理器的个数
-     */
-    @Value("${go-push.node-server.device-batch.processor-size:5}")
-    private int processorNum;
-
-    /**
-     * 不指定线程池的时候,指定初始化默认创建的线程池的大小
-     */
-    @Value("${go-push.node-server.device-batch.core-pool-size:0}")
-    private int corePoolSize;
-
+    @Autowired
+    private BatchProcessorConfig batchProcessorConfig;
 
     /**
      * 可以指定子handler使用的线程池
@@ -108,6 +82,7 @@ public abstract class BatchProcesser<T>{
 
     @PostConstruct
     public void init(){
+        int processorNum = batchProcessorConfig.getProcessorSize();
         if (processorNum <=  0){
             throw new RuntimeException(getBatchExecutorName()+"  processorNum <= 0 ");
         }
@@ -134,7 +109,7 @@ public abstract class BatchProcesser<T>{
         if(count >= INT_MAX_VAL ){
             receiveCounter.set(INT_ZERO);
         }
-        InternalProcessor processor = internalProcessors.get( count % processorNum );
+        InternalProcessor processor = internalProcessors.get( count % batchProcessorConfig.getProcessorSize() );
         processor.putMsg(message);
     }
 
@@ -196,6 +171,7 @@ public abstract class BatchProcesser<T>{
                 this.inBuilder = false;
             }
             else{
+                int corePoolSize = batchProcessorConfig.getCorePoolSize();
                 if(corePoolSize <= 0){
                     corePoolSize = DEFAULT_CORE_POOL_SIZE;
                     this.inBuilder = true;
@@ -224,6 +200,7 @@ public abstract class BatchProcesser<T>{
 //            log.info(" ...... {} ",processorInfo().toString());
 
             //不管三七二十一先处理一次
+            int batchSize = batchProcessorConfig.getBatchSize();
             do{
                 if (this.queue.isEmpty()){
                     return;
@@ -232,7 +209,7 @@ public abstract class BatchProcesser<T>{
                 if (this.count.get() > batchSize){
                     log.warn("[{}]-InternalProcessor-{} message queue size too long ! size = {}",getBatchExecutorName(),this.index,this.count.get());
                 }
-                if(this.count.get() > overNumWarn){
+                if(this.count.get() > batchProcessorConfig.getWarnThreshold()){
                     log.warn("[{}]-InternalProcessor-{} message queue size over warn num floor ! size = {} ",getBatchExecutorName(),index,this.count.get());
                     // TODO: 2017/6/13  进行告警处理
                 }
@@ -275,7 +252,7 @@ public abstract class BatchProcesser<T>{
          */
         private void start(){
             if(this.cpool == null){
-                this.cpool = Executors.newScheduledThreadPool(corePoolSize);
+                this.cpool = Executors.newScheduledThreadPool(batchProcessorConfig.getCorePoolSize());
                 inBuilder = true;
 
             }
@@ -285,7 +262,7 @@ public abstract class BatchProcesser<T>{
                 }catch (Exception e){
                     log.error("Exception error:{}",e);
                 }
-            },0,delay,TimeUnit.MILLISECONDS);
+            },0,batchProcessorConfig.getDelay(),TimeUnit.MILLISECONDS);
 
         }
 

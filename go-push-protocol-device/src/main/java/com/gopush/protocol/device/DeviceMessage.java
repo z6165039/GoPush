@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.gopush.protocol.exceptions.DeviceProtocolException;
 import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * go-push

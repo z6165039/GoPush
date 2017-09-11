@@ -4,7 +4,7 @@ import com.gopush.common.Constants;
 import com.gopush.common.constants.RedisKeyEnum;
 import com.gopush.common.utils.ip.IpUtils;
 import com.gopush.devices.handlers.IDeviceDisconnectHandler;
-import com.gopush.nodeserver.devices.BatchProcesser;
+import com.gopush.nodeserver.devices.BatchProcessor;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.nodeserver.nodes.senders.INodeSender;
 import com.gopush.protocol.node.DeviceDisconReq;
@@ -29,7 +29,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> implements IDeviceDisconnectHandler {
+public class DeviceDeviceDisconnectHandler extends BatchProcessor<Object[]> implements IDeviceDisconnectHandler {
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
