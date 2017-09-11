@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ import java.util.List;
  * @VERSION：
  */
 @Slf4j
+@Component
 public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMessageToDeviceReq> {
 
     @Autowired
@@ -30,16 +32,16 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
 
     @Override
     public boolean support(MultiMessageToDeviceReq message) {
-        return message instanceof  MultiMessageToDeviceReq;
+        return message instanceof MultiMessageToDeviceReq;
     }
 
     @Override
     public void call(ChannelHandlerContext ctx, MultiMessageToDeviceReq message) {
         //找寻到对应设备的channel 将消息全部推送给这个设备
-        if (message != null){
-            if(StringUtils.isNotEmpty(message.getDevice())){
+        if (message != null) {
+            if (StringUtils.isNotEmpty(message.getDevice())) {
                 Channel channel = deviceChannelStore.getChannel(message.getDevice());
-                if(channel != null){
+                if (channel != null) {
                     PushReq pushReq =
                             PushReq.builder()
                                     .msgs(message.getMessages())
@@ -50,6 +52,7 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
             }
             //将发送的信息存到redis中设置超时时间
             //将消息存储在redis中
+
         }
     }
 }

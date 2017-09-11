@@ -1,12 +1,14 @@
 package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
-import com.gopush.nodeserver.devices.BatchProcesser;
+import com.gopush.common.constants.RedisKeyEnum;
+import com.gopush.nodeserver.devices.BatchProcessor;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +22,8 @@ import java.util.concurrent.TimeUnit;
  * @VERSION：
  */
 @Slf4j
-public  abstract class PingPongProcesser<T> extends BatchProcesser<T>{
+@Component
+public abstract class PingPongProcessor<T> extends BatchProcessor<T> {
 
 
     @Autowired
@@ -28,25 +31,26 @@ public  abstract class PingPongProcesser<T> extends BatchProcesser<T>{
 
     /**
      * 检测是否已经握手
+     *
      * @param channel
      * @return
      */
-    protected boolean checkHandShake(Channel channel){
-        if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)){
-            log.warn("channel not handshake, channel:{}",channel);
+    protected boolean checkHandShake(Channel channel) {
+        if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)) {
+            log.warn("channel not handshake, channel:{}", channel);
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
     }
 
 
-    protected void liveHandShake(List<Object[]> batchReq){
-        if (CollectionUtils.isNotEmpty(batchReq)){
+    protected void liveHandShake(List<Object[]> batchReq) {
+        if (CollectionUtils.isNotEmpty(batchReq)) {
 
             batchReq.stream().forEach((ele) -> {
                 String device = (String) ele[0];
                 int[] idles = (int[]) ele[1];
-                redisTemplate.expire(Constants.DEVICE_KEY+device,idles[0], TimeUnit.SECONDS);
+                redisTemplate.expire(RedisKeyEnum.DEVICE_KEY.getValue() + device, idles[0], TimeUnit.SECONDS);
             });
 
         }

@@ -1,9 +1,10 @@
 package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
-import com.gopush.common.utils.IpUtils;
+import com.gopush.common.constants.RedisKeyEnum;
+import com.gopush.common.utils.ip.IpUtils;
 import com.gopush.devices.handlers.IDeviceDisconnectHandler;
-import com.gopush.nodeserver.devices.BatchProcesser;
+import com.gopush.nodeserver.devices.BatchProcessor;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.nodeserver.nodes.senders.INodeSender;
 import com.gopush.protocol.node.DeviceDisconReq;
@@ -13,6 +14,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -26,7 +28,8 @@ import java.util.List;
  */
 
 @Slf4j
-public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> implements IDeviceDisconnectHandler {
+@Component
+public class DeviceDeviceDisconnectHandler extends BatchProcessor<Object[]> implements IDeviceDisconnectHandler {
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -40,13 +43,13 @@ public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> impl
 
     @Override
     public void channelClosed(Channel channel) {
-        String device = channel.attr(Constants.CHANNEL_ATTR_DEVICE).get();
-        if (StringUtils.isNotEmpty(device)){
+        String device = (String) channel.attr(Constants.CHANNEL_ATTR_DEVICE).get();
+        if (StringUtils.isNotEmpty(device)) {
             //移除设备-channel 映射
-            deviceChannelStore.removeChannel(device,channel);
-            putMsg(new Object[]{device,channel.hashCode()});
+            deviceChannelStore.removeChannel(device, channel);
+            putMsg(new Object[]{device, channel.hashCode()});
         }
-        log.debug("channel closed , channel:{}, device:{}",channel,device);
+        log.debug("channel closed , channel:{}, device:{}", channel, device);
     }
 
     @Override
@@ -72,19 +75,19 @@ public class DeviceDeviceDisconnectHandler extends BatchProcesser<Object[]> impl
                 int channelHashCode = (int) ele[1];
 
                 String channel = (String) redisTemplate.opsForHash().get(
-                        Constants.DEVICE_KEY + device,
-                        Constants.DEVICE_CHANNEL_FIELD);
+                        RedisKeyEnum.DEVICE_KEY.getValue() + device,
+                        RedisKeyEnum.DEVICE_CHANNEL_FIELD.getValue());
                 if (channel != null && Integer.parseInt(channel) == channelHashCode) {
-                    if(!flag[0]) {
+                    if (!flag[0]) {
                         flag[0] = Boolean.TRUE;
                     }
                     req.addDevice(device);
-                    redisTemplate.opsForHash().delete(Constants.DEVICE_KEY + device, Constants.DEVICE_CHANNEL_FIELD);
-                    redisTemplate.opsForHash().delete(Constants.DEVICE_KEY + device, Constants.DEVICE_NODE_FIELD);
+                    redisTemplate.opsForHash().delete(RedisKeyEnum.DEVICE_KEY.getValue() + device, RedisKeyEnum.DEVICE_CHANNEL_FIELD.getValue());
+                    redisTemplate.opsForHash().delete(RedisKeyEnum.DEVICE_KEY.getValue() + device, RedisKeyEnum.DEVICE_NODE_FIELD.getValue());
                 }
             });
 
-            if (flag[0]){
+            if (flag[0]) {
                 nodeSender.sendShuffle(req);
             }
 

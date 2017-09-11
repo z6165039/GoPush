@@ -5,6 +5,7 @@ import com.gopush.protocol.node.MessageToMultiDeviceResp;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * go-push
@@ -16,10 +17,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@Component
 public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageToMultiDeviceResp> {
     @Override
     public boolean support(MessageToMultiDeviceResp message) {
-        return message instanceof  MessageToMultiDeviceResp;
+        return message instanceof MessageToMultiDeviceResp;
     }
 
     @Override
@@ -27,6 +29,6 @@ public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageT
         Channel channel = ctx.channel();
 
 
-        log.debug("receive MessageToMultiDeviceResp, channel:{}",channel);
+        log.debug("receive MessageToMultiDeviceResp, channel:{}", channel);
     }
 }

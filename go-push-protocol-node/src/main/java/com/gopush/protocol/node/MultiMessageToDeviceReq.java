@@ -15,14 +15,13 @@ import java.util.List;
  * @VERSION：
  */
 @Builder
+@Getter
 public class MultiMessageToDeviceReq extends NodeMessageReq<MultiMessageToDeviceReq> {
 
 
-    @Getter
     @JSONField(name = "MESS")
     private List<String> messages;
 
-    @Getter
     @JSONField(name = "DEV")
     private String device;
 

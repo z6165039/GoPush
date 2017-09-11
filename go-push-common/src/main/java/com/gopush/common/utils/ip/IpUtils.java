@@ -1,4 +1,4 @@
-package com.gopush.common.utils;
+package com.gopush.common.utils.ip;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -19,21 +19,21 @@ public class IpUtils {
      * 获取外网IP
      * @return
      */
-    public static String internetIp(){
+    public static String internetIp() {
         try {
 
-            Enumeration<NetworkInterface>  networks = NetworkInterface.getNetworkInterfaces();
+            Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
             InetAddress inetAddress = null;
             Enumeration<InetAddress> inetAddresses = null;
-            while (networks.hasMoreElements()){
+            while (networks.hasMoreElements()) {
                 inetAddresses = networks.nextElement().getInetAddresses();
-                while (inetAddresses.hasMoreElements()){
+                while (inetAddresses.hasMoreElements()) {
                     inetAddress = inetAddresses.nextElement();
                     if (inetAddress != null
                             && inetAddress instanceof Inet4Address
                             && !inetAddress.isSiteLocalAddress()
                             && !inetAddress.isLoopbackAddress()
-                            && inetAddress.getHostAddress().indexOf(":") == -1){
+                            && inetAddress.getHostAddress().indexOf(":") == -1) {
                         return inetAddress.getHostAddress();
                     }
                 }
@@ -41,7 +41,7 @@ public class IpUtils {
 
             return null;
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
             throw new RuntimeException(e);
         }
@@ -49,12 +49,13 @@ public class IpUtils {
 
     /**
      * 获取内网IP
+     *
      * @return
      */
-    public static String intranetIp(){
-        try{
-           return InetAddress.getLocalHost().getHostAddress();
-        }catch (Exception e){
+    public static String intranetIp() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

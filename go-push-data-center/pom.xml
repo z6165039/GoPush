@@ -12,7 +12,7 @@
     <artifactId>go-push-data-center</artifactId>
     <packaging>jar</packaging>
 
-    <description> DataCenter 服务 </description>
+    <description>DataCenter 服务</description>
 
     <dependencies>
 

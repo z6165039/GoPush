@@ -17,6 +17,7 @@ import lombok.Builder;
 public abstract class NodeMessage<T> {
 
     //消息 Type Key
+
     /**
      * 消息类型
      * 1)心跳请求
@@ -32,7 +33,7 @@ public abstract class NodeMessage<T> {
      * 11)节点服务信息请求
      * 12)节点服务信息响应
      */
-    protected enum Type{
+    protected enum Type {
         PI,       //PING
         PO,       //PONG
         DO,       //DEVICE_DOCKED_REQ
@@ -49,60 +50,64 @@ public abstract class NodeMessage<T> {
 
     /**
      * 获取节点消息类型
+     *
      * @return
      */
     protected abstract Type type();
 
 
     protected abstract T getThis();
+
     /**
      * 节点消息转换
+     *
      * @return
      * @throws Exception
      */
-    protected String toEncode() throws Exception{
-        return  JSON.toJSONString(getThis());
+    protected String toEncode() throws Exception {
+        return JSON.toJSONString(getThis());
     }
 
 
     /**
      * 节点消息编码
+     *
      * @return
      */
     public String encode() throws NodeProtocolException {
-        try{
+        try {
             Message message = Message
                     .builder()
                     .type(type())
                     .message(toEncode())
                     .build();
             return JSON.toJSONString(message);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new NodeProtocolException(e);
         }
     }
 
 
-
     /**
      * 节点消息解码
+     *
      * @param json
      * @return
      * @throws NodeProtocolException
      */
-    public static NodeMessage decode(String json) throws NodeProtocolException{
-        try{
+    public static NodeMessage decode(String json) throws NodeProtocolException {
+        try {
 
-            Message msg = JSON.parseObject(json,Message.class);
+            Message msg = JSON.parseObject(json, Message.class);
             NodeMessage message;
 
             Class cls;
-            switch (msg.type){
+            switch (msg.type) {
                 case PI:
                     cls = Ping.class;
                     break;
                 case PO:
-                    cls = Ping.class;
+                    cls = Pong.class;
                     break;
                 case DO:
                     cls = DeviceDockedReq.class;
@@ -138,18 +143,17 @@ public abstract class NodeMessage<T> {
                     throw new NodeProtocolException("Unknown Node type " + msg.type);
 
             }
-            message = (NodeMessage) JSON.parseObject(msg.message,cls);
+            message = (NodeMessage) JSON.parseObject(msg.message, cls);
             return message;
-        } catch (Exception e){
-            throw  new NodeProtocolException("Exception occur,Message is "+json, e);
+        } catch (Exception e) {
+            throw new NodeProtocolException("Exception occur,Message is " + json, e);
         }
     }
 
 
-
     //真正的传递消息的类
     @Builder
-    private static class Message{
+    private static class Message {
         @JSONField(name = "T")
         private Type type;
 

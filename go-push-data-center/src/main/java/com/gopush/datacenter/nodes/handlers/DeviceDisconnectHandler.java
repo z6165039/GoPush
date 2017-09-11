@@ -5,6 +5,7 @@ import com.gopush.protocol.node.DeviceDisconReq;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * go-push
@@ -16,11 +17,12 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@Component
 public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDisconReq> {
 
     @Override
     public boolean support(DeviceDisconReq message) {
-        return message instanceof  DeviceDisconReq;
+        return message instanceof DeviceDisconReq;
     }
 
     @Override
@@ -28,6 +30,6 @@ public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDiscon
         Channel channel = ctx.channel();
 
 
-        log.debug("receive DeviceDisconReq, channel:{}",channel);
+        log.debug("receive DeviceDisconReq, channel:{}", channel);
     }
 }

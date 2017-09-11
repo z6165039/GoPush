@@ -18,7 +18,7 @@ public abstract class NodeBaseHandler {
     @Autowired
     private IDataCenterChannelStore dataCenterChannelStore;
 
-    protected void saveLiveDc(Channel channel){
+    protected void saveLiveDc(Channel channel) {
         dataCenterChannelStore.isDcChannelToSave(channel);
     }
 

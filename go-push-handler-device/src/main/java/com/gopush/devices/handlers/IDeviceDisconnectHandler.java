@@ -15,6 +15,7 @@ public interface IDeviceDisconnectHandler {
 
     /**
      * channel关闭,触发
+     *
      * @param channel
      */
     void channelClosed(Channel channel);

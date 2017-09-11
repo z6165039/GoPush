@@ -14,15 +14,6 @@ import io.netty.util.AttributeKey;
 public class Constants {
 
 
-
-    public static final int READ_IDLE = 10;
-
-    public static final int WRITE_IDLE = 30;
-
-    public static final int ALL_IDLE = 50;
-
-
-
     /*****
      *
      * Device 和 NodeServer 之间
@@ -43,29 +34,6 @@ public class Constants {
      *
      * ***/
     public static final AttributeKey<String> CHANNEL_ATTR_DATACENTER = AttributeKey.newInstance("datacenter");
-
-
-
-
-
-
-
-    /**
-     * redis 中存储设备Token的键
-     */
-    public static final String DEVICE_KEY ="DE:";
-
-    public static final String DEIVCE_TOKEN_FIELD = "token";
-
-    public static final String DEVICE_NODE_FIELD = "node";
-
-    public static final String DEVICE_CHANNEL_FIELD = "channel";
-
-
-
-
-
-
 
 
 }

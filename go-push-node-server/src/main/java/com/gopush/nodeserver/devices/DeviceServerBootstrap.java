@@ -1,5 +1,6 @@
 package com.gopush.nodeserver.devices;
 
+import com.gopush.nodeserver.config.GoPushConfig;
 import com.gopush.nodeserver.devices.inbound.DeviceChannelInboundHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -13,9 +14,11 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
-import lombok.Setter;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -30,13 +33,14 @@ import javax.annotation.PreDestroy;
  */
 
 @Slf4j
-public class DeviceServerBootstrap{
+@Component
+public class DeviceServerBootstrap {
 
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
-    private EventLoopGroup workGroup =  new NioEventLoopGroup();
+    private EventLoopGroup workGroup = new NioEventLoopGroup();
 
-    @Setter
-    private int port;
+    @Autowired
+    private GoPushConfig goPushConfig;
 
     @Autowired
     private DeviceChannelInboundHandler deviceChannelInboundHandler;
@@ -46,40 +50,39 @@ public class DeviceServerBootstrap{
 
 
         ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(bossGroup,workGroup)
+        bootstrap.group(bossGroup, workGroup)
                 .channelFactory(NioServerSocketChannel::new)
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
 
                         ChannelPipeline pipeline = socketChannel.pipeline();
-                        pipeline.addLast("logHandler",new LoggingHandler());
-                        pipeline.addLast("frameDecoder",new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,0,4,0,4));
-                        pipeline.addLast("stringDecoder",new StringDecoder(CharsetUtil.UTF_8));
-                        pipeline.addLast("frameEncoder",new LengthFieldPrepender(4));
-                        pipeline.addLast("stringEncoder",new StringEncoder(CharsetUtil.UTF_8));
-                        pipeline.addLast("idleStateHandler", new IdleStateHandler(300,0,0));
+                        pipeline.addLast("logHandler", new LoggingHandler());
+                        pipeline.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
+                        pipeline.addLast("stringDecoder", new StringDecoder(CharsetUtil.UTF_8));
+                        pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
+                        pipeline.addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8));
+                        pipeline.addLast("idleStateHandler", new IdleStateHandler(300, 0, 0));
 
-                        pipeline.addLast("handler",deviceChannelInboundHandler);
+                        pipeline.addLast("handler", deviceChannelInboundHandler);
                     }
                 })
 
-                .option(ChannelOption.SO_BACKLOG,1000000)  //连接队列深度
+                .option(ChannelOption.SO_BACKLOG, 1000000)  //连接队列深度
                 .option(ChannelOption.TCP_NODELAY, true)   //设置 no_delay
-                .option(ChannelOption.SO_SNDBUF,2048).option(ChannelOption.SO_RCVBUF,1024)
-                .childOption(ChannelOption.TCP_NODELAY,true)
-                .childOption(ChannelOption.SO_REUSEADDR,true)
-                .childOption(ChannelOption.SO_SNDBUF,2048).childOption(ChannelOption.SO_RCVBUF,1024)
-                .childOption(ChannelOption.SO_LINGER,0);
+                .option(ChannelOption.SO_SNDBUF, 2048).option(ChannelOption.SO_RCVBUF, 1024)
+                .childOption(ChannelOption.TCP_NODELAY, true)
+                .childOption(ChannelOption.SO_REUSEADDR, true)
+                .childOption(ChannelOption.SO_SNDBUF, 2048).childOption(ChannelOption.SO_RCVBUF, 1024)
+                .childOption(ChannelOption.SO_LINGER, 0);
 
-        bootstrap.bind(port).sync();
-        log.info("device server start successful! listening port: {}",port);
+        bootstrap.bind(goPushConfig.getDevicePort()).sync();
+        log.info("device server start successful! listening port: {}", goPushConfig.getDevicePort());
     }
 
 
-
     @PreDestroy
-    public void destory(){
+    public void destory() {
         bossGroup.shutdownGracefully();
         workGroup.shutdownGracefully();
     }

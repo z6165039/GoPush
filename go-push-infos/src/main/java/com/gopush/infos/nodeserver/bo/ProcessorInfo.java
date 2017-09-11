@@ -1,7 +1,7 @@
-package com.gopush.nodeserver.devices.infos;
+package com.gopush.infos.nodeserver.bo;
 
 import lombok.Builder;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * go-push
@@ -12,7 +12,7 @@ import lombok.ToString;
  * @VERSION：
  */
 @Builder
-@ToString
+@Data
 public class ProcessorInfo {
 
     private String batchName;

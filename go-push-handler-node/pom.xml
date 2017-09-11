@@ -11,7 +11,7 @@
 
     <artifactId>go-push-handler-node</artifactId>
     <packaging>jar</packaging>
-    <description> GoPush业务handler </description>
+    <description>GoPush业务handler</description>
 
     <dependencies>
         <dependency>

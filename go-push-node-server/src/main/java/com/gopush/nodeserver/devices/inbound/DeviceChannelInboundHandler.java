@@ -11,6 +11,7 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -29,6 +30,7 @@ import java.util.List;
 
 @Slf4j
 @ChannelHandler.Sharable
+@Component
 public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<String> {
 
 
@@ -38,47 +40,22 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
     private DeviceDeviceDisconnectHandler deviceDisconnectHandler;
 
     @Autowired
-    private HandShakeHandler handShakeHandler;
-
-    @Autowired
-    private DevicePingHandler devicePingHandler;
-
-    @Autowired
-    private DevicePongHandler devicePongHandler;
-
-    @Autowired
-    private PushRespHandler pushRespHandler;
-
-    private List<IDeviceMessageHandler> deviceMessageHandlers = new ArrayList<>();
-
-    @PostConstruct
-    public void init(){
-        deviceMessageHandlers.add(handShakeHandler);
-        deviceMessageHandlers.add(devicePingHandler);
-        deviceMessageHandlers.add(devicePongHandler);
-        deviceMessageHandlers.add(pushRespHandler);
-    }
-
-    @PreDestroy
-    public void destory(){
-        deviceMessageHandlers.clear();
-        deviceMessageHandlers = null;
-    }
+    private List<IDeviceMessageHandler> deviceMessageHandlers;
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String message) throws Exception {
 
-        log.debug("channel:{}, message:{}",ctx.channel(),message);
+        log.debug("channel:{}, message:{}", ctx.channel(), message);
         DeviceMessage deviceMessage = DeviceMessage.decode(message);
 
-        if(!deviceMessageHandlers.isEmpty()){
+        if (!deviceMessageHandlers.isEmpty()) {
             deviceMessageHandlers.stream().forEach((handler) -> {
-                try{
-                    if(handler.support(deviceMessage)){
-                        handler.call(ctx,deviceMessage);
+                try {
+                    if (handler.support(deviceMessage)) {
+                        handler.call(ctx, deviceMessage);
                     }
-                }catch (Exception e){
-                    log.error("exception error:{}",e);
+                } catch (Exception e) {
+                    log.error("exception error:{}", e);
                 }
             });
         }
@@ -87,39 +64,39 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.debug("channel active, channel:{}",ctx.channel());
+        log.debug("channel active, channel:{}", ctx.channel());
         super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.debug("channel inactive, channel:{}",ctx.channel());
+        log.debug("channel inactive, channel:{}", ctx.channel());
         deviceDisconnectHandler.channelClosed(ctx.channel());
         super.channelInactive(ctx);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("exception error:{}, channel:{}", cause.getMessage(),ctx.channel());
+        log.error("exception error:{}, channel:{}", cause.getMessage(), ctx.channel());
         ctx.close();
     }
 
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        if (IdleStateEvent.class.isAssignableFrom(evt.getClass())){
+        if (IdleStateEvent.class.isAssignableFrom(evt.getClass())) {
             IdleStateEvent event = (IdleStateEvent) evt;
-            if (event.state() == IdleState.READER_IDLE){
+            if (event.state() == IdleState.READER_IDLE) {
                 ctx.writeAndFlush(PING);
             }
-            if (event.state() == IdleState.WRITER_IDLE){
+            if (event.state() == IdleState.WRITER_IDLE) {
                 ctx.writeAndFlush(PING);
             }
-            if (event.state() == IdleState.ALL_IDLE){
+            if (event.state() == IdleState.ALL_IDLE) {
                 ctx.writeAndFlush(PING);
             }
-        }else{
-            super.userEventTriggered(ctx,evt);
+        } else {
+            super.userEventTriggered(ctx, evt);
         }
     }
 

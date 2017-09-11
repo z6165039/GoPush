@@ -1,8 +1,23 @@
-gopush:
+go-push:
   node-server:
     name: NodeServer001
     node-port: 9002
     device-port: 9001
+    batch-processor:
+      delay: 1000
+      batch-size: 300
+      warn-threshold: 300
+      processor-size: 2
+      core-pool-size: 1
+
+  zookeeper:
+      servers: 192.168.99.100:32774,192.168.99.100:32775,192.168.99.100:32776
+      namespace: nodeserver
+      session-timeout: 6000
+      connection-timeout: 6000
+      max-retries: 1000
+      retries-sleep-time: 2000
+
 
 
 spring:

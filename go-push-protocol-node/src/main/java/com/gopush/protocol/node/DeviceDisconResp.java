@@ -13,9 +13,10 @@ import lombok.Getter;
  * @VERSION：
  */
 @Builder
-public class DeviceDisconResp extends NodeMessageResp<DeviceDisconResp>{
+@Getter
+public class DeviceDisconResp extends NodeMessageResp<DeviceDisconResp> {
 
-    @Getter
+
     @JSONField(name = "R")
     private int result;
 

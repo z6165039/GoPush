@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>go-push-protocol-device</artifactId>
     <packaging>jar</packaging>
-    <description> Device 与 NodeServer 传输协议 </description>
+    <description>Device 与 NodeServer 传输协议</description>
 
     <dependencies>
         <dependency>

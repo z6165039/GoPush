@@ -15,13 +15,12 @@ import java.util.List;
  * @VERSION：
  */
 @Builder
+@Getter
 public class PushReq extends DeviceMessageReq<PushReq> {
 
-    @Getter
     @JSONField(name = "ID")
     private String id;
 
-    @Getter
     @JSONField(name = "MCS")
     private List<String> msgs;
 
@@ -34,8 +33,6 @@ public class PushReq extends DeviceMessageReq<PushReq> {
     protected PushReq getThis() throws Exception {
         return this;
     }
-
-
 
 
 }

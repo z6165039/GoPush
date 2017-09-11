@@ -5,6 +5,7 @@ import com.gopush.protocol.node.MultiMessageToDeviceResp;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * go-push
@@ -16,16 +17,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@Component
 public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMessageToDeviceResp> {
     @Override
     public boolean support(MultiMessageToDeviceResp message) {
-        return message instanceof  MultiMessageToDeviceResp;
+        return message instanceof MultiMessageToDeviceResp;
     }
 
     @Override
     public void call(ChannelHandlerContext ctx, MultiMessageToDeviceResp message) {
         Channel channel = ctx.channel();
 
-        log.debug("receive MessageToMultiDeviceResp, channel:{}",channel);
+        log.debug("receive MessageToMultiDeviceResp, channel:{}", channel);
     }
 }

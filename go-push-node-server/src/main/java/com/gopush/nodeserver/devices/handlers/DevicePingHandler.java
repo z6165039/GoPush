@@ -2,13 +2,12 @@ package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
-import com.gopush.nodeserver.devices.BatchProcesser;
 import com.gopush.protocol.device.Ping;
 import com.gopush.protocol.device.Pong;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -22,7 +21,8 @@ import java.util.List;
  */
 
 @Slf4j
-public class DevicePingHandler extends PingPongProcesser<Object[]> implements IDeviceMessageHandler<Ping> {
+@Component
+public class DevicePingHandler extends PingPongProcessor<Object[]> implements IDeviceMessageHandler<Ping> {
 
 
     //响应
@@ -38,7 +38,7 @@ public class DevicePingHandler extends PingPongProcesser<Object[]> implements ID
     public void call(ChannelHandlerContext context, Ping message) {
 
         Channel channel = context.channel();
-        if (!checkHandShake(channel)){
+        if (!checkHandShake(channel)) {
             context.close();
             return;
         }
@@ -47,7 +47,7 @@ public class DevicePingHandler extends PingPongProcesser<Object[]> implements ID
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
 
-        log.debug("receive ping, channel:{}, device:{}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.debug("receive ping, channel:{}, device:{}", channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
     }
 
 
@@ -64,6 +64,7 @@ public class DevicePingHandler extends PingPongProcesser<Object[]> implements ID
 
     /**
      * 设置设备在线的过期时间
+     *
      * @param batchReq
      * @throws Exception
      */

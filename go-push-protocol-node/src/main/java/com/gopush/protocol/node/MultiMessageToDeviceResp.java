@@ -13,9 +13,9 @@ import lombok.Getter;
  * @VERSION：
  */
 @Builder
-public class MultiMessageToDeviceResp extends NodeMessageResp<MultiMessageToDeviceResp>{
+@Getter
+public class MultiMessageToDeviceResp extends NodeMessageResp<MultiMessageToDeviceResp> {
 
-    @Getter
     @JSONField(name = "R")
     private int result;
 

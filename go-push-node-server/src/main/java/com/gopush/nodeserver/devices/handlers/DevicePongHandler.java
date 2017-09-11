@@ -2,11 +2,11 @@ package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
-import com.gopush.nodeserver.devices.BatchProcesser;
 import com.gopush.protocol.device.Pong;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -20,7 +20,8 @@ import java.util.List;
  */
 
 @Slf4j
-public class DevicePongHandler extends PingPongProcesser<Object[]> implements IDeviceMessageHandler<Pong> {
+@Component
+public class DevicePongHandler extends PingPongProcessor<Object[]> implements IDeviceMessageHandler<Pong> {
 
     @Override
     public boolean support(Pong message) {
@@ -31,14 +32,14 @@ public class DevicePongHandler extends PingPongProcesser<Object[]> implements ID
     public void call(ChannelHandlerContext context, Pong message) {
 
         Channel channel = context.channel();
-        if (!checkHandShake(channel)){
+        if (!checkHandShake(channel)) {
             context.close();
             return;
         }
         putMsg(new Object[]{
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
-        log.debug("receive pong, channel:{}, device:{}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.debug("receive pong, channel:{}, device:{}", channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
 
     }
 

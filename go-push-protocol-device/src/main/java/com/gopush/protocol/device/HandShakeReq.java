@@ -14,23 +14,19 @@ import lombok.Getter;
  */
 
 @Builder
+@Getter
 public class HandShakeReq extends DeviceMessageReq<HandShakeReq> {
 
-    @Getter
     @JSONField(name = "D")
     private String device;
 
-    @Getter
     @JSONField(name = "TK")
     private String token;
 
-    @Getter
     @JSONField(name = "R_IDLE")
     private int readInterval;
-    @Getter
     @JSONField(name = "W_IDLE")
     private int writeInterval;
-    @Getter
     @JSONField(name = "A_IDLE")
     private int allInterval;
 
