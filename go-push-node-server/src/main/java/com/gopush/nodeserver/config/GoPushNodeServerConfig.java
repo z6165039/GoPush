@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "go-push.node-server")
-public class GoPushConfig {
+public class GoPushNodeServerConfig {
     private String name;
     private int nodePort;
     private int devicePort;

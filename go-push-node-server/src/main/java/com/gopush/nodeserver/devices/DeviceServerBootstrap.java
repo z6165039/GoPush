@@ -1,6 +1,6 @@
 package com.gopush.nodeserver.devices;
 
-import com.gopush.nodeserver.config.GoPushConfig;
+import com.gopush.nodeserver.config.GoPushNodeServerConfig;
 import com.gopush.nodeserver.devices.inbound.DeviceChannelInboundHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -14,10 +14,8 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -40,7 +38,7 @@ public class DeviceServerBootstrap {
     private EventLoopGroup workGroup = new NioEventLoopGroup();
 
     @Autowired
-    private GoPushConfig goPushConfig;
+    private GoPushNodeServerConfig goPushNodeServerConfig;
 
     @Autowired
     private DeviceChannelInboundHandler deviceChannelInboundHandler;
@@ -76,8 +74,8 @@ public class DeviceServerBootstrap {
                 .childOption(ChannelOption.SO_SNDBUF, 2048).childOption(ChannelOption.SO_RCVBUF, 1024)
                 .childOption(ChannelOption.SO_LINGER, 0);
 
-        bootstrap.bind(goPushConfig.getDevicePort()).sync();
-        log.info("device server start successful! listening port: {}", goPushConfig.getDevicePort());
+        bootstrap.bind(goPushNodeServerConfig.getDevicePort()).sync();
+        log.info("device server start successful! listening port: {}", goPushNodeServerConfig.getDevicePort());
     }
 
 

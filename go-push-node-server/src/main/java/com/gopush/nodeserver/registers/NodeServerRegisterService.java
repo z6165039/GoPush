@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.gopush.common.utils.zk.ZkUtils;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
 import com.gopush.infos.nodeserver.bo.NodeServerInfo;
-import com.gopush.nodeserver.config.GoPushConfig;
+import com.gopush.nodeserver.config.GoPushNodeServerConfig;
 import com.gopush.nodeserver.config.ZookeeperConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -30,7 +30,7 @@ public class NodeServerRegisterService {
     private ZookeeperConfig zookeeperConfig;
 
     @Autowired
-    private GoPushConfig goPushConfig;
+    private GoPushNodeServerConfig goPushNodeServerConfig;
 
     @PostConstruct
     public void init() {
@@ -74,7 +74,7 @@ public class NodeServerRegisterService {
      */
     public void postNewData(NodeServerInfo data) {
         ZkUtils.instance().setNodeData(
-                "/NODE-SERVER/" + goPushConfig.getName(),
+                NODE_SERVER_GROUP + goPushNodeServerConfig.getName(),
                 JSON.toJSONString(data));
     }
 
@@ -94,7 +94,7 @@ public class NodeServerRegisterService {
 
     private void registerNodeInfo() {
         ZkUtils.instance().createNode(
-                NODE_SERVER_GROUP + goPushConfig.getName(),
+                NODE_SERVER_GROUP + goPushNodeServerConfig.getName(),
                 null,
                 CreateMode.EPHEMERAL);
     }

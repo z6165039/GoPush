@@ -2,7 +2,7 @@ package com.gopush.nodeserver.infos.watchdog;
 
 import com.gopush.common.utils.ip.IpUtils;
 import com.gopush.infos.nodeserver.bo.NodeServerInfo;
-import com.gopush.nodeserver.config.GoPushConfig;
+import com.gopush.nodeserver.config.GoPushNodeServerConfig;
 import com.gopush.nodeserver.devices.BatchProcessor;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.infos.nodeserver.bo.NodeLoaderInfo;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class NodeServerInfoWatchdog {
 
     @Autowired
-    private GoPushConfig goPushConfig;
+    private GoPushNodeServerConfig goPushNodeServerConfig;
 
     @Autowired
     private INodeSender nodeSender;
@@ -63,7 +63,7 @@ public class NodeServerInfoWatchdog {
                 //将负载加载到ZK中
                 applicationEventPublisher.publishEvent(
                         NodeServerInfoEvent.builder()
-                                .name(goPushConfig.getName())
+                                .name(goPushNodeServerConfig.getName())
                                 .nodeServerInfo(watch())
                                 .build());
 //                写入zk 其实不需要发送 NodeInfoReq
@@ -88,11 +88,11 @@ public class NodeServerInfoWatchdog {
      */
     public NodeServerInfo watch() {
         return NodeServerInfo.builder()
-                .name(goPushConfig.getName())
+                .name(goPushNodeServerConfig.getName())
                 .internetIp(IpUtils.internetIp())
                 .intranetIp(IpUtils.intranetIp())
-                .devicePort(goPushConfig.getDevicePort())
-                .nodePort(goPushConfig.getNodePort())
+                .devicePort(goPushNodeServerConfig.getDevicePort())
+                .nodePort(goPushNodeServerConfig.getNodePort())
                 .nodeLoaderInfo(NodeLoaderInfo.builder()
                         .onlineDcCounter(dataCenterChannelStore.count())
                         .onlineDeviceCounter(deviceChannelStore.count())
