@@ -28,7 +28,6 @@ import java.util.*;
 public class DeviceDeviceDockedHandler extends BatchProcessor<Object[]> implements IDeviceDockedHandler {
 
 
-
     @Autowired
     private INodeSender nodeSender;
 
@@ -37,8 +36,8 @@ public class DeviceDeviceDockedHandler extends BatchProcessor<Object[]> implemen
 
     @Override
     public void upReport(String device, int channelHashCode, int[] idles) {
-        putMsg(new Object[]{device,channelHashCode,idles});
-        log.debug("up report device docked, device:{}, channelHashCode:{}, idles:{}",device,channelHashCode, Arrays.toString(idles));
+        putMsg(new Object[]{device, channelHashCode, idles});
+        log.debug("up report device docked, device:{}, channelHashCode:{}, idles:{}", device, channelHashCode, Arrays.toString(idles));
     }
 
     @Override
@@ -54,16 +53,16 @@ public class DeviceDeviceDockedHandler extends BatchProcessor<Object[]> implemen
     @Override
     protected void batchHandler(List<Object[]> batchReq) throws Exception {
         //添加缓存 设备-节点-channel 绑定
-        if(CollectionUtils.isNotEmpty(batchReq)){
-            String  nodeIp = IpUtils.intranetIp();
+        if (CollectionUtils.isNotEmpty(batchReq)) {
+            String nodeIp = IpUtils.intranetIp();
             DeviceDockedReq req = DeviceDockedReq.builder().node(nodeIp).build();
             batchReq.stream().forEach((ele) -> {
-                req.addDevice((String)ele[0]);
-                Map<String,String> hash = new HashMap<>();
-                hash.put(RedisKeyEnum.DEVICE_CHANNEL_FIELD.getValue(),String.valueOf(ele[1]));
-                hash.put(RedisKeyEnum.DEVICE_NODE_FIELD.getValue(),nodeIp);
+                req.addDevice((String) ele[0]);
+                Map<String, String> hash = new HashMap<>();
+                hash.put(RedisKeyEnum.DEVICE_CHANNEL_FIELD.getValue(), String.valueOf(ele[1]));
+                hash.put(RedisKeyEnum.DEVICE_NODE_FIELD.getValue(), nodeIp);
                 int[] idles = (int[]) ele[2];
-                redisTemplate.opsForHash().put(RedisKeyEnum.DEVICE_KEY.getValue() + ele[0],hash,idles[0]);
+                redisTemplate.opsForHash().put(RedisKeyEnum.DEVICE_KEY.getValue() + ele[0], hash, idles[0]);
             });
             //将需要上报的device 加到list 构造上报请求 使用 nodeSender 发送出去
             nodeSender.sendShuffle(req);

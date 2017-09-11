@@ -13,7 +13,7 @@ import lombok.Getter;
  */
 @Builder
 @Getter
-public class NodeInfoReq extends NodeMessageReq<NodeInfoReq>{
+public class NodeInfoReq extends NodeMessageReq<NodeInfoReq> {
     @Override
     protected Type type() {
         return Type.NI;

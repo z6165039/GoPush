@@ -28,7 +28,7 @@ public class NodeInfoHandler extends NodeBaseHandler implements INodeMessageHand
     @Override
     public void call(ChannelHandlerContext ctx, NodeInfoResp message) {
         saveLiveDc(ctx.channel());
-        log.debug("receive NodeInfoResp, channel:{}, node:{}",ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
+        log.debug("receive NodeInfoResp, channel:{}, node:{}", ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
 
     }
 }

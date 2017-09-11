@@ -14,6 +14,7 @@ public interface IDeviceChannelStore {
 
     /**
      * 根据设备ID获取Channel
+     *
      * @param device
      * @return
      */
@@ -21,16 +22,18 @@ public interface IDeviceChannelStore {
 
     /**
      * 根据设备ID删除 channel
+     *
      * @param device
      */
     void removeChannel(String device);
 
     /**
      * 根据设备ID移除channel,对比 channel存不存在
+     *
      * @param device
      * @param channel
      */
-    void removeChannel(String device,Channel channel);
+    void removeChannel(String device, Channel channel);
 
 
     /**
@@ -40,6 +43,7 @@ public interface IDeviceChannelStore {
 
     /**
      * 添加设备-channel
+     *
      * @param device
      * @param channel
      */
@@ -48,6 +52,7 @@ public interface IDeviceChannelStore {
 
     /**
      * 设备-channel 计数
+     *
      * @return
      */
     int count();

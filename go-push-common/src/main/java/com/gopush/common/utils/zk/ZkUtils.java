@@ -44,6 +44,7 @@ public class ZkUtils {
     List<NodeCache> nodeCaches = new CopyOnWriteArrayList<>();
 
     List<TreeCache> treeCaches = new CopyOnWriteArrayList<>();
+
     private ZkUtils() {
     }
 
@@ -109,13 +110,13 @@ public class ZkUtils {
         pathChildrenCaches.stream().forEach(cache -> CloseableUtils.closeQuietly(cache));
         pathChildrenCaches.clear();
         pathChildrenCaches = null;
-        nodeCaches.stream().forEach(cache->CloseableUtils.closeQuietly(cache));
+        nodeCaches.stream().forEach(cache -> CloseableUtils.closeQuietly(cache));
         nodeCaches.clear();
         nodeCaches = null;
-        treeCaches.stream().forEach(cache->CloseableUtils.closeQuietly(cache));
+        treeCaches.stream().forEach(cache -> CloseableUtils.closeQuietly(cache));
         treeCaches.clear();
         treeCaches = null;
-        if (zkClient != null){
+        if (zkClient != null) {
             CloseableUtils.closeQuietly(zkClient);
         }
     }
@@ -242,11 +243,12 @@ public class ZkUtils {
 
     /**
      * 检查节点是否存在
+     *
      * @param path
      * @return
      */
-    public boolean checkExists(String path){
-        return exists(path)==null?Boolean.FALSE:Boolean.TRUE;
+    public boolean checkExists(String path) {
+        return exists(path) == null ? Boolean.FALSE : Boolean.TRUE;
     }
 
     /**
@@ -304,7 +306,7 @@ public class ZkUtils {
                 PathChildrenCache watcher = new PathChildrenCache(zkClient, path, true);
                 watcher.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
                 watcher.getListenable().addListener((curatorFramework, pathChildrenCacheEvent) -> biConsumer.accept(curatorFramework, pathChildrenCacheEvent), pool);
-                if (!pathChildrenCaches.contains(watcher)){
+                if (!pathChildrenCaches.contains(watcher)) {
                     pathChildrenCaches.add(watcher);
                 }
                 return Boolean.TRUE;
@@ -318,23 +320,24 @@ public class ZkUtils {
 
     /**
      * 读取指定节点的子菜单的值
+     *
      * @param path
      * @return
      */
-    public Map<String,String> readTargetChildsData(String path){
+    public Map<String, String> readTargetChildsData(String path) {
         if (!ObjectUtils.allNotNull(zkClient, path)) {
             return null;
         }
-        Map<String,String> map = null;
+        Map<String, String> map = null;
         try {
             Stat stat = exists(path);
             if (stat != null) {
                 List<String> childrens = zkClient.getChildren().forPath(path);
                 GetDataBuilder dataBuilder = zkClient.getData();
-                if (childrens != null){
-                    map = childrens.stream().collect(Collectors.toMap(Function.identity(),(child)->{
+                if (childrens != null) {
+                    map = childrens.stream().collect(Collectors.toMap(Function.identity(), (child) -> {
                         try {
-                            return new String(dataBuilder.forPath( ZKPaths.makePath(path,child)),Charsets.UTF_8);
+                            return new String(dataBuilder.forPath(ZKPaths.makePath(path, child)), Charsets.UTF_8);
                         } catch (Exception e1) {
                             return null;
                         }
@@ -342,7 +345,7 @@ public class ZkUtils {
                 }
             }
         } catch (Exception e) {
-            log.error("get target childs data fail!, path:{} , error:{}",path,e);
+            log.error("get target childs data fail!, path:{} , error:{}", path, e);
         }
         return map;
 

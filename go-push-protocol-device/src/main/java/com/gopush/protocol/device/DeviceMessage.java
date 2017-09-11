@@ -36,36 +36,38 @@ public abstract class DeviceMessage<T> {
 
     /**
      * 获取设备消息类型
+     *
      * @return
      */
     protected abstract Type type();
-
 
 
     protected abstract T getThis() throws Exception;
 
     /**
      * 节点消息转换
+     *
      * @return
      * @throws Exception
      */
-    protected String toEncode() throws Exception{
-        return  JSON.toJSONString(getThis());
+    protected String toEncode() throws Exception {
+        return JSON.toJSONString(getThis());
     }
 
 
     /**
      * 设备消息编码
+     *
      * @return
      */
-    public String encode() throws DeviceProtocolException{
+    public String encode() throws DeviceProtocolException {
         try {
 
             Message message = Message
-                                .builder()
-                                .type(type())
-                                .message(toEncode())
-                                .build();
+                    .builder()
+                    .type(type())
+                    .message(toEncode())
+                    .build();
             return JSON.toJSONString(message);
         } catch (Exception e) {
             throw new DeviceProtocolException(e);
@@ -75,6 +77,7 @@ public abstract class DeviceMessage<T> {
 
     /**
      * 设备消息解码
+     *
      * @param json
      * @return
      * @throws DeviceProtocolException
@@ -82,11 +85,11 @@ public abstract class DeviceMessage<T> {
     public static DeviceMessage decode(String json) throws DeviceProtocolException {
         try {
 
-            Message msg = JSON.parseObject(json,Message.class);
+            Message msg = JSON.parseObject(json, Message.class);
 
             Class cls = null;
 
-            switch (msg.type){
+            switch (msg.type) {
                 case PI:
                     cls = Ping.class;
                     break;
@@ -108,7 +111,7 @@ public abstract class DeviceMessage<T> {
                 default:
                     throw new DeviceProtocolException("Unknown Device type " + msg.type);
             }
-            DeviceMessage message = (DeviceMessage) JSON.parseObject(msg.message,cls);
+            DeviceMessage message = (DeviceMessage) JSON.parseObject(msg.message, cls);
             return message;
         } catch (Exception e) {
             throw new DeviceProtocolException("Exception occur,Message is " + json, e);
@@ -119,7 +122,7 @@ public abstract class DeviceMessage<T> {
     //真正的传递消息的类
 
     @Builder
-    private static class Message{
+    private static class Message {
         @JSONField(name = "T")
         private Type type;
 
@@ -127,7 +130,6 @@ public abstract class DeviceMessage<T> {
         private String message;
 
     }
-
 
 
 }

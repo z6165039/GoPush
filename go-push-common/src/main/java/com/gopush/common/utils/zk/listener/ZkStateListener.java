@@ -9,10 +9,13 @@ import org.apache.curator.framework.state.ConnectionState;
  */
 public interface ZkStateListener {
 
-    default void connectedEvent( CuratorFramework curator,ConnectionState state){}
+    default void connectedEvent(CuratorFramework curator, ConnectionState state) {
+    }
 
-    default void ReconnectedEvent(CuratorFramework curator,ConnectionState state){}
+    default void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
+    }
 
-    default void lostEvent(CuratorFramework curator,ConnectionState state){}
+    default void lostEvent(CuratorFramework curator, ConnectionState state) {
+    }
 
 }

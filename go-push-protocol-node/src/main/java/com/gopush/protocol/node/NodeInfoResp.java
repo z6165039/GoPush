@@ -14,7 +14,7 @@ import lombok.Getter;
  */
 @Builder
 @Getter
-public class NodeInfoResp extends NodeMessageResp<NodeInfoResp>{
+public class NodeInfoResp extends NodeMessageResp<NodeInfoResp> {
 
 
     @JSONField(name = "R")

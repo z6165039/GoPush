@@ -40,7 +40,7 @@ import javax.annotation.PreDestroy;
 public class NodeServerBootstrap {
 
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
-    private EventLoopGroup workGroup =  new NioEventLoopGroup();
+    private EventLoopGroup workGroup = new NioEventLoopGroup();
 
     @Autowired
     private GoPushConfig goPushConfig;
@@ -52,33 +52,32 @@ public class NodeServerBootstrap {
     public void start() throws Exception {
 
         ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(bossGroup,workGroup)
+        bootstrap.group(bossGroup, workGroup)
                 .channelFactory(NioServerSocketChannel::new)
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
 
                         ChannelPipeline pipeline = socketChannel.pipeline();
-                        pipeline.addLast("frameDecoder",new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,0,4,0,4));
-                        pipeline.addLast("stringDecoder",new StringDecoder(CharsetUtil.UTF_8));
-                        pipeline.addLast("frameEncoder",new LengthFieldPrepender(4));
-                        pipeline.addLast("stringEncoder",new StringEncoder(CharsetUtil.UTF_8));
-                        pipeline.addLast("idleStateHandler", new IdleStateHandler(300,0,0));
-                        pipeline.addLast("handler",nodeChannelInBoundHandler);
+                        pipeline.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
+                        pipeline.addLast("stringDecoder", new StringDecoder(CharsetUtil.UTF_8));
+                        pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
+                        pipeline.addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8));
+                        pipeline.addLast("idleStateHandler", new IdleStateHandler(300, 0, 0));
+                        pipeline.addLast("handler", nodeChannelInBoundHandler);
                     }
                 })
                 .option(ChannelOption.TCP_NODELAY, true)
-                .childOption(ChannelOption.SO_REUSEADDR,true)
-                .option(ChannelOption.SO_SNDBUF,2048)
-                .option(ChannelOption.SO_RCVBUF,1024);
+                .childOption(ChannelOption.SO_REUSEADDR, true)
+                .option(ChannelOption.SO_SNDBUF, 2048)
+                .option(ChannelOption.SO_RCVBUF, 1024);
         bootstrap.bind(goPushConfig.getNodePort()).sync();
-        log.info("Node server start successful! listening port: {}",goPushConfig.getNodePort());
+        log.info("Node server start successful! listening port: {}", goPushConfig.getNodePort());
     }
 
 
-
     @PreDestroy
-    public void destory(){
+    public void destory() {
         log.debug("Node Server will be stoped!");
         bossGroup.shutdownGracefully();
         workGroup.shutdownGracefully();

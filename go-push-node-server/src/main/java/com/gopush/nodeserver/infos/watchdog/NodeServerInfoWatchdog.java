@@ -55,7 +55,7 @@ public class NodeServerInfoWatchdog {
     private Timer timer;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         timer = new Timer("SendNodeServerInfo-Timer");
         timer.schedule(new TimerTask() {
             @Override
@@ -75,8 +75,8 @@ public class NodeServerInfoWatchdog {
 
 
     @PreDestroy
-    public void destory(){
-        if(timer != null ){
+    public void destory() {
+        if (timer != null) {
             timer.cancel();
             timer = null;
         }
@@ -84,9 +84,10 @@ public class NodeServerInfoWatchdog {
 
     /**
      * 获取系统负载信息
+     *
      * @return
      */
-    public NodeServerInfo watch(){
+    public NodeServerInfo watch() {
         return NodeServerInfo.builder()
                 .name(goPushConfig.getName())
                 .internetIp(IpUtils.internetIp())

@@ -12,6 +12,7 @@ public interface IPushSender<T> {
 
     /**
      * 发送消息给指定设备
+     *
      * @param device
      * @param message
      */

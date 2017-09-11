@@ -34,11 +34,11 @@ import javax.annotation.PreDestroy;
 
 @Slf4j
 @Component
-public class DeviceServerBootstrap{
+public class DeviceServerBootstrap {
 
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
-    private EventLoopGroup workGroup =  new NioEventLoopGroup();
-    
+    private EventLoopGroup workGroup = new NioEventLoopGroup();
+
     @Autowired
     private GoPushConfig goPushConfig;
 
@@ -50,40 +50,39 @@ public class DeviceServerBootstrap{
 
 
         ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(bossGroup,workGroup)
+        bootstrap.group(bossGroup, workGroup)
                 .channelFactory(NioServerSocketChannel::new)
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
 
                         ChannelPipeline pipeline = socketChannel.pipeline();
-                        pipeline.addLast("logHandler",new LoggingHandler());
-                        pipeline.addLast("frameDecoder",new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,0,4,0,4));
-                        pipeline.addLast("stringDecoder",new StringDecoder(CharsetUtil.UTF_8));
-                        pipeline.addLast("frameEncoder",new LengthFieldPrepender(4));
-                        pipeline.addLast("stringEncoder",new StringEncoder(CharsetUtil.UTF_8));
-                        pipeline.addLast("idleStateHandler", new IdleStateHandler(300,0,0));
+                        pipeline.addLast("logHandler", new LoggingHandler());
+                        pipeline.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
+                        pipeline.addLast("stringDecoder", new StringDecoder(CharsetUtil.UTF_8));
+                        pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
+                        pipeline.addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8));
+                        pipeline.addLast("idleStateHandler", new IdleStateHandler(300, 0, 0));
 
-                        pipeline.addLast("handler",deviceChannelInboundHandler);
+                        pipeline.addLast("handler", deviceChannelInboundHandler);
                     }
                 })
 
-                .option(ChannelOption.SO_BACKLOG,1000000)  //连接队列深度
+                .option(ChannelOption.SO_BACKLOG, 1000000)  //连接队列深度
                 .option(ChannelOption.TCP_NODELAY, true)   //设置 no_delay
-                .option(ChannelOption.SO_SNDBUF,2048).option(ChannelOption.SO_RCVBUF,1024)
-                .childOption(ChannelOption.TCP_NODELAY,true)
-                .childOption(ChannelOption.SO_REUSEADDR,true)
-                .childOption(ChannelOption.SO_SNDBUF,2048).childOption(ChannelOption.SO_RCVBUF,1024)
-                .childOption(ChannelOption.SO_LINGER,0);
+                .option(ChannelOption.SO_SNDBUF, 2048).option(ChannelOption.SO_RCVBUF, 1024)
+                .childOption(ChannelOption.TCP_NODELAY, true)
+                .childOption(ChannelOption.SO_REUSEADDR, true)
+                .childOption(ChannelOption.SO_SNDBUF, 2048).childOption(ChannelOption.SO_RCVBUF, 1024)
+                .childOption(ChannelOption.SO_LINGER, 0);
 
         bootstrap.bind(goPushConfig.getDevicePort()).sync();
-        log.info("device server start successful! listening port: {}",goPushConfig.getDevicePort());
+        log.info("device server start successful! listening port: {}", goPushConfig.getDevicePort());
     }
 
 
-
     @PreDestroy
-    public void destory(){
+    public void destory() {
         bossGroup.shutdownGracefully();
         workGroup.shutdownGracefully();
     }

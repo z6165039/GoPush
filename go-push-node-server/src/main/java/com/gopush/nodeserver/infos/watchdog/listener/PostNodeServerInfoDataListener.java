@@ -19,7 +19,7 @@ public class PostNodeServerInfoDataListener {
     private NodeServerRegisterService nodeServerRegisterService;
 
     @EventListener(condition = "#event.nodeServerInfo != null")
-    public void postDataToZk(NodeServerInfoEvent event){
+    public void postDataToZk(NodeServerInfoEvent event) {
         nodeServerRegisterService.postNewData(event.getNodeServerInfo());
     }
 }

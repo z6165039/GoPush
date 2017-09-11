@@ -32,14 +32,14 @@ public class DevicePongHandler extends PingPongProcessor<Object[]> implements ID
     public void call(ChannelHandlerContext context, Pong message) {
 
         Channel channel = context.channel();
-        if (!checkHandShake(channel)){
+        if (!checkHandShake(channel)) {
             context.close();
             return;
         }
         putMsg(new Object[]{
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
-        log.debug("receive pong, channel:{}, device:{}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.debug("receive pong, channel:{}, device:{}", channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
 
     }
 

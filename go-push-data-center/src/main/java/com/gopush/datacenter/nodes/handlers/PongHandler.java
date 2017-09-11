@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  *
  * @类功能说明：
  * @作者：喝咖啡的囊地鼠
- * @创建时间：2017/6/21 
+ * @创建时间：2017/6/21
  * @VERSION：
  */
 
@@ -30,6 +30,6 @@ public class PongHandler implements INodeMessageHandler<Pong> {
         Channel channel = ctx.channel();
 
 
-        log.debug("receive pong! channel:{}",channel);
+        log.debug("receive pong! channel:{}", channel);
     }
 }

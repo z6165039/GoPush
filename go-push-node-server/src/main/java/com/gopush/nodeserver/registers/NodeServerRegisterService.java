@@ -24,6 +24,8 @@ import javax.annotation.PreDestroy;
 @Component
 public class NodeServerRegisterService {
 
+    private static final String NODE_SERVER_GROUP = "/NODE-SERVER";
+
     @Autowired
     private ZookeeperConfig zookeeperConfig;
 
@@ -31,7 +33,7 @@ public class NodeServerRegisterService {
     private GoPushConfig goPushConfig;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         ZkUtils.instance().init(
                 zookeeperConfig.getServers(),
                 zookeeperConfig.getConnectionTimeout(),
@@ -40,63 +42,62 @@ public class NodeServerRegisterService {
                 zookeeperConfig.getRetriesSleepTime(),
                 zookeeperConfig.getNamespace(),
                 new ZkStateListener() {
-            @Override
-            public void connectedEvent(CuratorFramework curator, ConnectionState state) {
-                log.info(".........链接zk成功");
-                registerNodeServer();
-            }
+                    @Override
+                    public void connectedEvent(CuratorFramework curator, ConnectionState state) {
+                        log.info("链接zk成功");
+                    }
 
-            @Override
-            public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
-                log.info(".........重新链接zk成功");
-            }
+                    @Override
+                    public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
+                        log.info("重新链接zk成功");
+                    }
 
-            @Override
-            public void lostEvent(CuratorFramework curator, ConnectionState state) {
-                log.info(".........链接zk丢失");
-            }
-        });
+                    @Override
+                    public void lostEvent(CuratorFramework curator, ConnectionState state) {
+                        log.info("链接zk丢失");
+                    }
+                });
+        registerNodeServer();
 
     }
 
     @PreDestroy
-    public void destory(){
+    public void destory() {
         ZkUtils.instance().destory();
     }
 
 
     /**
      * 提交最新的数据
+     *
      * @param data
      */
-    public void postNewData(NodeServerInfo data){
+    public void postNewData(NodeServerInfo data) {
         ZkUtils.instance().setNodeData(
-                "/NODE-SERVER/"+goPushConfig.getName(),
+                "/NODE-SERVER/" + goPushConfig.getName(),
                 JSON.toJSONString(data));
     }
 
     /**
      * 注册node-server服务
      */
-    private void registerNodeServer(){
+    private void registerNodeServer() {
 
-        if (!ZkUtils.instance().checkExists("/NODE-SERVER")){
+        if (!ZkUtils.instance().checkExists(NODE_SERVER_GROUP)) {
             boolean flag;
-            do{
-                flag = ZkUtils.instance().createNode("/NODE-SERVER",null, CreateMode.PERSISTENT);
-            }while (!flag);
+            do {
+                flag = ZkUtils.instance().createNode(NODE_SERVER_GROUP, null, CreateMode.PERSISTENT);
+            } while (!flag);
         }
         registerNodeInfo();
     }
 
-    private void registerNodeInfo(){
-        //开始写入真正的服务节点数据
+    private void registerNodeInfo() {
         ZkUtils.instance().createNode(
-                "/NODE-SERVER/"+goPushConfig.getName(),
-                "",
+                NODE_SERVER_GROUP + goPushConfig.getName(),
+                null,
                 CreateMode.EPHEMERAL);
     }
-
 
 
 }

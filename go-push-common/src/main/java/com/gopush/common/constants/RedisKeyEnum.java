@@ -16,13 +16,11 @@ public enum RedisKeyEnum {
     DEVICE_KEY("DE:"),
     DEIVCE_TOKEN_FIELD("token"),
     DEVICE_NODE_FIELD("node"),
-    DEVICE_CHANNEL_FIELD("channel")
-
-    ;
+    DEVICE_CHANNEL_FIELD("channel");
 
     private final String value;
 
-    RedisKeyEnum(String value){
+    RedisKeyEnum(String value) {
         this.value = value;
     }
 

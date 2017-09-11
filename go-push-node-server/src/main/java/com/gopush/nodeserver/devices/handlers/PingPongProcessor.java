@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
-public  abstract class PingPongProcessor<T> extends BatchProcessor<T> {
+public abstract class PingPongProcessor<T> extends BatchProcessor<T> {
 
 
     @Autowired
@@ -31,25 +31,26 @@ public  abstract class PingPongProcessor<T> extends BatchProcessor<T> {
 
     /**
      * 检测是否已经握手
+     *
      * @param channel
      * @return
      */
-    protected boolean checkHandShake(Channel channel){
-        if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)){
-            log.warn("channel not handshake, channel:{}",channel);
+    protected boolean checkHandShake(Channel channel) {
+        if (!channel.hasAttr(Constants.CHANNEL_ATTR_HANDSHAKE)) {
+            log.warn("channel not handshake, channel:{}", channel);
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
     }
 
 
-    protected void liveHandShake(List<Object[]> batchReq){
-        if (CollectionUtils.isNotEmpty(batchReq)){
+    protected void liveHandShake(List<Object[]> batchReq) {
+        if (CollectionUtils.isNotEmpty(batchReq)) {
 
             batchReq.stream().forEach((ele) -> {
                 String device = (String) ele[0];
                 int[] idles = (int[]) ele[1];
-                redisTemplate.expire(RedisKeyEnum.DEVICE_KEY.getValue()+device,idles[0], TimeUnit.SECONDS);
+                redisTemplate.expire(RedisKeyEnum.DEVICE_KEY.getValue() + device, idles[0], TimeUnit.SECONDS);
             });
 
         }

@@ -21,13 +21,13 @@ import org.springframework.stereotype.Component;
 public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMessageToDeviceResp> {
     @Override
     public boolean support(MultiMessageToDeviceResp message) {
-        return message instanceof  MultiMessageToDeviceResp;
+        return message instanceof MultiMessageToDeviceResp;
     }
 
     @Override
     public void call(ChannelHandlerContext ctx, MultiMessageToDeviceResp message) {
         Channel channel = ctx.channel();
 
-        log.debug("receive MessageToMultiDeviceResp, channel:{}",channel);
+        log.debug("receive MessageToMultiDeviceResp, channel:{}", channel);
     }
 }

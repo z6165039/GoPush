@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageToMultiDeviceResp> {
     @Override
     public boolean support(MessageToMultiDeviceResp message) {
-        return message instanceof  MessageToMultiDeviceResp;
+        return message instanceof MessageToMultiDeviceResp;
     }
 
     @Override
@@ -29,6 +29,6 @@ public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageT
         Channel channel = ctx.channel();
 
 
-        log.debug("receive MessageToMultiDeviceResp, channel:{}",channel);
+        log.debug("receive MessageToMultiDeviceResp, channel:{}", channel);
     }
 }

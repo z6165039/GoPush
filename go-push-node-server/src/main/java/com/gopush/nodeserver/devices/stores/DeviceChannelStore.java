@@ -27,7 +27,7 @@ public class DeviceChannelStore implements IDeviceChannelStore {
 
 
     //设备-channel列表
-    private ConcurrentHashMap<String,Channel> deviceChannels = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Channel> deviceChannels = new ConcurrentHashMap<>();
 
     @Override
     public Channel getChannel(String device) {
@@ -38,14 +38,14 @@ public class DeviceChannelStore implements IDeviceChannelStore {
     public void removeChannel(String device) {
         deviceChannels.remove(device);
         int count = counter.decrementAndGet();
-        if (count < 0){
+        if (count < 0) {
             counter.set(0);
         }
     }
 
     @Override
     public void removeChannel(String device, Channel channel) {
-        if (channel.equals(deviceChannels.get(device))){
+        if (channel.equals(deviceChannels.get(device))) {
             removeChannel(device);
         }
     }
@@ -58,7 +58,7 @@ public class DeviceChannelStore implements IDeviceChannelStore {
 
     @Override
     public void addChannel(String device, Channel channel) {
-        deviceChannels.put(device,channel);
+        deviceChannels.put(device, channel);
         counter.incrementAndGet();
     }
 

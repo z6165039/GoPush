@@ -38,7 +38,7 @@ public class DevicePingHandler extends PingPongProcessor<Object[]> implements ID
     public void call(ChannelHandlerContext context, Ping message) {
 
         Channel channel = context.channel();
-        if (!checkHandShake(channel)){
+        if (!checkHandShake(channel)) {
             context.close();
             return;
         }
@@ -47,7 +47,7 @@ public class DevicePingHandler extends PingPongProcessor<Object[]> implements ID
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
 
-        log.debug("receive ping, channel:{}, device:{}",channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.debug("receive ping, channel:{}, device:{}", channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
     }
 
 
@@ -64,6 +64,7 @@ public class DevicePingHandler extends PingPongProcessor<Object[]> implements ID
 
     /**
      * 设置设备在线的过期时间
+     *
      * @param batchReq
      * @throws Exception
      */

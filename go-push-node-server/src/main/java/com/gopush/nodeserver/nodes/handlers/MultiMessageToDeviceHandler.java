@@ -32,16 +32,16 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
 
     @Override
     public boolean support(MultiMessageToDeviceReq message) {
-        return message instanceof  MultiMessageToDeviceReq;
+        return message instanceof MultiMessageToDeviceReq;
     }
 
     @Override
     public void call(ChannelHandlerContext ctx, MultiMessageToDeviceReq message) {
         //找寻到对应设备的channel 将消息全部推送给这个设备
-        if (message != null){
-            if(StringUtils.isNotEmpty(message.getDevice())){
+        if (message != null) {
+            if (StringUtils.isNotEmpty(message.getDevice())) {
                 Channel channel = deviceChannelStore.getChannel(message.getDevice());
-                if(channel != null){
+                if (channel != null) {
                     PushReq pushReq =
                             PushReq.builder()
                                     .msgs(message.getMessages())
@@ -52,7 +52,7 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
             }
             //将发送的信息存到redis中设置超时时间
             //将消息存储在redis中
-            
+
         }
     }
 }

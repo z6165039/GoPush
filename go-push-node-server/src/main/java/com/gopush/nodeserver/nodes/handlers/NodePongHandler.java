@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class NodePongHandler extends NodeBaseHandler implements INodeMessageHandler<Pong>{
+public class NodePongHandler extends NodeBaseHandler implements INodeMessageHandler<Pong> {
 
 
     @Override
@@ -31,7 +31,7 @@ public class NodePongHandler extends NodeBaseHandler implements INodeMessageHand
         //可以做一些保活操作.其实就是确保活动
         //查询本地缓存是否存在该data center 的节点,有的话不做出来,没有的话加入新的节点
         saveLiveDc(ctx.channel());
-        log.debug("receive pong, channel:{}, node:{}",ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
+        log.debug("receive pong, channel:{}, node:{}", ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
 
     }
 }

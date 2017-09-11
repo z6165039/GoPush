@@ -28,19 +28,19 @@ public class PushSender implements IPushSender<PushReq> {
     @Override
     public void send(String device, PushReq message) {
         Channel channel = deviceChannelStore.getChannel(device);
-        if (channel == null){
-            log.warn("can not find channel, device :{}",device);
+        if (channel == null) {
+            log.warn("can not find channel, device :{}", device);
             return;
         }
 
         channel.writeAndFlush(message.encode()).addListener((channelFuture) -> {
-            if (!channelFuture.isSuccess()){
-                log.error("send message error, device:{}, msg_id:{}, msg:{} ",device,message.getId(),message.getMsgs());
+            if (!channelFuture.isSuccess()) {
+                log.error("send message error, device:{}, msg_id:{}, msg:{} ", device, message.getId(), message.getMsgs());
                 // TODO: 2017/6/19  这边可以做重试操作
                 //并且记录错误次数
 
-            }else {
-                log.debug("send message successful, device:{}, msg_id:{}, msg:{} ",device,message.getId(),message.getMsgs());
+            } else {
+                log.debug("send message successful, device:{}, msg_id:{}, msg:{} ", device, message.getId(), message.getMsgs());
             }
         });
     }

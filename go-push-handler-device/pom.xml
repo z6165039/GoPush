@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>go-push-handler-device</artifactId>
     <packaging>jar</packaging>
-    <description> GoPush业务handler </description>
+    <description>GoPush业务handler</description>
 
     <dependencies>
         <dependency>
@@ -18,18 +18,18 @@
             <artifactId>go-push-protocol-device</artifactId>
             <version>${project.version}</version>
         </dependency>
-    <!--    <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        <!--    <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <scope>provided</scope>
+            </dependency>
 
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>provided</scope>
-        </dependency>
--->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <scope>provided</scope>
+            </dependency>
+    -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>

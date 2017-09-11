@@ -19,8 +19,7 @@ import java.util.List;
 
 @Builder
 @Getter
-public class DeviceDisconReq extends NodeMessageReq<DeviceDisconReq>{
-
+public class DeviceDisconReq extends NodeMessageReq<DeviceDisconReq> {
 
 
     //需要上报的设备列表(是批量上报的)
@@ -34,14 +33,15 @@ public class DeviceDisconReq extends NodeMessageReq<DeviceDisconReq>{
 
     /**
      * 添加设备
+     *
      * @param device
      */
 
-    public void addDevice(String device){
-        if (devices == null){
+    public void addDevice(String device) {
+        if (devices == null) {
             devices = new ArrayList<>();
         }
-        if (!devices.contains(device)){
+        if (!devices.contains(device)) {
             devices.add(device);
         }
     }

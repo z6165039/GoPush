@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class DeviceDockedHandler implements INodeMessageHandler<DeviceDockedReq> {
     @Override
     public boolean support(DeviceDockedReq message) {
-        return message instanceof  DeviceDockedReq;
+        return message instanceof DeviceDockedReq;
     }
 
     @Override

@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Builder
 @Getter
-public class DeviceDockedReq extends NodeMessageReq<DeviceDockedReq>{
+public class DeviceDockedReq extends NodeMessageReq<DeviceDockedReq> {
 
     //需要上报的设备列表(是批量上报的)
     @JSONField(name = "DEVS")
@@ -26,20 +26,21 @@ public class DeviceDockedReq extends NodeMessageReq<DeviceDockedReq>{
 
     @JSONField(name = "N")
     private String node;
+
     /**
      * 添加设备
+     *
      * @param device
      */
 
-    public void addDevice(String device){
-        if (devices == null){
+    public void addDevice(String device) {
+        if (devices == null) {
             devices = new ArrayList<>();
         }
-        if (!devices.contains(device)){
+        if (!devices.contains(device)) {
             devices.add(device);
         }
     }
-
 
 
     @Override
@@ -51,7 +52,6 @@ public class DeviceDockedReq extends NodeMessageReq<DeviceDockedReq>{
     protected DeviceDockedReq getThis() {
         return this;
     }
-
 
 
 }

@@ -22,7 +22,7 @@ public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDiscon
 
     @Override
     public boolean support(DeviceDisconReq message) {
-        return message instanceof  DeviceDisconReq;
+        return message instanceof DeviceDisconReq;
     }
 
     @Override
@@ -30,6 +30,6 @@ public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDiscon
         Channel channel = ctx.channel();
 
 
-        log.debug("receive DeviceDisconReq, channel:{}",channel);
+        log.debug("receive DeviceDisconReq, channel:{}", channel);
     }
 }

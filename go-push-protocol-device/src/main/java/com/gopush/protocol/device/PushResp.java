@@ -21,7 +21,7 @@ public class PushResp extends DeviceMessageResp<PushResp> {
     private final static String RESULT_KEY = "R";
 
 
-    public enum Result{
+    public enum Result {
         S,  //SUCCESS,
         D,  //DUPLICATE,
         NR, //NOT_REGISTERED,
@@ -46,7 +46,6 @@ public class PushResp extends DeviceMessageResp<PushResp> {
     protected PushResp getThis() throws Exception {
         return this;
     }
-
 
 
 }

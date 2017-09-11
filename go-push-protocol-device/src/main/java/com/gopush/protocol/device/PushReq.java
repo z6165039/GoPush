@@ -35,6 +35,4 @@ public class PushReq extends DeviceMessageReq<PushReq> {
     }
 
 
-
-
 }

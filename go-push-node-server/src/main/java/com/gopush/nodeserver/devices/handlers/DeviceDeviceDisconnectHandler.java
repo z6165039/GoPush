@@ -44,12 +44,12 @@ public class DeviceDeviceDisconnectHandler extends BatchProcessor<Object[]> impl
     @Override
     public void channelClosed(Channel channel) {
         String device = (String) channel.attr(Constants.CHANNEL_ATTR_DEVICE).get();
-        if (StringUtils.isNotEmpty(device)){
+        if (StringUtils.isNotEmpty(device)) {
             //移除设备-channel 映射
-            deviceChannelStore.removeChannel(device,channel);
-            putMsg(new Object[]{device,channel.hashCode()});
+            deviceChannelStore.removeChannel(device, channel);
+            putMsg(new Object[]{device, channel.hashCode()});
         }
-        log.debug("channel closed , channel:{}, device:{}",channel,device);
+        log.debug("channel closed , channel:{}, device:{}", channel, device);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class DeviceDeviceDisconnectHandler extends BatchProcessor<Object[]> impl
                         RedisKeyEnum.DEVICE_KEY.getValue() + device,
                         RedisKeyEnum.DEVICE_CHANNEL_FIELD.getValue());
                 if (channel != null && Integer.parseInt(channel) == channelHashCode) {
-                    if(!flag[0]) {
+                    if (!flag[0]) {
                         flag[0] = Boolean.TRUE;
                     }
                     req.addDevice(device);
@@ -87,7 +87,7 @@ public class DeviceDeviceDisconnectHandler extends BatchProcessor<Object[]> impl
                 }
             });
 
-            if (flag[0]){
+            if (flag[0]) {
                 nodeSender.sendShuffle(req);
             }
 

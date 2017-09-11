@@ -20,13 +20,13 @@ import org.springframework.stereotype.Component;
 public class NodeDeviceDisconnectHandler extends NodeBaseHandler implements INodeMessageHandler<DeviceDisconResp> {
     @Override
     public boolean support(DeviceDisconResp message) {
-        return message instanceof  DeviceDisconResp;
+        return message instanceof DeviceDisconResp;
     }
 
     @Override
     public void call(ChannelHandlerContext ctx, DeviceDisconResp message) {
         saveLiveDc(ctx.channel());
-        log.debug("receive DeviceDockedResp, channel:{}, node:{}",ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
+        log.debug("receive DeviceDockedResp, channel:{}, node:{}", ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
 
     }
 }

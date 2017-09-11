@@ -14,7 +14,7 @@ import lombok.Getter;
  */
 @Builder
 @Getter
-public class DeviceDisconResp extends NodeMessageResp<DeviceDisconResp>{
+public class DeviceDisconResp extends NodeMessageResp<DeviceDisconResp> {
 
 
     @JSONField(name = "R")

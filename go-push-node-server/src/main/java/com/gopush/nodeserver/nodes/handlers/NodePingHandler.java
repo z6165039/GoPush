@@ -23,7 +23,6 @@ public class NodePingHandler extends NodeBaseHandler implements INodeMessageHand
     private static final String PONG = Pong.builder().build().encode();
 
 
-
     @Override
     public boolean support(Ping message) {
         return message instanceof Ping;
@@ -34,6 +33,6 @@ public class NodePingHandler extends NodeBaseHandler implements INodeMessageHand
         Channel channel = ctx.channel();
         channel.writeAndFlush(PONG);
         saveLiveDc(channel);
-        log.debug("node send pong to data center, channel:{}",ctx.channel());
+        log.debug("node send pong to data center, channel:{}", ctx.channel());
     }
 }

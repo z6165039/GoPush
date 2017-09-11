@@ -32,15 +32,15 @@ public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageT
 
     @Override
     public boolean support(MessageToMultiDeviceReq message) {
-        return message instanceof  MessageToMultiDeviceReq;
+        return message instanceof MessageToMultiDeviceReq;
     }
 
     @Override
     public void call(ChannelHandlerContext ctx, MessageToMultiDeviceReq message) {
 
         //找寻到对应设备的channel 将消息全部推送给这个设备
-        if (message != null){
-            if(CollectionUtils.isNotEmpty(message.getDevices())){
+        if (message != null) {
+            if (CollectionUtils.isNotEmpty(message.getDevices())) {
                 List<String> devcies = message.getDevices();
                 devcies.stream().forEach((e) -> {
                     Channel channel = deviceChannelStore.getChannel(e);
@@ -51,7 +51,7 @@ public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageT
                         PushReq pushReq = PushReq.builder().msgs(msgList)
                                 .build();
                         channel.writeAndFlush(pushReq.encode());
-                    }else {
+                    } else {
                         //将要发给这个设备的消息存一份到redis
                         //没有找到,将该信息存储在redis中,添加超时机制
 
@@ -60,7 +60,6 @@ public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageT
                 });
             }
         }
-
 
 
     }

@@ -27,5 +27,4 @@ public class Pong extends DeviceMessageResp<Pong> {
     }
 
 
-
 }

@@ -53,8 +53,8 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
 
     @Override
     public void call(ChannelHandlerContext context, HandShakeReq message) {
-        putMsg(new Object[]{context.channel(),message});
-        log.info("handshake request received, message:{}, channel:{}", message,context.channel());
+        putMsg(new Object[]{context.channel(), message});
+        log.info("handshake request received, message:{}, channel:{}", message, context.channel());
     }
 
 
@@ -80,9 +80,9 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
 
     @Override
     protected void batchHandler(List<Object[]> batchReq) throws Exception {
-        if(CollectionUtils.isNotEmpty(batchReq)){
+        if (CollectionUtils.isNotEmpty(batchReq)) {
             //先全部取出redis 中存储的要处理的设备的列表
-            batchReq.stream().forEach((e) ->{
+            batchReq.stream().forEach((e) -> {
 
                 try {
                     Channel channel = (Channel) e[0];
@@ -92,17 +92,16 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
                     //建立 握手响应
                     HandShakeResp.HandShakeRespBuilder respBuilder =
                             HandShakeResp.builder();
-                    if(StringUtils.isEmpty(req.getDevice())){
+                    if (StringUtils.isEmpty(req.getDevice())) {
                         respBuilder.result(HANDSHAKE_INVALID_DEVICE);
-                    }
-                    else{
+                    } else {
                         String token = (String) redisTemplate.opsForHash().get(
-                                RedisKeyEnum.DEVICE_KEY.getValue() + devcieId ,
+                                RedisKeyEnum.DEVICE_KEY.getValue() + devcieId,
                                 RedisKeyEnum.DEIVCE_TOKEN_FIELD.getValue());
                         //所有的token 都不为空 且 两个token相等
-                        if(StringUtils.isAnyEmpty(token,req.getToken()) ||  !StringUtils.equals(req.getToken(),token)){
+                        if (StringUtils.isAnyEmpty(token, req.getToken()) || !StringUtils.equals(req.getToken(), token)) {
                             respBuilder.result(HANDSHAKE_INVALID_TOKEN);
-                        }else{
+                        } else {
                             respBuilder.result(HANDSAHKE_OK);
                         }
                     }
@@ -110,24 +109,23 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
 
                     String respEncode = resp.encode();
                     //握手不成功
-                    if (resp.getResult() != HANDSAHKE_OK){
+                    if (resp.getResult() != HANDSAHKE_OK) {
                         //将写出握手响应后关闭链接
                         channel.writeAndFlush(respEncode).addListener(ChannelFutureListener.CLOSE);
-                        log.debug("handshake fail, channel:{}, device:{}, response:{}",channel, req.getDevice(), respEncode);
-                    }
-                    else{
+                        log.debug("handshake fail, channel:{}, device:{}, response:{}", channel, req.getDevice(), respEncode);
+                    } else {
 
 
                         //将已经存在的链接关闭
                         Channel exist = deviceChannelStore.getChannel(devcieId);
-                        if(exist != null){
-                            log.warn("exist channel - device in cache, channel:{},device:{}",exist,devcieId);
+                        if (exist != null) {
+                            log.warn("exist channel - device in cache, channel:{},device:{}", exist, devcieId);
                             exist.close();
                         }
 
 
                         //将握手结果, 设备信息  绑定到 通道属性里面
-                        Integer[] idles  = new Integer[]{
+                        Integer[] idles = new Integer[]{
                                 req.getReadInterval() + IdleEnum.READ_IDLE.getValue(),
                                 req.getWriteInterval() + IdleEnum.WRITE_IDLE.getValue(),
                                 req.getAllInterval() + IdleEnum.ALL_IDLE.getValue()
@@ -137,22 +135,22 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
                         channel.attr(Constants.CHANNEL_ATTR_HANDSHAKE).set(Boolean.TRUE);
 
                         //重设读写超时器
-                        channel.pipeline().replace("idleStateHandler","idleStateHandler",new IdleStateHandler(idles[0],idles[1],idles[2], TimeUnit.SECONDS));
+                        channel.pipeline().replace("idleStateHandler", "idleStateHandler", new IdleStateHandler(idles[0], idles[1], idles[2], TimeUnit.SECONDS));
 
                         //添加本地 设备-channel 绑定
-                        deviceChannelStore.addChannel(devcieId,channel);
+                        deviceChannelStore.addChannel(devcieId, channel);
 
                         //报告设备上线
-                        deviceDockedHandler.upReport(devcieId,channel.hashCode(),new int[]{idles[0],idles[1],idles[2]});
+                        deviceDockedHandler.upReport(devcieId, channel.hashCode(), new int[]{idles[0], idles[1], idles[2]});
 
                         //写出握手响应
                         channel.writeAndFlush(respEncode);
-                        log.debug("handshake successful, channel:{}, device:{}, message:{}",channel,req.getDevice(),respEncode);
+                        log.debug("handshake successful, channel:{}, device:{}, message:{}", channel, req.getDevice(), respEncode);
 
 
                     }
-                }catch (Exception ex){
-                    log.error("handshake error:{}",ex);
+                } catch (Exception ex) {
+                    log.error("handshake error:{}", ex);
                 }
 
             });

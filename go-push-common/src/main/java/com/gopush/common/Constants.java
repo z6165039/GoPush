@@ -14,7 +14,6 @@ import io.netty.util.AttributeKey;
 public class Constants {
 
 
-
     /*****
      *
      * Device 和 NodeServer 之间
@@ -35,20 +34,6 @@ public class Constants {
      *
      * ***/
     public static final AttributeKey<String> CHANNEL_ATTR_DATACENTER = AttributeKey.newInstance("datacenter");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

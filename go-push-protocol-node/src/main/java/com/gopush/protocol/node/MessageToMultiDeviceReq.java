@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Builder
 @Getter
-public class MessageToMultiDeviceReq extends NodeMessageReq<MessageToMultiDeviceReq>{
+public class MessageToMultiDeviceReq extends NodeMessageReq<MessageToMultiDeviceReq> {
 
     @JSONField(name = "DEVS")
     private List<String> devices;

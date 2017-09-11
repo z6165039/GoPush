@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class NodeDeviceDockedHandler extends NodeBaseHandler implements INodeMessageHandler<DeviceDockedResp>{
+public class NodeDeviceDockedHandler extends NodeBaseHandler implements INodeMessageHandler<DeviceDockedResp> {
     @Override
     public boolean support(DeviceDockedResp message) {
         return message instanceof DeviceDockedResp;
@@ -27,7 +27,7 @@ public class NodeDeviceDockedHandler extends NodeBaseHandler implements INodeMes
     @Override
     public void call(ChannelHandlerContext ctx, DeviceDockedResp message) {
         saveLiveDc(ctx.channel());
-        log.debug("receive DeviceDockedResp, channel:{}, node:{}",ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
+        log.debug("receive DeviceDockedResp, channel:{}, node:{}", ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
 
     }
 }

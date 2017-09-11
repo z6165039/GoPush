@@ -14,10 +14,10 @@ import java.util.Arrays;
 public enum IdleEnum {
     READ_IDLE(10),
     WRITE_IDLE(30),
-    ALL_IDLE(50)
-    ;
+    ALL_IDLE(50);
     private final int value;
-    IdleEnum(int value){
+
+    IdleEnum(int value) {
         this.value = value;
     }
 

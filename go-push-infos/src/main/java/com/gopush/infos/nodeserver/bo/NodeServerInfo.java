@@ -21,5 +21,5 @@ public class NodeServerInfo {
     //对内监听端口
     private int nodePort;
     //系统负载信息
-    private  NodeLoaderInfo nodeLoaderInfo;
+    private NodeLoaderInfo nodeLoaderInfo;
 }

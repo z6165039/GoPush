@@ -74,17 +74,12 @@ public class Node {
     private volatile boolean runing = Boolean.FALSE;
 
 
-
-
-    public void  init(){
+    public void init() {
         failMessage = new ConcurrentLinkedQueue<>();
 
         runing = Boolean.TRUE;
 
     }
-
-
-
 
 
 }

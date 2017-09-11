@@ -41,17 +41,17 @@
     </modules>
 
     <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>nexus</id>-->
-            <!--<name>local private nexus</name>-->
-            <!--<url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
-            <!--<releases>-->
-                <!--<enabled>true</enabled>-->
-            <!--</releases>-->
-            <!--<snapshots>-->
-                <!--<enabled>false</enabled>-->
-            <!--</snapshots>-->
-        <!--</repository>-->
+    <!--<repository>-->
+    <!--<id>nexus</id>-->
+    <!--<name>local private nexus</name>-->
+    <!--<url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
+    <!--<releases>-->
+    <!--<enabled>true</enabled>-->
+    <!--</releases>-->
+    <!--<snapshots>-->
+    <!--<enabled>false</enabled>-->
+    <!--</snapshots>-->
+    <!--</repository>-->
     <!--</repositories>-->
 
 
@@ -115,11 +115,11 @@
                 <version>4.1.11.Final</version>
             </dependency>
 
-           <!-- <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-handler</artifactId>
-                <version>4.1.11.Final</version>
-            </dependency>-->
+            <!-- <dependency>
+                 <groupId>io.netty</groupId>
+                 <artifactId>netty-handler</artifactId>
+                 <version>4.1.11.Final</version>
+             </dependency>-->
 
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -185,11 +185,8 @@
             </dependency>
 
 
-
-
         </dependencies>
     </dependencyManagement>
-
 
 
     <build>
@@ -214,7 +211,6 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-
 
 
             <plugin>

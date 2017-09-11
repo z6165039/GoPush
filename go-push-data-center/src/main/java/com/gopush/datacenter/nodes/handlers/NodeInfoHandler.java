@@ -22,7 +22,7 @@ public class NodeInfoHandler implements INodeMessageHandler<NodeInfoReq> {
     @Override
     public boolean support(NodeInfoReq message) {
 
-        return message instanceof  NodeInfoReq;
+        return message instanceof NodeInfoReq;
     }
 
     @Override
@@ -30,6 +30,6 @@ public class NodeInfoHandler implements INodeMessageHandler<NodeInfoReq> {
         Channel channel = ctx.channel();
 
 
-        log.debug("receive ping,channel:{}",channel);
+        log.debug("receive ping,channel:{}", channel);
     }
 }
