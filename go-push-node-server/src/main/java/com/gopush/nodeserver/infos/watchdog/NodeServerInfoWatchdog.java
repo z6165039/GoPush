@@ -60,7 +60,6 @@ public class NodeServerInfoWatchdog {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                //将NodeServer全部信息加载到 zk 中
                 //将负载加载到ZK中
                 applicationEventPublisher.publishEvent(
                         NodeServerInfoEvent.builder()
