@@ -1,7 +1,7 @@
 package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.constants.RedisKeyEnum;
-import com.gopush.common.utils.IpUtils;
+import com.gopush.common.utils.ip.IpUtils;
 import com.gopush.devices.handlers.IDeviceDockedHandler;
 import com.gopush.nodeserver.devices.BatchProcesser;
 import com.gopush.nodeserver.nodes.senders.INodeSender;

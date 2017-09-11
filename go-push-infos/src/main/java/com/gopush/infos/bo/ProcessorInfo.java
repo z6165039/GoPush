@@ -1,4 +1,4 @@
-package com.gopush.nodeserver.devices.infos.bo;
+package com.gopush.infos.bo;
 
 import lombok.Builder;
 import lombok.Data;

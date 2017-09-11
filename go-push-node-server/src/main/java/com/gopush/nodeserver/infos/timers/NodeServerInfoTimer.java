@@ -1,8 +1,8 @@
-package com.gopush.nodeserver.infos;
+package com.gopush.nodeserver.infos.timers;
 
 import com.gopush.nodeserver.devices.BatchProcesser;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
-import com.gopush.nodeserver.infos.bo.NodeServerInfo;
+import com.gopush.infos.bo.NodeServerInfo;
 import com.gopush.nodeserver.nodes.senders.INodeSender;
 import com.gopush.nodeserver.nodes.stores.IDataCenterChannelStore;
 import com.gopush.protocol.node.NodeInfoReq;
@@ -39,7 +39,7 @@ public class NodeServerInfoTimer {
     private List<BatchProcesser> deviceMessageHandlers;
 
     @Setter
-    private int delay = 2000;
+    private int delay = 5000;
 
     private Timer timer;
 
@@ -61,7 +61,8 @@ public class NodeServerInfoTimer {
 
                 NodeInfoReq infoReq = NodeInfoReq.builder().build();
                 //写入zk 其实不需要发送 NodeInfoReq
-                nodeSender.send(infoReq);
+                //todo
+                //nodeSender.send(infoReq);
             }
         }, delay, delay);
     }

@@ -52,6 +52,7 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
             }
             //将发送的信息存到redis中设置超时时间
             //将消息存储在redis中
+            
         }
     }
 }

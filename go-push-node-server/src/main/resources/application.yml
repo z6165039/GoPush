@@ -10,6 +10,14 @@ go-push:
       processor-size: 2
       core-pool-size: 1
 
+    zookeeper:
+      server: 192.168.99.100:32768,192.168.99.100:32769,192.168.99.100:32770
+      session-timeout: 6000
+      connection-timeout: 6000
+      max-retries: 1000
+      retries-sleep-time: 2000
+      namespace: nodeserver
+
 
 spring:
   redis:

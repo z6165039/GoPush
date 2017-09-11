@@ -1,8 +1,8 @@
 package com.gopush.nodeserver.devices;
 
 
-import com.gopush.nodeserver.devices.infos.bo.HandlerInfo;
-import com.gopush.nodeserver.devices.infos.bo.ProcessorInfo;
+import com.gopush.infos.bo.HandlerInfo;
+import com.gopush.infos.bo.ProcessorInfo;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

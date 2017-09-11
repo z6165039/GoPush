@@ -1,6 +1,5 @@
-package com.gopush.nodeserver.infos.bo;
+package com.gopush.infos.bo;
 
-import com.gopush.nodeserver.devices.infos.bo.HandlerInfo;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,7 +10,6 @@ import java.util.List;
  * @date 2017/9/10 下午1:59
  */
 
-@Slf4j
 @Builder
 @Data
 public class NodeServerInfo {
