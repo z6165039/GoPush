@@ -1,7 +1,7 @@
 package com.gopush.datacenter.nodes.manager;
 
-import io.netty.channel.EventLoopGroup;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * go-push
@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@Component
 public class NodeManager {
 
 

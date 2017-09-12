@@ -3,6 +3,9 @@ package com.gopush.common.utils.zk;
 import com.google.common.base.Charsets;
 import com.google.common.base.Objects;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.curator.framework.CuratorFramework;
@@ -33,6 +36,8 @@ import java.util.stream.Collectors;
  * @date 2017/9/11 下午5:17
  */
 @Slf4j
+@Data
+@NoArgsConstructor
 public class ZkUtils {
 
     private CuratorFramework zkClient = null;
@@ -44,18 +49,6 @@ public class ZkUtils {
     List<NodeCache> nodeCaches = new CopyOnWriteArrayList<>();
 
     List<TreeCache> treeCaches = new CopyOnWriteArrayList<>();
-
-    private ZkUtils() {
-    }
-
-    private static class SingletonHolder {
-        static final ZkUtils instance = new ZkUtils();
-    }
-
-    public static ZkUtils instance() {
-
-        return SingletonHolder.instance;
-    }
 
 
     /**

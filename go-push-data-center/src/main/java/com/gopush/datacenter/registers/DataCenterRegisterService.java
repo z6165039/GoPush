@@ -1,12 +1,10 @@
-package com.gopush.nodeserver.registers;
+package com.gopush.datacenter.registers;
 
-import com.alibaba.fastjson.JSON;
 import com.gopush.common.constants.ZkGroupEnum;
 import com.gopush.common.utils.zk.ZkUtils;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
-import com.gopush.infos.nodeserver.bo.NodeServerInfo;
-import com.gopush.nodeserver.config.GoPushNodeServerConfig;
-import com.gopush.nodeserver.config.ZookeeperConfig;
+import com.gopush.datacenter.config.GoPushDataCenterConfig;
+import com.gopush.datacenter.config.ZookeeperConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.state.ConnectionState;
@@ -19,18 +17,19 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 /**
- * @author 喝咖啡的囊地鼠
- * @date 2017/9/10 下午10:42
+ * @author chenxiangqi
+ * @date 2017/9/12 下午2:20
  */
+
 @Slf4j
 @Component
-public class NodeServerRegisterService {
+public class DataCenterRegisterService {
 
     @Autowired
     private ZookeeperConfig zookeeperConfig;
 
     @Autowired
-    private GoPushNodeServerConfig goPushNodeServerConfig;
+    private GoPushDataCenterConfig goPushDataCenterConfig;
 
     private ZkUtils zkUtils;
 
@@ -60,7 +59,7 @@ public class NodeServerRegisterService {
                         log.info("链接zk丢失");
                     }
                 });
-        registerNodeServer();
+        registerDataCenter();
 
     }
 
@@ -70,38 +69,26 @@ public class NodeServerRegisterService {
     }
 
 
-    /**
-     * 提交最新的数据
-     *
-     * @param data
-     */
-    public void postNewData(NodeServerInfo data) {
-
-        zkUtils.setNodeData(
-                ZKPaths.makePath(ZkGroupEnum.NODE_SERVER.getValue(),goPushNodeServerConfig.getName())+ goPushNodeServerConfig.getName(),
-                JSON.toJSONString(data));
-    }
 
     /**
-     * 注册node-server服务
+     * 注册datacenter服务
      */
-    private void registerNodeServer() {
+    private void registerDataCenter() {
 
-        if (!zkUtils.checkExists(ZkGroupEnum.NODE_SERVER.getValue())) {
+        if (!zkUtils.checkExists(ZkGroupEnum.DATA_CENTER.getValue())) {
             boolean flag;
             do {
-                flag = zkUtils.createNode(ZkGroupEnum.NODE_SERVER.getValue(), null, CreateMode.PERSISTENT);
+                flag = zkUtils.createNode(ZkGroupEnum.DATA_CENTER.getValue(), null, CreateMode.PERSISTENT);
             } while (!flag);
         }
-        registerNodeInfo();
+        registerDataCenterInfo();
     }
 
-    private void registerNodeInfo() {
+    private void registerDataCenterInfo() {
         zkUtils.createNode(
-                ZKPaths.makePath(ZkGroupEnum.NODE_SERVER.getValue(),goPushNodeServerConfig.getName()),
+                ZKPaths.makePath(ZkGroupEnum.DATA_CENTER.getValue(),goPushDataCenterConfig.getName()),
                 null,
                 CreateMode.EPHEMERAL);
     }
-
 
 }

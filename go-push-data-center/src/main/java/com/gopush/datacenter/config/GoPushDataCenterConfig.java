@@ -1,5 +1,7 @@
 package com.gopush.datacenter.config;
 
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -11,5 +13,8 @@ import org.springframework.context.annotation.Configuration;
  * @VERSION：
  */
 @Configuration
-public class DataCenterApplicationConfig {
+@ConfigurationProperties(prefix = "go-push.data-center")
+@Data
+public class GoPushDataCenterConfig {
+    private String name;
 }

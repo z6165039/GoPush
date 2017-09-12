@@ -1,36 +1,37 @@
-package com.gopush.nodeserver.registers;
+package com.gopush.datacenter.discovery;
 
-import com.alibaba.fastjson.JSON;
-import com.gopush.common.constants.ZkGroupEnum;
 import com.gopush.common.utils.zk.ZkUtils;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
+import com.gopush.datacenter.config.GoPushDataCenterConfig;
+import com.gopush.datacenter.config.ZookeeperConfig;
 import com.gopush.infos.nodeserver.bo.NodeServerInfo;
-import com.gopush.nodeserver.config.GoPushNodeServerConfig;
-import com.gopush.nodeserver.config.ZookeeperConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.state.ConnectionState;
-import org.apache.curator.utils.ZKPaths;
-import org.apache.zookeeper.CreateMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author 喝咖啡的囊地鼠
- * @date 2017/9/10 下午10:42
+ * @author chenxiangqi
+ * @date 2017/9/12 上午3:13
  */
+
 @Slf4j
 @Component
-public class NodeServerRegisterService {
+public class NodeServerDiscoveryService {
+
+    private Map<String,NodeServerInfo> nodeServers = new ConcurrentHashMap<>();
 
     @Autowired
     private ZookeeperConfig zookeeperConfig;
 
     @Autowired
-    private GoPushNodeServerConfig goPushNodeServerConfig;
+    private GoPushDataCenterConfig goPushDataCenterConfig;
 
     private ZkUtils zkUtils;
 
@@ -43,7 +44,7 @@ public class NodeServerRegisterService {
                 zookeeperConfig.getSessionTimeout(),
                 zookeeperConfig.getMaxRetries(),
                 zookeeperConfig.getRetriesSleepTime(),
-                zookeeperConfig.getNamespace(),
+                zookeeperConfig.getListenNamespace(),
                 new ZkStateListener() {
                     @Override
                     public void connectedEvent(CuratorFramework curator, ConnectionState state) {
@@ -60,7 +61,6 @@ public class NodeServerRegisterService {
                         log.info("链接zk丢失");
                     }
                 });
-        registerNodeServer();
 
     }
 
@@ -70,38 +70,7 @@ public class NodeServerRegisterService {
     }
 
 
-    /**
-     * 提交最新的数据
-     *
-     * @param data
-     */
-    public void postNewData(NodeServerInfo data) {
 
-        zkUtils.setNodeData(
-                ZKPaths.makePath(ZkGroupEnum.NODE_SERVER.getValue(),goPushNodeServerConfig.getName())+ goPushNodeServerConfig.getName(),
-                JSON.toJSONString(data));
-    }
-
-    /**
-     * 注册node-server服务
-     */
-    private void registerNodeServer() {
-
-        if (!zkUtils.checkExists(ZkGroupEnum.NODE_SERVER.getValue())) {
-            boolean flag;
-            do {
-                flag = zkUtils.createNode(ZkGroupEnum.NODE_SERVER.getValue(), null, CreateMode.PERSISTENT);
-            } while (!flag);
-        }
-        registerNodeInfo();
-    }
-
-    private void registerNodeInfo() {
-        zkUtils.createNode(
-                ZKPaths.makePath(ZkGroupEnum.NODE_SERVER.getValue(),goPushNodeServerConfig.getName()),
-                null,
-                CreateMode.EPHEMERAL);
-    }
 
 
 }
