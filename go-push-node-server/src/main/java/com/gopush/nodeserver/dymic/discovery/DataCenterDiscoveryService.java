@@ -1,15 +1,12 @@
-package com.gopush.datacenter.registers;
+package com.gopush.nodeserver.dymic.discovery;
 
-import com.gopush.common.constants.ZkGroupEnum;
 import com.gopush.common.utils.zk.ZkUtils;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
-import com.gopush.datacenter.config.GoPushDataCenterConfig;
-import com.gopush.datacenter.config.ZookeeperConfig;
+import com.gopush.nodeserver.config.GoPushNodeServerConfig;
+import com.gopush.nodeserver.config.ZookeeperConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.state.ConnectionState;
-import org.apache.curator.utils.ZKPaths;
-import org.apache.zookeeper.CreateMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,18 +15,18 @@ import javax.annotation.PreDestroy;
 
 /**
  * @author chenxiangqi
- * @date 2017/9/12 下午2:20
+ * @date 2017/9/12 上午3:13
  */
 
 @Slf4j
 @Component
-public class DataCenterRegisterService {
+public class DataCenterDiscoveryService {
 
     @Autowired
     private ZookeeperConfig zookeeperConfig;
 
     @Autowired
-    private GoPushDataCenterConfig goPushDataCenterConfig;
+    private GoPushNodeServerConfig goPushNodeServerConfig;
 
     private ZkUtils zkUtils;
 
@@ -42,7 +39,7 @@ public class DataCenterRegisterService {
                 zookeeperConfig.getSessionTimeout(),
                 zookeeperConfig.getMaxRetries(),
                 zookeeperConfig.getRetriesSleepTime(),
-                zookeeperConfig.getNamespace(),
+                zookeeperConfig.getListenNamespace(),
                 new ZkStateListener() {
                     @Override
                     public void connectedEvent(CuratorFramework curator, ConnectionState state) {
@@ -59,7 +56,6 @@ public class DataCenterRegisterService {
                         log.info("链接zk丢失");
                     }
                 });
-        registerDataCenter();
 
     }
 
@@ -68,27 +64,5 @@ public class DataCenterRegisterService {
         zkUtils.destory();
     }
 
-
-
-    /**
-     * 注册datacenter服务
-     */
-    private void registerDataCenter() {
-
-        if (!zkUtils.checkExists(ZkGroupEnum.DATA_CENTER.getValue())) {
-            boolean flag;
-            do {
-                flag = zkUtils.createNode(ZkGroupEnum.DATA_CENTER.getValue(), null, CreateMode.PERSISTENT);
-            } while (!flag);
-        }
-        registerDataCenterInfo();
-    }
-
-    private void registerDataCenterInfo() {
-        zkUtils.createNode(
-                ZKPaths.makePath(ZkGroupEnum.DATA_CENTER.getValue(),goPushDataCenterConfig.getName()),
-                null,
-                CreateMode.EPHEMERAL);
-    }
 
 }
