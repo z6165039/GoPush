@@ -11,6 +11,8 @@ import java.util.List;
 
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class NodeLoaderInfo {
     private int onlineDeviceCounter;
     private int onlineDcCounter;

@@ -1,7 +1,9 @@
 package com.gopush.infos.nodeserver.bo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author 喝咖啡的囊地鼠
@@ -9,6 +11,8 @@ import lombok.Data;
  */
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class NodeServerInfo {
     //名称
     private String name;

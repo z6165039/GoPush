@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -67,7 +68,7 @@ public class NodeServerInfoWatchdog {
                                 .nodeServerInfo(watch())
                                 .build());
 //                写入zk 其实不需要发送 NodeInfoReq
-                nodeSender.send(NodeInfoReq.builder().build());
+                //nodeSender.send(NodeInfoReq.builder().build());
             }
         }, delay, delay);
     }
@@ -87,10 +88,13 @@ public class NodeServerInfoWatchdog {
      * @return
      */
     public NodeServerInfo watch() {
+        String internetIp = IpUtils.internetIp();
+        String intranetIp = IpUtils.intranetIp();
+
         return NodeServerInfo.builder()
                 .name(goPushNodeServerConfig.getName())
-                .internetIp(IpUtils.internetIp())
-                .intranetIp(IpUtils.intranetIp())
+                .internetIp(StringUtils.isEmpty(internetIp)?intranetIp:internetIp)
+                .intranetIp(intranetIp)
                 .devicePort(goPushNodeServerConfig.getDevicePort())
                 .nodePort(goPushNodeServerConfig.getNodePort())
                 .nodeLoaderInfo(NodeLoaderInfo.builder()

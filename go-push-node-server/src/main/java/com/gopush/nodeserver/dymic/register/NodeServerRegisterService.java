@@ -51,17 +51,17 @@ public class NodeServerRegisterService {
                 new ZkStateListener() {
                     @Override
                     public void connectedEvent(CuratorFramework curator, ConnectionState state) {
-                        log.info("链接zk成功");
+                        log.info("NodeServerRegister 链接zk成功");
                     }
 
                     @Override
                     public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
-                        log.info("重新链接zk成功");
+                        log.info("NodeServerRegister 重新链接zk成功");
                     }
 
                     @Override
                     public void lostEvent(CuratorFramework curator, ConnectionState state) {
-                        log.info("链接zk丢失");
+                        log.info("NodeServerRegister 链接zk丢失");
                     }
                 });
         registerNodeServer();

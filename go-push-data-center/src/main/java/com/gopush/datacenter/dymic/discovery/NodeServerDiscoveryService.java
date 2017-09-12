@@ -6,15 +6,18 @@ import com.gopush.common.utils.zk.ZkUtils;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
 import com.gopush.datacenter.config.GoPushDataCenterConfig;
 import com.gopush.datacenter.config.ZookeeperConfig;
+import com.gopush.datacenter.nodes.manager.NodeManager;
 import com.gopush.infos.nodeserver.bo.NodeServerInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 import org.apache.curator.framework.state.ConnectionState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,13 +30,17 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class NodeServerDiscoveryService {
 
-    private Map<String, NodeServerInfo> nodeServers = new ConcurrentHashMap<>();
+    //缓存的本地服务列表
+    private Map<String, NodeServerInfo> nodeServerPool = new ConcurrentHashMap<>();
 
     @Autowired
     private ZookeeperConfig zookeeperConfig;
 
     @Autowired
     private GoPushDataCenterConfig goPushDataCenterConfig;
+
+    @Autowired
+    private NodeManager nodeManager;
 
     private ZkUtils zkUtils;
 
@@ -50,17 +57,17 @@ public class NodeServerDiscoveryService {
                 new ZkStateListener() {
                     @Override
                     public void connectedEvent(CuratorFramework curator, ConnectionState state) {
-                        log.info("链接zk成功");
+                        log.info("NodeServerDiscovery 链接zk成功");
                     }
 
                     @Override
                     public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
-                        log.info("重新链接zk成功");
+                        log.info("NodeServerDiscovery 重新链接zk成功");
                     }
 
                     @Override
                     public void lostEvent(CuratorFramework curator, ConnectionState state) {
-                        log.info("链接zk丢失");
+                        log.info("NodeServerDiscovery 链接zk丢失");
                     }
                 });
         initNodeServerDiscovery();
@@ -72,16 +79,24 @@ public class NodeServerDiscoveryService {
         zkUtils.destory();
     }
 
+    /**
+     * 获取当前现在的Node -Server 服务列表
+     * @return
+     */
+    public Map<String, NodeServerInfo> nodeServerPool() {
+        return new HashMap<>(nodeServerPool);
+    }
 
     /**
      * 初始化node-server列表
      */
     private void initNodeServerDiscovery() {
-        nodeServers.clear();
+        nodeServerPool.clear();
         Map<String, String> datas = zkUtils.readTargetChildsData(ZkGroupEnum.NODE_SERVER.getValue());
         if (datas != null) {
-            datas.forEach((k, v) -> nodeServers.put(k, JSON.parseObject(v, NodeServerInfo.class)));
+            datas.forEach((k, v) -> nodeServerPool.put(k, JSON.parseObject(v, NodeServerInfo.class)));
         }
+//        log.info("node server size:{}, data:{}",nodeServers.size(),JSON.toJSONString(nodeServers));
     }
 
     /**
@@ -89,32 +104,62 @@ public class NodeServerDiscoveryService {
      */
     private void listenNodeServerDiscovery() {
         zkUtils.listenerPathChildrenCache(ZkGroupEnum.NODE_SERVER.getValue(), ((client, event) -> {
-            String path = event.getData().getPath();
-            NodeServerInfo data = JSON.parseObject(event.getData().getData(), NodeServerInfo.class);
             switch (event.getType()) {
                 case CHILD_ADDED:
-                    addNodeEvent(path, data);
+                    addNodeEvent(event);
                     break;
                 case CHILD_REMOVED:
-                    removeNodeEvent(path, data);
+                    removeNodeEvent(event);
                     break;
                 case CHILD_UPDATED:
-                    updateNodeEvent(path, data);
+                    updateNodeEvent(event);
                     break;
             }
         }));
     }
 
-    private void addNodeEvent(String path, NodeServerInfo data) {
+    private void updateNodeEvent(PathChildrenCacheEvent event) {
+        String key = toKey(event);
+        NodeServerInfo data = toNodeServerInfo(event);
+        log.debug("node event update! key:{}, data:{}",key,data);
+        //只需要更新缓存数据就可以了
+        if (nodeServerPool.containsKey(key)){
+            nodeServerPool.put(key,data);
+        }
+    }
+
+    private void removeNodeEvent(PathChildrenCacheEvent event) {
+        String key = toKey(event);
+        NodeServerInfo data = toNodeServerInfo(event);
+        log.debug("node event remove! key:{}, data:{}",key,data);
+        if (nodeServerPool.containsKey(key)){
+            //检测Node是否还存在，存在的话移除该Node
+            nodeManager.remove(key);
+            nodeServerPool.remove(key);
+        }
+
 
     }
 
-    private void updateNodeEvent(String path, NodeServerInfo data) {
-
+    private void addNodeEvent(PathChildrenCacheEvent event) {
+        String key = toKey(event);
+        NodeServerInfo data = toNodeServerInfo(event);
+        log.debug("node event add! key:{}, data:{}",key,data);
+        if (!nodeServerPool.containsKey(key)){
+            //开启node,加入到管理器
+            nodeManager.put(key,data.getIntranetIp(),data.getNodePort(),data.getInternetIp(),data.getDevicePort());
+            nodeServerPool.put(key,data);
+        }else {
+            log.error("node already! {},{}",key,data);
+        }
     }
 
-    private void removeNodeEvent(String path, NodeServerInfo data) {
+    private String toKey(PathChildrenCacheEvent event){
+        String path = event.getData().getPath() ;
+        return path.substring(path.lastIndexOf("/"));
     }
-
+    private NodeServerInfo toNodeServerInfo(PathChildrenCacheEvent event){
+        return JSON.parseObject(event.getData().getData(), NodeServerInfo.class);
+    }
 
 }

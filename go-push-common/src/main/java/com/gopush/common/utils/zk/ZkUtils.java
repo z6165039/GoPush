@@ -11,10 +11,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.api.GetDataBuilder;
-import org.apache.curator.framework.recipes.cache.NodeCache;
-import org.apache.curator.framework.recipes.cache.PathChildrenCache;
-import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
-import org.apache.curator.framework.recipes.cache.TreeCache;
+import org.apache.curator.framework.recipes.cache.*;
 import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.retry.RetryNTimes;
 import org.apache.curator.utils.CloseableUtils;
@@ -298,7 +295,7 @@ public class ZkUtils {
             if (stat != null) {
                 PathChildrenCache watcher = new PathChildrenCache(zkClient, path, true);
                 watcher.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
-                watcher.getListenable().addListener((curatorFramework, pathChildrenCacheEvent) -> biConsumer.accept(curatorFramework, pathChildrenCacheEvent), pool);
+                watcher.getListenable().addListener(biConsumer::accept,pool);
                 if (!pathChildrenCaches.contains(watcher)) {
                     pathChildrenCaches.add(watcher);
                 }

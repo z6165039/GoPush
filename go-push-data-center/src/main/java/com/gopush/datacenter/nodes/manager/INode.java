@@ -1,5 +1,7 @@
 package com.gopush.datacenter.nodes.manager;
 
+import com.gopush.protocol.node.NodeMessage;
+
 /**
  * go-push
  *
@@ -9,4 +11,13 @@ package com.gopush.datacenter.nodes.manager;
  * @VERSION：
  */
 public interface INode {
+    void init();
+
+    boolean isAlive();
+
+    void destroy();
+
+    void send(NodeMessage message);
+
+    void send(NodeMessage message, boolean retry);
 }

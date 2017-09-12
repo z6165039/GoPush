@@ -1,5 +1,8 @@
 package com.gopush.nodeserver.devices.senders;
 
+
+import com.gopush.protocol.device.DeviceMessage;
+
 /**
  * go-push
  *
@@ -8,7 +11,7 @@ package com.gopush.nodeserver.devices.senders;
  * @创建时间：2017/6/18 下午11:29
  * @VERSION：
  */
-public interface IPushSender<T> {
+public interface IPushSender<T extends DeviceMessage> {
 
     /**
      * 发送消息给指定设备
