@@ -3,15 +3,15 @@ package com.gopush.common.utils.zk;
 import com.google.common.base.Charsets;
 import com.google.common.base.Objects;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.api.GetDataBuilder;
-import org.apache.curator.framework.recipes.cache.NodeCache;
-import org.apache.curator.framework.recipes.cache.PathChildrenCache;
-import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
-import org.apache.curator.framework.recipes.cache.TreeCache;
+import org.apache.curator.framework.recipes.cache.*;
 import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.retry.RetryNTimes;
 import org.apache.curator.utils.CloseableUtils;
@@ -33,6 +33,8 @@ import java.util.stream.Collectors;
  * @date 2017/9/11 下午5:17
  */
 @Slf4j
+@Data
+@NoArgsConstructor
 public class ZkUtils {
 
     private CuratorFramework zkClient = null;
@@ -44,18 +46,6 @@ public class ZkUtils {
     List<NodeCache> nodeCaches = new CopyOnWriteArrayList<>();
 
     List<TreeCache> treeCaches = new CopyOnWriteArrayList<>();
-
-    private ZkUtils() {
-    }
-
-    private static class SingletonHolder {
-        static final ZkUtils instance = new ZkUtils();
-    }
-
-    public static ZkUtils instance() {
-
-        return SingletonHolder.instance;
-    }
 
 
     /**
@@ -305,7 +295,7 @@ public class ZkUtils {
             if (stat != null) {
                 PathChildrenCache watcher = new PathChildrenCache(zkClient, path, true);
                 watcher.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
-                watcher.getListenable().addListener((curatorFramework, pathChildrenCacheEvent) -> biConsumer.accept(curatorFramework, pathChildrenCacheEvent), pool);
+                watcher.getListenable().addListener(biConsumer::accept,pool);
                 if (!pathChildrenCaches.contains(watcher)) {
                     pathChildrenCaches.add(watcher);
                 }

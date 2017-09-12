@@ -1,6 +1,7 @@
 package com.gopush.nodeserver.devices.senders;
 
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
+import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.PushReq;
 import io.netty.channel.Channel;
 import lombok.Builder;
@@ -23,25 +24,27 @@ public class PushSender implements IPushSender<PushReq> {
 
 
     @Autowired
-    IDeviceChannelStore deviceChannelStore;
+    private IDeviceChannelStore deviceChannelStore;
 
     @Override
     public void send(String device, PushReq message) {
-        Channel channel = deviceChannelStore.getChannel(device);
-        if (channel == null) {
-            log.warn("can not find channel, device :{}", device);
-            return;
-        }
 
-        channel.writeAndFlush(message.encode()).addListener((channelFuture) -> {
-            if (!channelFuture.isSuccess()) {
-                log.error("send message error, device:{}, msg_id:{}, msg:{} ", device, message.getId(), message.getMsgs());
-                // TODO: 2017/6/19  这边可以做重试操作
-                //并且记录错误次数
-
-            } else {
-                log.debug("send message successful, device:{}, msg_id:{}, msg:{} ", device, message.getId(), message.getMsgs());
+            Channel channel = deviceChannelStore.getChannel(device);
+            if (channel == null) {
+                log.warn("can not find channel, device :{}", device);
+                //添加超时机制，将消息缓存
+                return;
             }
-        });
-    }
+
+            channel.writeAndFlush(message.encode()).addListener((channelFuture) -> {
+                if (!channelFuture.isSuccess()) {
+                    log.error("send message error, device:{}, msg_id:{}, msg:{} ", device, message.getId(), message.getMsgs());
+                    // TODO: 2017/6/19  这边可以做重试操作
+                    //并且记录错误次数
+
+                } else {
+                    log.debug("send message successful, device:{}, msg_id:{}, msg:{} ", device, message.getId(), message.getMsgs());
+                }
+            });
+        }
 }

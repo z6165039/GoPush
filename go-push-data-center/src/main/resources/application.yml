@@ -1,4 +1,14 @@
-
+go-push:
+  data-center:
+    name: dataCenter001
+  zookeeper:
+      servers: 192.168.99.100:32774,192.168.99.100:32775,192.168.99.100:32776
+      listen-namespace: nodeserver
+      namespace: datacenter
+      session-timeout: 6000
+      connection-timeout: 6000
+      max-retries: 1000
+      retries-sleep-time: 2000
 
 spring:
   redis:

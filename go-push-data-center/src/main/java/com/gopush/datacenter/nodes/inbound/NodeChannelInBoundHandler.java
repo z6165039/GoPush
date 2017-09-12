@@ -5,6 +5,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.Builder;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-@Builder
+@Data
 @ChannelHandler.Sharable
 public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<String> {
 
@@ -27,6 +28,10 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
      */
     private Node node;
 
+    public NodeChannelInBoundHandler(Node node) {
+        this.node = node;
+    }
+
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
@@ -35,7 +40,7 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.debug("channel active, channel:{}", ctx.channel());
+        log.info("channel active, channel:{}", ctx.channel());
 
         super.channelActive(ctx);
     }

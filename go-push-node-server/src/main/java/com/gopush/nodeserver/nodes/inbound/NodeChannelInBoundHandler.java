@@ -45,7 +45,7 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String message) throws Exception {
-        log.debug("channel:{}, message:{}", ctx.channel(), message);
+        log.info("channel:{}, message:{}", ctx.channel(), message);
         NodeMessage nodeMessage = NodeMessage.decode(message);
         if (!nodeMessageHandlers.isEmpty()) {
             nodeMessageHandlers.stream().forEach((handler) -> {

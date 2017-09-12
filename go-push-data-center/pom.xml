@@ -18,6 +18,16 @@
 
         <dependency>
             <groupId>com.gopush</groupId>
+            <artifactId>go-push-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gopush</groupId>
+            <artifactId>go-push-infos</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gopush</groupId>
             <artifactId>go-push-protocol-node</artifactId>
             <version>${project.version}</version>
         </dependency>

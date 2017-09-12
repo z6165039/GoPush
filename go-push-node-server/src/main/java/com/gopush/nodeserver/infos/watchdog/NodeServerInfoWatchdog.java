@@ -2,7 +2,7 @@ package com.gopush.nodeserver.infos.watchdog;
 
 import com.gopush.common.utils.ip.IpUtils;
 import com.gopush.infos.nodeserver.bo.NodeServerInfo;
-import com.gopush.nodeserver.config.GoPushConfig;
+import com.gopush.nodeserver.config.GoPushNodeServerConfig;
 import com.gopush.nodeserver.devices.BatchProcessor;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.infos.nodeserver.bo.NodeLoaderInfo;
@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -24,7 +25,7 @@ import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 /**
- * @author chenxiangqi
+ * @author 喝咖啡的囊地鼠
  * @date 2017/9/10 下午2:16
  */
 @Slf4j
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
 public class NodeServerInfoWatchdog {
 
     @Autowired
-    private GoPushConfig goPushConfig;
+    private GoPushNodeServerConfig goPushNodeServerConfig;
 
     @Autowired
     private INodeSender nodeSender;
@@ -60,15 +61,14 @@ public class NodeServerInfoWatchdog {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                //将NodeServer全部信息加载到 zk 中
                 //将负载加载到ZK中
                 applicationEventPublisher.publishEvent(
                         NodeServerInfoEvent.builder()
-                                .name(goPushConfig.getName())
+                                .name(goPushNodeServerConfig.getName())
                                 .nodeServerInfo(watch())
                                 .build());
 //                写入zk 其实不需要发送 NodeInfoReq
-                nodeSender.send(NodeInfoReq.builder().build());
+                //nodeSender.send(NodeInfoReq.builder().build());
             }
         }, delay, delay);
     }
@@ -88,12 +88,15 @@ public class NodeServerInfoWatchdog {
      * @return
      */
     public NodeServerInfo watch() {
+        String internetIp = IpUtils.internetIp();
+        String intranetIp = IpUtils.intranetIp();
+
         return NodeServerInfo.builder()
-                .name(goPushConfig.getName())
-                .internetIp(IpUtils.internetIp())
-                .intranetIp(IpUtils.intranetIp())
-                .devicePort(goPushConfig.getDevicePort())
-                .nodePort(goPushConfig.getNodePort())
+                .name(goPushNodeServerConfig.getName())
+                .internetIp(StringUtils.isEmpty(internetIp)?intranetIp:internetIp)
+                .intranetIp(intranetIp)
+                .devicePort(goPushNodeServerConfig.getDevicePort())
+                .nodePort(goPushNodeServerConfig.getNodePort())
                 .nodeLoaderInfo(NodeLoaderInfo.builder()
                         .onlineDcCounter(dataCenterChannelStore.count())
                         .onlineDeviceCounter(deviceChannelStore.count())

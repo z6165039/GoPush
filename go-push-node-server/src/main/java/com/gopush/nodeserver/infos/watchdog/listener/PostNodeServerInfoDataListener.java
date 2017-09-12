@@ -1,14 +1,14 @@
 package com.gopush.nodeserver.infos.watchdog.listener;
 
 import com.gopush.nodeserver.infos.watchdog.listener.event.NodeServerInfoEvent;
-import com.gopush.nodeserver.registers.NodeServerRegisterService;
+import com.gopush.nodeserver.dymic.register.NodeServerRegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
- * @author chenxiangqi
+ * @author 喝咖啡的囊地鼠
  * @date 2017/9/12 上午12:39
  */
 @Slf4j

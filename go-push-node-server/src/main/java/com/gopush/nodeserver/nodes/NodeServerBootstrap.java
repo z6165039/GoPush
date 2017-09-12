@@ -1,6 +1,6 @@
 package com.gopush.nodeserver.nodes;
 
-import com.gopush.nodeserver.config.GoPushConfig;
+import com.gopush.nodeserver.config.GoPushNodeServerConfig;
 import com.gopush.nodeserver.nodes.inbound.NodeChannelInBoundHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -16,11 +16,8 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -43,7 +40,7 @@ public class NodeServerBootstrap {
     private EventLoopGroup workGroup = new NioEventLoopGroup();
 
     @Autowired
-    private GoPushConfig goPushConfig;
+    private GoPushNodeServerConfig goPushNodeServerConfig;
 
     @Autowired
     private NodeChannelInBoundHandler nodeChannelInBoundHandler;
@@ -71,8 +68,8 @@ public class NodeServerBootstrap {
                 .childOption(ChannelOption.SO_REUSEADDR, true)
                 .option(ChannelOption.SO_SNDBUF, 2048)
                 .option(ChannelOption.SO_RCVBUF, 1024);
-        bootstrap.bind(goPushConfig.getNodePort()).sync();
-        log.info("Node server start successful! listening port: {}", goPushConfig.getNodePort());
+        bootstrap.bind(goPushNodeServerConfig.getNodePort()).sync();
+        log.info("Node server start successful! listening port: {}", goPushNodeServerConfig.getNodePort());
     }
 
 

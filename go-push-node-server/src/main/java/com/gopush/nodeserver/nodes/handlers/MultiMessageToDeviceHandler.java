@@ -1,6 +1,7 @@
 package com.gopush.nodeserver.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
+import com.gopush.nodeserver.devices.senders.IPushSender;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.protocol.device.PushReq;
 import com.gopush.protocol.node.MultiMessageToDeviceReq;
@@ -28,8 +29,7 @@ import java.util.List;
 public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMessageToDeviceReq> {
 
     @Autowired
-    private IDeviceChannelStore deviceChannelStore;
-
+    private IPushSender<PushReq> pushSender;
     @Override
     public boolean support(MultiMessageToDeviceReq message) {
         return message instanceof MultiMessageToDeviceReq;
@@ -39,20 +39,7 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
     public void call(ChannelHandlerContext ctx, MultiMessageToDeviceReq message) {
         //找寻到对应设备的channel 将消息全部推送给这个设备
         if (message != null) {
-            if (StringUtils.isNotEmpty(message.getDevice())) {
-                Channel channel = deviceChannelStore.getChannel(message.getDevice());
-                if (channel != null) {
-                    PushReq pushReq =
-                            PushReq.builder()
-                                    .msgs(message.getMessages())
-                                    .build();
-                    channel.writeAndFlush(pushReq.encode());
-                    return;
-                }
-            }
-            //将发送的信息存到redis中设置超时时间
-            //将消息存储在redis中
-
+            pushSender.send(message.getDevice(),PushReq.builder().msgs(message.getMessages()).build());
         }
     }
 }
