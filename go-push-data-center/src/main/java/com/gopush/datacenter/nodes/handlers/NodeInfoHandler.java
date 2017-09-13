@@ -1,5 +1,6 @@
 package com.gopush.datacenter.nodes.handlers;
 
+import com.gopush.common.constants.NodeEnum;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.NodeInfoReq;
 import com.gopush.protocol.node.NodeInfoResp;
@@ -30,7 +31,7 @@ public class NodeInfoHandler implements INodeMessageHandler<NodeInfoReq> {
     @Override
     public void call(ChannelHandlerContext ctx, NodeInfoReq message) {
         Channel channel = ctx.channel();
-        channel.writeAndFlush(NodeInfoResp.builder().result(200).build().encode());
+        channel.writeAndFlush(NodeInfoResp.builder().result(NodeEnum.OK.getCode()).build().encode());
         log.info("receive nodeInfoReq,channel:{}", channel);
     }
 }
