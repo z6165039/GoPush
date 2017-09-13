@@ -28,6 +28,6 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
     public void call(ChannelHandlerContext ctx, MultiMessageToDeviceResp message) {
         Channel channel = ctx.channel();
 
-        log.debug("receive MessageToMultiDeviceResp, channel:{}", channel);
+        log.info("receive MessageToMultiDeviceResp, channel:{}", channel);
     }
 }

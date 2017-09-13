@@ -43,7 +43,7 @@ public class PushSender implements IPushSender<PushReq> {
                     //并且记录错误次数
 
                 } else {
-                    log.debug("send message successful, device:{}, msg_id:{}, msg:{} ", device, message.getId(), message.getMsgs());
+                    log.info("send message successful, device:{}, msg_id:{}, msg:{} ", device, message.getId(), message.getMsgs());
                 }
             });
         }

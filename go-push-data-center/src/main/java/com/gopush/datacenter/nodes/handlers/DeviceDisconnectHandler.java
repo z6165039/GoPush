@@ -30,6 +30,6 @@ public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDiscon
         Channel channel = ctx.channel();
 
 
-        log.debug("receive DeviceDisconReq, channel:{}", channel);
+        log.info("receive DeviceDisconReq, channel:{}", channel);
     }
 }

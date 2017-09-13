@@ -112,7 +112,7 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
                     if (resp.getResult() != HANDSAHKE_OK) {
                         //将写出握手响应后关闭链接
                         channel.writeAndFlush(respEncode).addListener(ChannelFutureListener.CLOSE);
-                        log.debug("handshake fail, channel:{}, device:{}, response:{}", channel, req.getDevice(), respEncode);
+                        log.info("handshake fail, channel:{}, device:{}, response:{}", channel, req.getDevice(), respEncode);
                     } else {
 
 
@@ -145,7 +145,7 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
 
                         //写出握手响应
                         channel.writeAndFlush(respEncode);
-                        log.debug("handshake successful, channel:{}, device:{}, message:{}", channel, req.getDevice(), respEncode);
+                        log.info("handshake successful, channel:{}, device:{}, message:{}", channel, req.getDevice(), respEncode);
 
 
                     }

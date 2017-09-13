@@ -37,7 +37,7 @@ public class DeviceDeviceDockedHandler extends BatchProcessor<Object[]> implemen
     @Override
     public void upReport(String device, int channelHashCode, int[] idles) {
         putMsg(new Object[]{device, channelHashCode, idles});
-        log.debug("up report device docked, device:{}, channelHashCode:{}, idles:{}", device, channelHashCode, Arrays.toString(idles));
+        log.info("up report device docked, device:{}, channelHashCode:{}, idles:{}", device, channelHashCode, Arrays.toString(idles));
     }
 
     @Override

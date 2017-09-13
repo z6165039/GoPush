@@ -30,6 +30,6 @@ public class PongHandler implements INodeMessageHandler<Pong> {
         Channel channel = ctx.channel();
 
 
-        log.debug("receive pong! channel:{}", channel);
+        log.info("receive pong! channel:{}", channel);
     }
 }

@@ -1,9 +1,15 @@
 package com.gopush.datacenter.nodes.inbound;
 
 import com.gopush.datacenter.nodes.manager.Node;
+import com.gopush.protocol.node.NodeMessage;
+import com.gopush.protocol.node.Ping;
+import com.gopush.protocol.node.Pong;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @ChannelHandler.Sharable
 public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<String> {
 
+    private static String PING = Ping.builder().build().encode();
 
     /**
      * 对应的Node节点
@@ -34,28 +41,35 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
 
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
-
-    }
-
-    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("channel active, channel:{}", ctx.channel());
-
-        super.channelActive(ctx);
+        node.active();
+        //有发送失败的补发
+        node.retrySendFail();
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.debug("channel inactive, channel:{}", ctx.channel());
-
-        super.channelInactive(ctx);
+        log.info("channel inactive, channel:{}", ctx.channel());
+        node.inactive();
     }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, String message) throws Exception {
+        NodeMessage nodeMessage = NodeMessage.decode(message);
+        //是心跳的，设置节点存活
+        if (nodeMessage instanceof Ping || nodeMessage instanceof Pong){
+            node.active();
+        }
+        node.handle(ctx,nodeMessage);
+    }
+
+
 
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        super.channelUnregistered(ctx);
+        node.reconnect(ctx);
     }
 
     @Override
@@ -66,7 +80,23 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        super.userEventTriggered(ctx, evt);
+        Channel channel = ctx.channel();
+        if (IdleStateEvent.class.isAssignableFrom(evt.getClass())) {
+            IdleStateEvent event = (IdleStateEvent) evt;
+            if (event.state() == IdleState.ALL_IDLE) {
+                //发送心跳
+                channel.writeAndFlush(PING);
+            }
+            if (event.state() == IdleState.READER_IDLE) {
+                //发送心跳
+                channel.writeAndFlush(PING);
+            }
+            if (event.state() == IdleState.WRITER_IDLE) {
+                channel.writeAndFlush(PING);
+            }
+        } else {
+            super.userEventTriggered(ctx, evt);
+        }
     }
 
 

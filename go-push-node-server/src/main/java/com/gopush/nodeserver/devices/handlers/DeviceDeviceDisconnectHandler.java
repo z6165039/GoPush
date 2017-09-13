@@ -49,7 +49,7 @@ public class DeviceDeviceDisconnectHandler extends BatchProcessor<Object[]> impl
             deviceChannelStore.removeChannel(device, channel);
             putMsg(new Object[]{device, channel.hashCode()});
         }
-        log.debug("channel closed , channel:{}, device:{}", channel, device);
+        log.info("channel closed , channel:{}, device:{}", channel, device);
     }
 
     @Override

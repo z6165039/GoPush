@@ -26,7 +26,7 @@ public class NodeDeviceDisconnectHandler extends NodeBaseHandler implements INod
     @Override
     public void call(ChannelHandlerContext ctx, DeviceDisconResp message) {
         saveLiveDc(ctx.channel());
-        log.debug("receive DeviceDockedResp, channel:{}, node:{}", ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
+        log.info("receive DeviceDockedResp, channel:{}, node:{}", ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
 
     }
 }

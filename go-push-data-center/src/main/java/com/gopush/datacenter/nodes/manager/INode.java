@@ -1,6 +1,7 @@
 package com.gopush.datacenter.nodes.manager;
 
 import com.gopush.protocol.node.NodeMessage;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * go-push
@@ -11,13 +12,26 @@ import com.gopush.protocol.node.NodeMessage;
  * @VERSION：
  */
 public interface INode {
+
     void init();
 
-    boolean isAlive();
-
     void destroy();
+
+
+    void active();
+
+    void inactive();
+
 
     void send(NodeMessage message);
 
     void send(NodeMessage message, boolean retry);
+
+
+    void retrySendFail();
+
+    void reconnect(ChannelHandlerContext ctx);
+
+    void handle(ChannelHandlerContext ctx, NodeMessage message);
+
 }

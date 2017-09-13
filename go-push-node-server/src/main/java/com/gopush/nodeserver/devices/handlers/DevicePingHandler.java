@@ -47,7 +47,7 @@ public class DevicePingHandler extends PingPongProcessor<Object[]> implements ID
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
 
-        log.debug("receive ping, channel:{}, device:{}", channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.info("receive ping, channel:{}, device:{}", channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
     }
 
 

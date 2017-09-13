@@ -29,6 +29,6 @@ public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageT
         Channel channel = ctx.channel();
 
 
-        log.debug("receive MessageToMultiDeviceResp, channel:{}", channel);
+        log.info("receive MessageToMultiDeviceResp, channel:{}", channel);
     }
 }

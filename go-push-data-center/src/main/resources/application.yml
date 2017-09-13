@@ -2,7 +2,7 @@ go-push:
   data-center:
     name: dataCenter001
   zookeeper:
-      servers: 192.168.99.100:32774,192.168.99.100:32775,192.168.99.100:32776
+      servers: 192.168.99.100:32768,192.168.99.100:32769,192.168.99.100:32770
       listen-namespace: nodeserver
       namespace: datacenter
       session-timeout: 6000

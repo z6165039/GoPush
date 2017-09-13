@@ -30,6 +30,6 @@ public class NodeInfoHandler implements INodeMessageHandler<NodeInfoReq> {
         Channel channel = ctx.channel();
 
 
-        log.debug("receive ping,channel:{}", channel);
+        log.info("receive ping,channel:{}", channel);
     }
 }
