@@ -15,9 +15,9 @@ import java.util.List;
  * @VERSION：
  */
 @Builder
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class DeviceDockedReq extends NodeMessageReq<DeviceDockedReq> {
 
     //需要上报的设备列表(是批量上报的)

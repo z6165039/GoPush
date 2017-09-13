@@ -12,9 +12,9 @@ import lombok.*;
  * @VERSION：
  */
 @Builder
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MessageToMultiDeviceResp extends NodeMessageResp<MessageToMultiDeviceResp> {
 
     @JSONField(name = "R")

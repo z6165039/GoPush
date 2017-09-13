@@ -1,6 +1,7 @@
 package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
+import com.gopush.protocol.node.NodeMessage;
 import com.gopush.protocol.node.Pong;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PongHandler implements INodeMessageHandler<Pong> {
     @Override
-    public boolean support(Pong message) {
+    public boolean support(NodeMessage message) {
         return message instanceof Pong;
     }
 

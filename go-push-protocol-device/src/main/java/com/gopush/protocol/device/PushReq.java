@@ -1,10 +1,7 @@
 package com.gopush.protocol.device;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -17,9 +14,9 @@ import java.util.List;
  * @VERSION：
  */
 @Builder
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PushReq extends DeviceMessageReq<PushReq> {
 
     @JSONField(name = "ID")

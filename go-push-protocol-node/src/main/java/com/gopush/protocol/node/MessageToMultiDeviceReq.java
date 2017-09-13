@@ -14,9 +14,9 @@ import java.util.List;
  * @VERSION：
  */
 @Builder
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MessageToMultiDeviceReq extends NodeMessageReq<MessageToMultiDeviceReq> {
 
     @JSONField(name = "DEVS")

@@ -5,6 +5,7 @@ import com.gopush.nodeserver.devices.senders.IPushSender;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.protocol.device.PushReq;
 import com.gopush.protocol.node.MultiMessageToDeviceReq;
+import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
     @Autowired
     private IPushSender<PushReq> pushSender;
     @Override
-    public boolean support(MultiMessageToDeviceReq message) {
+    public boolean support(NodeMessage message) {
         return message instanceof MultiMessageToDeviceReq;
     }
 

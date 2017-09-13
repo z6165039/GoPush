@@ -12,9 +12,9 @@ import lombok.*;
  * @VERSION：
  */
 @Builder
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PushResp extends DeviceMessageResp<PushResp> {
 
     private static final String DEVICE_KEY = "D";

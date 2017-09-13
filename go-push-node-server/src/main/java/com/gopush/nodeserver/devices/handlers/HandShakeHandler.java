@@ -7,6 +7,7 @@ import com.gopush.devices.handlers.IDeviceDockedHandler;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
 import com.gopush.nodeserver.devices.BatchProcessor;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
+import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.HandShakeReq;
 import com.gopush.protocol.device.HandShakeResp;
 import io.netty.channel.Channel;
@@ -47,7 +48,7 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
     private IDeviceChannelStore deviceChannelStore;
 
     @Override
-    public boolean support(HandShakeReq message) {
+    public boolean support(DeviceMessage message) {
         return message instanceof HandShakeReq;
     }
 
@@ -109,6 +110,7 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
 
                     String respEncode = resp.encode();
                     //握手不成功
+
                     if (resp.getResult() != HANDSAHKE_OK) {
                         //将写出握手响应后关闭链接
                         channel.writeAndFlush(respEncode).addListener(ChannelFutureListener.CLOSE);

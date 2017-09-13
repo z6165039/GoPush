@@ -13,9 +13,9 @@ import lombok.*;
  */
 
 @Builder
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class HandShakeResp extends DeviceMessageResp<HandShakeResp> {
 
     @JSONField(name = "R")

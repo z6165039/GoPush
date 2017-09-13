@@ -14,9 +14,9 @@ import java.util.List;
  * @VERSION：
  */
 @Builder
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MultiMessageToDeviceReq extends NodeMessageReq<MultiMessageToDeviceReq> {
 
 

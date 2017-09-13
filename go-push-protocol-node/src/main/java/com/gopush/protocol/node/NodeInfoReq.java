@@ -11,8 +11,7 @@ import lombok.*;
  * @VERSION：
  */
 @Builder
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
 public class NodeInfoReq extends NodeMessageReq<NodeInfoReq> {
     @Override

@@ -12,8 +12,7 @@ import lombok.*;
  */
 
 @Builder
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
 public class Pong extends NodeMessageResp<Pong> {
 
