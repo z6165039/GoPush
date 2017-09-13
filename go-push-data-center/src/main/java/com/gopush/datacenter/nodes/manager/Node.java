@@ -3,7 +3,6 @@ package com.gopush.datacenter.nodes.manager;
 import com.gopush.datacenter.nodes.inbound.NodeChannelInBoundHandler;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.NodeMessage;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
@@ -20,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 

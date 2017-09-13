@@ -12,7 +12,7 @@ import java.util.Arrays;
 public enum ZkGroupEnum {
     NODE_SERVER("/NODE-SERVER"),
     DATA_CENTER("/DATA_CENTER");
-    private final String value;
+    private String value;
 
     ZkGroupEnum(String value) {
         this.value = value;

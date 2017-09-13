@@ -17,9 +17,9 @@ import lombok.*;
 @NoArgsConstructor
 public class PushResp extends DeviceMessageResp<PushResp> {
 
-    private static final String DEVICE_KEY = "D";
-    private final static String MSG_KEY = "ID";
-    private final static String RESULT_KEY = "R";
+//    private static final String DEVICE_KEY = "D";
+//    private final static String MSG_KEY = "ID";
+//    private final static String RESULT_KEY = "R";
 
 
     public enum Result {
