@@ -3,7 +3,7 @@ package com.gopush.protocol.node;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.gopush.protocol.exceptions.NodeProtocolException;
-import lombok.Builder;
+import lombok.*;
 
 /**
  * go-push
@@ -13,7 +13,6 @@ import lombok.Builder;
  * @创建时间：2017/6/9
  * @VERSION：
  */
-
 public abstract class NodeMessage<T> {
 
     //消息 Type Key
@@ -81,6 +80,7 @@ public abstract class NodeMessage<T> {
                     .type(type())
                     .message(toEncode())
                     .build();
+            System.out.println("Node message json:   "+ JSON.toJSONString(message));
             return JSON.toJSONString(message);
         } catch (Exception e) {
             throw new NodeProtocolException(e);
@@ -153,6 +153,9 @@ public abstract class NodeMessage<T> {
 
     //真正的传递消息的类
     @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     private static class Message {
         @JSONField(name = "T")
         private Type type;
@@ -161,4 +164,5 @@ public abstract class NodeMessage<T> {
         private String message;
 
     }
+
 }

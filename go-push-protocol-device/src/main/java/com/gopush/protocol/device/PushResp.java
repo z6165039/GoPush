@@ -1,8 +1,7 @@
 package com.gopush.protocol.device;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 /**
  * go-push
@@ -13,7 +12,9 @@ import lombok.Getter;
  * @VERSION：
  */
 @Builder
+@Setter
 @Getter
+@AllArgsConstructor
 public class PushResp extends DeviceMessageResp<PushResp> {
 
     private static final String DEVICE_KEY = "D";

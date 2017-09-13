@@ -1,8 +1,7 @@
 package com.gopush.protocol.node;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,9 @@ import java.util.List;
 
 
 @Builder
+@Setter
 @Getter
+@AllArgsConstructor
 public class DeviceDisconReq extends NodeMessageReq<DeviceDisconReq> {
 
 
@@ -27,7 +28,6 @@ public class DeviceDisconReq extends NodeMessageReq<DeviceDisconReq> {
     @JSONField(name = "DEVS")
     private List<String> devices;
 
-    @Getter
     @JSONField(name = "N")
     private String node;
 

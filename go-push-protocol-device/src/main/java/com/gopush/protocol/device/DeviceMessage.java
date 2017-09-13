@@ -3,7 +3,7 @@ package com.gopush.protocol.device;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.gopush.protocol.exceptions.DeviceProtocolException;
-import lombok.Builder;
+import lombok.*;
 
 /**
  * go-push
@@ -122,6 +122,9 @@ public abstract class DeviceMessage<T> {
     //真正的传递消息的类
 
     @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     private static class Message {
         @JSONField(name = "T")
         private Type type;

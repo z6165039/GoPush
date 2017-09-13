@@ -1,7 +1,6 @@
 package com.gopush.protocol.device;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 /**
  * go-push
@@ -12,7 +11,9 @@ import lombok.Getter;
  * @VERSION：
  */
 @Builder
+@Setter
 @Getter
+@AllArgsConstructor
 public class Pong extends DeviceMessageResp<Pong> {
 
 
@@ -23,7 +24,7 @@ public class Pong extends DeviceMessageResp<Pong> {
 
     @Override
     protected Pong getThis() throws Exception {
-        return null;
+        return this;
     }
 
 
