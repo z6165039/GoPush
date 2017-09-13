@@ -1,6 +1,7 @@
 package com.gopush.nodes.handlers;
 
 
+import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -19,7 +20,7 @@ public interface INodeMessageHandler<R> {
      * @param message 节点消息
      * @return 是否各个NodeMessage 子类的类型
      */
-    boolean support(R message);
+    boolean support(NodeMessage message);
 
 
     /**

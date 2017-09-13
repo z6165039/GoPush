@@ -2,6 +2,7 @@ package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
+import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.Pong;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -24,7 +25,7 @@ import java.util.List;
 public class DevicePongHandler extends PingPongProcessor<Object[]> implements IDeviceMessageHandler<Pong> {
 
     @Override
-    public boolean support(Pong message) {
+    public boolean support(DeviceMessage message) {
         return message instanceof Pong;
     }
 
@@ -39,7 +40,7 @@ public class DevicePongHandler extends PingPongProcessor<Object[]> implements ID
         putMsg(new Object[]{
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
-        log.debug("receive pong, channel:{}, device:{}", channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.info("receive pong, channel:{}, device:{}", channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
 
     }
 

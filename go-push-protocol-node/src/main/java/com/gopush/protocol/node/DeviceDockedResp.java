@@ -1,8 +1,7 @@
 package com.gopush.protocol.node;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 /**
  * go-push
@@ -13,7 +12,9 @@ import lombok.Getter;
  * @VERSION：
  */
 @Builder
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DeviceDockedResp extends NodeMessageResp<DeviceDockedResp> {
 
 

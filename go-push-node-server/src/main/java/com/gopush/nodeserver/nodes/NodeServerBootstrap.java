@@ -75,7 +75,7 @@ public class NodeServerBootstrap {
 
     @PreDestroy
     public void destory() {
-        log.debug("Node Server will be stoped!");
+        log.info("Node Server will be stoped!");
         bossGroup.shutdownGracefully();
         workGroup.shutdownGracefully();
     }

@@ -1,7 +1,10 @@
 package com.gopush.datacenter.nodes.handlers;
 
+import com.gopush.common.constants.NodeEnum;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.NodeInfoReq;
+import com.gopush.protocol.node.NodeInfoResp;
+import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class NodeInfoHandler implements INodeMessageHandler<NodeInfoReq> {
     @Override
-    public boolean support(NodeInfoReq message) {
+    public boolean support(NodeMessage message) {
 
         return message instanceof NodeInfoReq;
     }
@@ -28,8 +31,7 @@ public class NodeInfoHandler implements INodeMessageHandler<NodeInfoReq> {
     @Override
     public void call(ChannelHandlerContext ctx, NodeInfoReq message) {
         Channel channel = ctx.channel();
-
-
-        log.debug("receive ping,channel:{}", channel);
+        channel.writeAndFlush(NodeInfoResp.builder().result(NodeEnum.OK.getCode()).build().encode());
+        log.info("receive nodeInfoReq,channel:{}", channel);
     }
 }

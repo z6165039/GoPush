@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,6 +37,15 @@ public class NodeManager {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
+
+    @PreDestroy
+    public void destory() {
+        nodeChannelPool.forEach((k,node)->node.destroy());
+        nodeChannelPool.clear();
+        nodeChannelPool = null;
+        group.shutdownGracefully();
+    }
+
 
     public void reload(){
         nodeChannelPool.forEach((k,node)-> node.destroy());

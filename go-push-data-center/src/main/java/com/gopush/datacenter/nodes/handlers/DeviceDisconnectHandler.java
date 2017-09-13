@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDisconReq;
+import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Component;
 public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDisconReq> {
 
     @Override
-    public boolean support(DeviceDisconReq message) {
+    public boolean support(NodeMessage message) {
         return message instanceof DeviceDisconReq;
     }
 
@@ -30,6 +31,6 @@ public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDiscon
         Channel channel = ctx.channel();
 
 
-        log.debug("receive DeviceDisconReq, channel:{}", channel);
+        log.info("receive DeviceDisconReq, channel:{}", channel);
     }
 }

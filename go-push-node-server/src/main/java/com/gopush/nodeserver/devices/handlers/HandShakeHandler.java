@@ -1,12 +1,14 @@
 package com.gopush.nodeserver.devices.handlers;
 
 import com.gopush.common.Constants;
+import com.gopush.common.constants.HandshakeEnum;
 import com.gopush.common.constants.IdleEnum;
 import com.gopush.common.constants.RedisKeyEnum;
 import com.gopush.devices.handlers.IDeviceDockedHandler;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
 import com.gopush.nodeserver.devices.BatchProcessor;
 import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
+import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.HandShakeReq;
 import com.gopush.protocol.device.HandShakeResp;
 import io.netty.channel.Channel;
@@ -47,7 +49,7 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
     private IDeviceChannelStore deviceChannelStore;
 
     @Override
-    public boolean support(HandShakeReq message) {
+    public boolean support(DeviceMessage message) {
         return message instanceof HandShakeReq;
     }
 
@@ -70,13 +72,13 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
 
 
     //握手成功
-    public static final int HANDSAHKE_OK = 200;
+//    public static final int HANDSAHKE_OK = 200;
 
     //非法设备
-    public static final int HANDSHAKE_INVALID_DEVICE = 300;
+//    public static final int HANDSHAKE_INVALID_DEVICE = 300;
 
     //非法token
-    public static final int HANDSHAKE_INVALID_TOKEN = 301;
+//    public static final int HANDSHAKE_INVALID_TOKEN = 301;
 
     @Override
     protected void batchHandler(List<Object[]> batchReq) throws Exception {
@@ -93,26 +95,27 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
                     HandShakeResp.HandShakeRespBuilder respBuilder =
                             HandShakeResp.builder();
                     if (StringUtils.isEmpty(req.getDevice())) {
-                        respBuilder.result(HANDSHAKE_INVALID_DEVICE);
+                        respBuilder.result(HandshakeEnum.HANDSHAKE_INVALID_DEVICE.getValue());
                     } else {
                         String token = (String) redisTemplate.opsForHash().get(
                                 RedisKeyEnum.DEVICE_KEY.getValue() + devcieId,
                                 RedisKeyEnum.DEIVCE_TOKEN_FIELD.getValue());
                         //所有的token 都不为空 且 两个token相等
                         if (StringUtils.isAnyEmpty(token, req.getToken()) || !StringUtils.equals(req.getToken(), token)) {
-                            respBuilder.result(HANDSHAKE_INVALID_TOKEN);
+                            respBuilder.result(HandshakeEnum.HANDSHAKE_INVALID_TOKEN.getValue());
                         } else {
-                            respBuilder.result(HANDSAHKE_OK);
+                            respBuilder.result(HandshakeEnum.HANDSAHKE_OK.getValue());
                         }
                     }
                     HandShakeResp resp = respBuilder.build();
 
                     String respEncode = resp.encode();
                     //握手不成功
-                    if (resp.getResult() != HANDSAHKE_OK) {
+
+                    if (resp.getResult() != HandshakeEnum.HANDSAHKE_OK.getValue()) {
                         //将写出握手响应后关闭链接
                         channel.writeAndFlush(respEncode).addListener(ChannelFutureListener.CLOSE);
-                        log.debug("handshake fail, channel:{}, device:{}, response:{}", channel, req.getDevice(), respEncode);
+                        log.info("handshake fail, channel:{}, device:{}, response:{}", channel, req.getDevice(), respEncode);
                     } else {
 
 
@@ -145,7 +148,7 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
 
                         //写出握手响应
                         channel.writeAndFlush(respEncode);
-                        log.debug("handshake successful, channel:{}, device:{}, message:{}", channel, req.getDevice(), respEncode);
+                        log.info("handshake successful, channel:{}, device:{}, message:{}", channel, req.getDevice(), respEncode);
 
 
                     }

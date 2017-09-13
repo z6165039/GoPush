@@ -1,7 +1,6 @@
 package com.gopush.protocol.device;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 /**
  * go-push
@@ -12,7 +11,8 @@ import lombok.Getter;
  * @VERSION：
  */
 @Builder
-@Getter
+@Data
+@AllArgsConstructor
 public class Ping extends DeviceMessageReq<Ping> {
 
     @Override
@@ -22,7 +22,7 @@ public class Ping extends DeviceMessageReq<Ping> {
 
     @Override
     protected Ping getThis() throws Exception {
-        return null;
+        return this;
     }
 
 

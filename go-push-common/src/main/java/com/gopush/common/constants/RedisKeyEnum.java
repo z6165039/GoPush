@@ -18,7 +18,7 @@ public enum RedisKeyEnum {
     DEVICE_NODE_FIELD("node"),
     DEVICE_CHANNEL_FIELD("channel");
 
-    private final String value;
+    private String value;
 
     RedisKeyEnum(String value) {
         this.value = value;

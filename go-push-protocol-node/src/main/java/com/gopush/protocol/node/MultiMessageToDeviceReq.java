@@ -1,8 +1,7 @@
 package com.gopush.protocol.node;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,7 +14,9 @@ import java.util.List;
  * @VERSION：
  */
 @Builder
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MultiMessageToDeviceReq extends NodeMessageReq<MultiMessageToDeviceReq> {
 
 

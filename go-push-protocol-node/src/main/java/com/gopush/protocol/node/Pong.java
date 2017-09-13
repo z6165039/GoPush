@@ -1,7 +1,6 @@
 package com.gopush.protocol.node;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 /**
  * go-push
@@ -13,7 +12,8 @@ import lombok.Getter;
  */
 
 @Builder
-@Getter
+@Data
+@AllArgsConstructor
 public class Pong extends NodeMessageResp<Pong> {
 
 
@@ -24,7 +24,7 @@ public class Pong extends NodeMessageResp<Pong> {
 
     @Override
     protected Pong getThis() {
-        return null;
+        return this;
     }
 
 

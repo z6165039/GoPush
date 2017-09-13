@@ -68,7 +68,7 @@ public class NodeServerInfoWatchdog {
                                 .nodeServerInfo(watch())
                                 .build());
 //                写入zk 其实不需要发送 NodeInfoReq
-                //nodeSender.send(NodeInfoReq.builder().build());
+                nodeSender.send(NodeInfoReq.builder().build());
             }
         }, delay, delay);
     }

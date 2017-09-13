@@ -1,8 +1,7 @@
 package com.gopush.protocol.device;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 /**
  * go-push
@@ -14,7 +13,9 @@ import lombok.Getter;
  */
 
 @Builder
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class HandShakeResp extends DeviceMessageResp<HandShakeResp> {
 
     @JSONField(name = "R")

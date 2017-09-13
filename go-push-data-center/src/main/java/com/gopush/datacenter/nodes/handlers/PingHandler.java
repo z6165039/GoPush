@@ -1,6 +1,7 @@
 package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
+import com.gopush.protocol.node.NodeMessage;
 import com.gopush.protocol.node.Ping;
 import com.gopush.protocol.node.Pong;
 import io.netty.channel.Channel;
@@ -24,7 +25,7 @@ public class PingHandler implements INodeMessageHandler<Ping> {
     private static final String PONG = Pong.builder().build().encode();
 
     @Override
-    public boolean support(Ping message) {
+    public boolean support(NodeMessage message) {
         return message instanceof Ping;
     }
 
@@ -32,6 +33,6 @@ public class PingHandler implements INodeMessageHandler<Ping> {
     public void call(ChannelHandlerContext ctx, Ping message) {
         Channel channel = ctx.channel();
         channel.writeAndFlush(PONG);
-        log.debug("receive ping,channel:{}", channel);
+        log.info("receive ping,channel:{}", channel);
     }
 }

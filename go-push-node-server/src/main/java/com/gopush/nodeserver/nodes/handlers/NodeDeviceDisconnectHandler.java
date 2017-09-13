@@ -3,6 +3,7 @@ package com.gopush.nodeserver.nodes.handlers;
 import com.gopush.common.Constants;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDisconResp;
+import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,14 +20,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class NodeDeviceDisconnectHandler extends NodeBaseHandler implements INodeMessageHandler<DeviceDisconResp> {
     @Override
-    public boolean support(DeviceDisconResp message) {
+    public boolean support(NodeMessage message) {
         return message instanceof DeviceDisconResp;
     }
 
     @Override
     public void call(ChannelHandlerContext ctx, DeviceDisconResp message) {
         saveLiveDc(ctx.channel());
-        log.debug("receive DeviceDockedResp, channel:{}, node:{}", ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
+        log.info("receive DeviceDockedResp, channel:{}, node:{}", ctx.channel(), ctx.channel().attr(Constants.CHANNEL_ATTR_DATACENTER).get());
 
     }
 }

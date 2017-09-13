@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.handlers;
 
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDockedReq;
+import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DeviceDockedHandler implements INodeMessageHandler<DeviceDockedReq> {
     @Override
-    public boolean support(DeviceDockedReq message) {
+    public boolean support(NodeMessage message) {
         return message instanceof DeviceDockedReq;
     }
 
@@ -28,6 +29,6 @@ public class DeviceDockedHandler implements INodeMessageHandler<DeviceDockedReq>
     public void call(ChannelHandlerContext ctx, DeviceDockedReq message) {
         Channel channel = ctx.channel();
 
-        log.debug("receive DeviceDockedReq, channel:{}", channel);
+        log.info("receive DeviceDockedReq, channel:{}", channel);
     }
 }

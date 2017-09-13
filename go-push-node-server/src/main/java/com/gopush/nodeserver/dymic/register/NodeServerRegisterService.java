@@ -80,7 +80,6 @@ public class NodeServerRegisterService {
      * @param data
      */
     public void postNewData(NodeServerInfo data) {
-
         zkUtils.setNodeData(
                 ZKPaths.makePath(ZkGroupEnum.NODE_SERVER.getValue(), goPushNodeServerConfig.getName()) + goPushNodeServerConfig.getName(),
                 JSON.toJSONString(data));

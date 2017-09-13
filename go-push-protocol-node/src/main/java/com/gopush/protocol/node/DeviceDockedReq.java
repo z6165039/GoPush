@@ -1,8 +1,7 @@
 package com.gopush.protocol.node;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,9 @@ import java.util.List;
  * @VERSION：
  */
 @Builder
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DeviceDockedReq extends NodeMessageReq<DeviceDockedReq> {
 
     //需要上报的设备列表(是批量上报的)

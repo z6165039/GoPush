@@ -3,7 +3,6 @@ package com.gopush.datacenter.nodes.manager;
 import com.gopush.datacenter.nodes.inbound.NodeChannelInBoundHandler;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.NodeMessage;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
@@ -18,9 +17,10 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Queue;
-import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * go-push
@@ -66,10 +66,21 @@ public class Node implements INode {
      */
     private transient volatile List<INodeMessageHandler> nodeMessageHandlers;
 
+
     /**
-     * 连接是否运行
+     * 是否存活
      */
-    private volatile boolean runing = Boolean.FALSE;
+    private volatile boolean alive = Boolean.FALSE;
+
+    /**
+     * 是否初始化过
+     */
+    private volatile boolean initialized = Boolean.FALSE;
+
+    /**
+     * 是否销毁过
+     */
+    private volatile boolean destroyed = Boolean.FALSE;
 
     /**
      * 失败的请求
@@ -95,28 +106,24 @@ public class Node implements INode {
 
     @Override
     public void init() {
-        if (runing){
-            return;
-        }
+        destroyed = Boolean.FALSE;
         try{
             connect();
-            runing = Boolean.TRUE;
         }catch (Exception e){
             log.error("init data center connect node-server  error:{}",e);
-            runing = Boolean.FALSE;
+        }finally {
+            initialized = Boolean.TRUE;
         }
 
-    }
-
-    @Override
-    public boolean isAlive() {
-        return runing;
     }
 
     @Override
     public void destroy() {
         if (failMessage != null){
-            failMessage.clear();
+            if (!failMessage.isEmpty()){
+                log.info("destroy node lost retry messages: {}",failMessage.toString());
+                failMessage.clear();
+            }
         }
         failMessage = null;
         nodeMessageHandlers = null;
@@ -126,8 +133,24 @@ public class Node implements INode {
                 channel.close();
             }
         }
-        runing = Boolean.FALSE;
+        alive = Boolean.FALSE;
+        initialized = Boolean.FALSE;
+        destroyed = Boolean.TRUE;
     }
+
+
+    @Override
+    public void active() {
+        alive = Boolean.TRUE;
+    }
+
+    @Override
+    public void inactive() {
+        alive = Boolean.FALSE;
+    }
+
+
+
 
     @Override
     public void send(NodeMessage message) {
@@ -136,8 +159,8 @@ public class Node implements INode {
 
     @Override
     public void send(NodeMessage message, boolean retry) {
-        if(!runing){
-            log.warn("node client not init, not running, nodeInfo: {}",toString());
+        if(!initialized){
+            log.warn("node client not init, nodeInfo: {}",toString());
             if (retry){
                 failMessage.add(message);
             }
@@ -159,6 +182,46 @@ public class Node implements INode {
         });
 
     }
+
+    @Override
+    public void retrySendFail() {
+        if (!failMessage.isEmpty()){
+            while (true){
+                try {
+                    send(failMessage.remove());
+                }catch (NoSuchElementException ex){
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void reconnect(ChannelHandlerContext ctx) {
+        if (destroyed){
+            return;
+        }
+        inactive();
+        EventLoop loop = ctx.channel().eventLoop();
+        loop.schedule(()-> connect(),2, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void handle(ChannelHandlerContext ctx, NodeMessage message) {
+        if (!nodeMessageHandlers.isEmpty()){
+            nodeMessageHandlers.stream().forEach(handler ->{
+                try {
+                    if (handler.support(message)){
+                        handler.call(ctx,message);
+                    }
+                } catch (Exception e) {
+                    log.error("Node handle call Exception, error:{}", e);
+                }
+            });
+        }
+    }
+
+
 
     private void connect(){
         channel = configBootstrap().connect().channel();

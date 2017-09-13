@@ -1,7 +1,6 @@
 package com.gopush.protocol.node;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 /**
  * go-push
@@ -11,9 +10,9 @@ import lombok.Getter;
  * @创建时间：2017/6/9
  * @VERSION：
  */
-
 @Builder
-@Getter
+@Data
+@AllArgsConstructor
 public class Ping extends NodeMessageReq<Ping> {
 
 
@@ -24,7 +23,7 @@ public class Ping extends NodeMessageReq<Ping> {
 
     @Override
     protected Ping getThis() {
-        return null;
+        return this;
     }
 
 

@@ -3,6 +3,7 @@ package com.gopush.nodeserver.devices.handlers;
 import com.gopush.common.Constants;
 import com.gopush.devices.handlers.IDeviceMessageHandler;
 import com.gopush.nodeserver.devices.BatchProcessor;
+import com.gopush.protocol.device.DeviceMessage;
 import com.gopush.protocol.device.PushResp;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,7 +26,7 @@ import java.util.List;
 @Component
 public class PushRespHandler extends BatchProcessor<PushResp> implements IDeviceMessageHandler<PushResp> {
     @Override
-    public boolean support(PushResp message) {
+    public boolean support(DeviceMessage message) {
         return message instanceof PushResp;
     }
 
@@ -40,7 +41,7 @@ public class PushRespHandler extends BatchProcessor<PushResp> implements IDevice
         //接收成功后,将推送的消息置换成已读或删除等操作
         if (PushResp.Result.S.equals(message.getResult()) || PushResp.Result.D.equals(message.getResult())) {
             putMsg(message);
-            log.debug("receive pushResp, device:{}, msg_id:{}, result:{}!", message.getDevice(), message.getMsgId(), message.getResult());
+            log.info("receive pushResp, device:{}, msg_id:{}, result:{}!", message.getDevice(), message.getMsgId(), message.getResult());
         } else {
             log.warn("receive pushResp, device:{}, msg_id:{}, result:{}", message.getDevice(), message.getMsgId(), message.getResult());
         }

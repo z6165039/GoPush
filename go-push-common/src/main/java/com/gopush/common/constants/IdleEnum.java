@@ -15,7 +15,7 @@ public enum IdleEnum {
     READ_IDLE(10),
     WRITE_IDLE(30),
     ALL_IDLE(50);
-    private final int value;
+    private int value;
 
     IdleEnum(int value) {
         this.value = value;
