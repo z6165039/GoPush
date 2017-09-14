@@ -138,8 +138,6 @@ public class NodeServerDiscoveryService {
             nodeManager.remove(key);
             nodeServerPool.remove(key);
         }
-        log.info("{}",JSON.toJSONString(nodeServerPool));
-
 
     }
 
