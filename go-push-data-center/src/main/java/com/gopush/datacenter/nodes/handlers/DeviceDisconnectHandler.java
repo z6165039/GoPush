@@ -1,7 +1,9 @@
 package com.gopush.datacenter.nodes.handlers;
 
+import com.gopush.common.constants.NodeMessageEnum;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDisconReq;
+import com.gopush.protocol.node.DeviceDisconResp;
 import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -29,8 +31,7 @@ public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDiscon
     @Override
     public void call(ChannelHandlerContext ctx, DeviceDisconReq message) {
         Channel channel = ctx.channel();
-
-
+        channel.writeAndFlush(DeviceDisconResp.builder().result(NodeMessageEnum.OK.getCode()).build().encode());
         log.info("receive DeviceDisconReq, channel:{}", channel);
     }
 }

@@ -1,10 +1,11 @@
 package com.gopush.nodeserver.nodes.handlers;
 
+import com.gopush.common.constants.NodeMessageEnum;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.nodeserver.devices.senders.IPushSender;
-import com.gopush.nodeserver.devices.stores.IDeviceChannelStore;
 import com.gopush.protocol.device.PushReq;
 import com.gopush.protocol.node.MessageToMultiDeviceReq;
+import com.gopush.protocol.node.MessageToMultiDeviceResp;
 import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -48,6 +49,9 @@ public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageT
                     PushReq pushReq = PushReq.builder().msgs(msgList).build();
                     pushSender.send(e,pushReq);
                 });
+
+                Channel channel = ctx.channel();
+                channel.writeAndFlush(MessageToMultiDeviceResp.builder().result(NodeMessageEnum.OK.getCode()).build().encode());
             }
         }
 

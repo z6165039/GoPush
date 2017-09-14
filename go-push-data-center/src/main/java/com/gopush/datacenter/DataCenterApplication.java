@@ -1,7 +1,9 @@
 package com.gopush.datacenter;
 
+import com.didispace.swagger.EnableSwagger2Doc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * go-push
@@ -11,7 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @创建时间：2017/6/11 下午1:28
  * @VERSION：
  */
-
+@EnableSwagger2Doc
+@EnableAsync
 @SpringBootApplication
 public class DataCenterApplication {
 

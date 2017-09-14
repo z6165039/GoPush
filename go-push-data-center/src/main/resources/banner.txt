@@ -9,7 +9,6 @@ ${AnsiColor.BRIGHT_GREEN}
   |______|______|______|______|______|______|______|______|______|______|______| | | |_ |/ _ \|  ___/ | | / __| '_ \
                                                                                  | |__| | (_) | |   | |_| \__ \ | | |
                                                                                   \_____|\___/|_|    \__,_|___/_| |_|
-
 ${AnsiColor.BRIGHT_RED}
 Application Version: ${application.version}${application.formatted-version}
 Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}

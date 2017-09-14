@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author chenxiangqi
+ * @author 喝咖啡的囊地鼠
  * @date 2017/9/12 上午3:13
  */
 
@@ -139,7 +139,6 @@ public class NodeServerDiscoveryService {
             nodeServerPool.remove(key);
         }
 
-
     }
 
     private void addNodeEvent(PathChildrenCacheEvent event) {
@@ -155,9 +154,11 @@ public class NodeServerDiscoveryService {
         }
     }
 
+
+
     private String toKey(PathChildrenCacheEvent event){
         String path = event.getData().getPath() ;
-        return path.substring(path.lastIndexOf("/"));
+        return path.substring(path.lastIndexOf("/")).replaceAll("/","");
     }
     private NodeServerInfo toNodeServerInfo(PathChildrenCacheEvent event){
         return JSON.parseObject(event.getData().getData(), NodeServerInfo.class);
