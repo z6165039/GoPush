@@ -6,11 +6,11 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
- * @author chenxiangqi
+ * @author 喝咖啡的囊地鼠
  * @date 2017/9/14 上午12:13
  */
 @Getter
-public enum  NodeEnum {
+public enum NodeMessageEnum {
 
     OK(200,"OK"),
     FAIL(500,"FAIL")
@@ -20,16 +20,16 @@ public enum  NodeEnum {
     private int code;
     private String descri;
 
-    NodeEnum(int code,String descri){
+    NodeMessageEnum(int code, String descri){
         this.code = code;
         this.descri = descri;
     }
 
-    public static NodeEnum fromCode(int code) {
+    public static NodeMessageEnum fromCode(int code) {
         if (code <= 0) {
             return null;
         }
-        return Arrays.stream(NodeEnum.values())
+        return Arrays.stream(NodeMessageEnum.values())
                 .filter(a -> code == a.getCode())
                 .findFirst()
                 .orElse(null);

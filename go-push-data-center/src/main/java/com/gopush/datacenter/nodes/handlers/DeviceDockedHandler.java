@@ -1,7 +1,9 @@
 package com.gopush.datacenter.nodes.handlers;
 
+import com.gopush.common.constants.NodeMessageEnum;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import com.gopush.protocol.node.DeviceDockedReq;
+import com.gopush.protocol.node.DeviceDockedResp;
 import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -28,7 +30,7 @@ public class DeviceDockedHandler implements INodeMessageHandler<DeviceDockedReq>
     @Override
     public void call(ChannelHandlerContext ctx, DeviceDockedReq message) {
         Channel channel = ctx.channel();
-
+        channel.writeAndFlush(DeviceDockedResp.builder().result(NodeMessageEnum.OK.getCode()).build().encode());
         log.info("receive DeviceDockedReq, channel:{}", channel);
     }
 }

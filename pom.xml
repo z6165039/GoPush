@@ -110,6 +110,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.didispace</groupId>
+                <artifactId>spring-boot-starter-swagger</artifactId>
+                <version>1.1.0.RELEASE</version>
+            </dependency>
+
+            <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
                 <version>4.1.11.Final</version>

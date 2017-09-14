@@ -5,26 +5,28 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
- * @author 喝咖啡的囊地鼠
- * @date 2017/9/14 上午12:05
+ * @author chenxiangqi
+ * @date 2017/9/14 下午5:31
  */
 @Getter
-public enum HandshakeEnum {
-    HANDSAHKE_OK(200,"握手成功"),
-    HANDSHAKE_INVALID_DEVICE(300,"非法设备"),
-    HANDSHAKE_INVALID_TOKEN(301,"非法Token");
+public enum  RestfulRespEnum {
+
+    OK(0,"成功");
+
     private int key;
     private String descri;
-    HandshakeEnum(int key, String descri){
+
+    RestfulRespEnum(int key,String descri){
         this.key = key;
         this.descri = descri;
     }
 
-    public static HandshakeEnum fromKey(int key) {
+
+    public static RestfulRespEnum fromKey(int key) {
         if (key <= 0) {
             return null;
         }
-        return Arrays.stream(HandshakeEnum.values())
+        return Arrays.stream(RestfulRespEnum.values())
                 .filter(a -> key == a.getKey())
                 .findFirst()
                 .orElse(null);

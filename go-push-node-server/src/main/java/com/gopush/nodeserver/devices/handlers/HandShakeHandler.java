@@ -95,16 +95,16 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
                     HandShakeResp.HandShakeRespBuilder respBuilder =
                             HandShakeResp.builder();
                     if (StringUtils.isEmpty(req.getDevice())) {
-                        respBuilder.result(HandshakeEnum.HANDSHAKE_INVALID_DEVICE.getValue());
+                        respBuilder.result(HandshakeEnum.HANDSHAKE_INVALID_DEVICE.getKey());
                     } else {
                         String token = (String) redisTemplate.opsForHash().get(
                                 RedisKeyEnum.DEVICE_KEY.getValue() + devcieId,
                                 RedisKeyEnum.DEIVCE_TOKEN_FIELD.getValue());
                         //所有的token 都不为空 且 两个token相等
                         if (StringUtils.isAnyEmpty(token, req.getToken()) || !StringUtils.equals(req.getToken(), token)) {
-                            respBuilder.result(HandshakeEnum.HANDSHAKE_INVALID_TOKEN.getValue());
+                            respBuilder.result(HandshakeEnum.HANDSHAKE_INVALID_TOKEN.getKey());
                         } else {
-                            respBuilder.result(HandshakeEnum.HANDSAHKE_OK.getValue());
+                            respBuilder.result(HandshakeEnum.HANDSAHKE_OK.getKey());
                         }
                     }
                     HandShakeResp resp = respBuilder.build();
@@ -112,7 +112,7 @@ public class HandShakeHandler extends BatchProcessor<Object[]> implements IDevic
                     String respEncode = resp.encode();
                     //握手不成功
 
-                    if (resp.getResult() != HandshakeEnum.HANDSAHKE_OK.getValue()) {
+                    if (resp.getResult() != HandshakeEnum.HANDSAHKE_OK.getKey()) {
                         //将写出握手响应后关闭链接
                         channel.writeAndFlush(respEncode).addListener(ChannelFutureListener.CLOSE);
                         log.info("handshake fail, channel:{}, device:{}, response:{}", channel, req.getDevice(), respEncode);

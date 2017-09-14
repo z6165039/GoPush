@@ -2,6 +2,7 @@ package com.gopush.nodeserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * go-push
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @创建时间：2017/6/11 上午11:43
  * @VERSION：
  */
+@EnableAsync
 @SpringBootApplication
 public class NodeServerApplication {
 
