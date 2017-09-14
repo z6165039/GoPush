@@ -1,5 +1,6 @@
+
 server:
-  port: 7001
+  port: 7011
 
 spring:
   redis:
@@ -7,6 +8,7 @@ spring:
       nodes:
         - 127.0.0.1:6379
         - 127.0.0.1:6379
+
 
 go-push:
   data-center:
