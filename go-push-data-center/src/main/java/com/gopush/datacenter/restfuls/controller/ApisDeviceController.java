@@ -23,7 +23,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping(value = "/apis/device")
-@Api(tags = "设备相关")
+@Api(tags = "设备|链接相关")
 public class ApisDeviceController {
 
     @Autowired
@@ -34,6 +34,7 @@ public class ApisDeviceController {
     public ResponseEntity<BaseResp<String>> register(@RequestBody Device device){
         //内部生产一个设备号给注册的设备
         //查找缓存，设置注册设备，没有设备的话注册，有的话检查appcode，没有的加入appcode 有的话直接返回已经注册的设备号
+        //todo
         return ResponseEntity.ok(BaseResp.ok(token()));
     }
 
@@ -41,8 +42,18 @@ public class ApisDeviceController {
     @RequestMapping(value = "/unregister/{deviceNo}",method = RequestMethod.DELETE)
     public ResponseEntity<BaseResp> unregister(@PathVariable("deviceNo") @ApiParam("设备号") String deviceNo){
         //查找缓存，没有设备的话直接返回，有的话 取消注册的设备，清空设备的有效期（从而导致sdk端或者服务端关闭链接）
+        //todo
         return ResponseEntity.ok(BaseResp.ok());
     }
+
+    @ApiOperation(value = "查询设备状态",notes = "查询设备状态")
+    @RequestMapping(value = "/{deviceNo}/state",method = RequestMethod.GET)
+    public ResponseEntity<BaseResp> deviceState(@PathVariable("deviceNo") @ApiParam("设备号") String deviceNo) {
+        //查找缓存，没有设备的话直接返回，有的话 取消注册的设备，清空设备的有效期（从而导致sdk端或者服务端关闭链接）
+        //todo 查询设备状态
+        return ResponseEntity.ok(BaseResp.ok());
+    }
+
 
     @ApiOperation(value = "设备选择链接节点",notes = "设备选择链接节点")
     @RequestMapping(value = "/select",method = RequestMethod.GET)
