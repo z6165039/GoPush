@@ -24,13 +24,14 @@ public class ApisPushController {
     @ApiOperation(value = "向单个设备推送消息",notes = "向单个设备推送消息")
     @RequestMapping(value = "/one",method = RequestMethod.POST)
     public ResponseEntity<BaseResp> pushOne(@RequestBody Device device){
+        //todo
         return ResponseEntity.ok(BaseResp.ok());
     }
 
     @ApiOperation(value = "向多个设备推送消息",notes = "向多个设备推送消息")
     @RequestMapping(value = "/numerous",method = RequestMethod.POST)
     public ResponseEntity<BaseResp> pushNumerous(@RequestBody Device device){
-
+        //todo
         return ResponseEntity.ok(BaseResp.ok());
     }
 }
