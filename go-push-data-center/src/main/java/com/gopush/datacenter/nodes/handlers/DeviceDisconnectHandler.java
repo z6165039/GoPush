@@ -32,6 +32,6 @@ public class DeviceDisconnectHandler implements INodeMessageHandler<DeviceDiscon
     public void call(ChannelHandlerContext ctx, DeviceDisconReq message) {
         Channel channel = ctx.channel();
         channel.writeAndFlush(DeviceDisconResp.builder().result(NodeMessageEnum.OK.getCode()).build().encode());
-        log.info("receive DeviceDisconReq, channel:{}", channel);
+        log.debug("receive DeviceDisconReq, channel:{}", channel);
     }
 }

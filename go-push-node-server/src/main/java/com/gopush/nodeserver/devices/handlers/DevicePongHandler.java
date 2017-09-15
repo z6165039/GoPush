@@ -40,7 +40,7 @@ public class DevicePongHandler extends PingPongProcessor<Object[]> implements ID
         putMsg(new Object[]{
                 channel.attr(Constants.CHANNEL_ATTR_DEVICE).get(),
                 channel.attr(Constants.CHANNEL_ATTR_IDLE).get()});
-        log.info("receive pong, channel:{}, device:{}", channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
+        log.debug("receive pong, channel:{}, device:{}", channel, channel.attr(Constants.CHANNEL_ATTR_DEVICE).get());
 
     }
 

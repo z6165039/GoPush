@@ -82,6 +82,7 @@ public class NodeServerDiscoveryService {
 
     /**
      * 获取当前现在的Node -Server 服务列表
+     *
      * @return
      */
     public Map<String, NodeServerInfo> nodeServerPool() {
@@ -122,18 +123,18 @@ public class NodeServerDiscoveryService {
     private void updateNodeEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
-        log.info("node event update! key:{}, data:{}",key,data);
+        log.debug("node event update! key:{}, data:{}", key, data);
         //只需要更新缓存数据就可以了
-        if (nodeServerPool.containsKey(key)){
-            nodeServerPool.put(key,data);
+        if (nodeServerPool.containsKey(key)) {
+            nodeServerPool.put(key, data);
         }
     }
 
     private void removeNodeEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
-        log.info("node event remove! key:{}, data:{}",key,data);
-        if (nodeServerPool.containsKey(key)){
+        log.debug("node event remove! key:{}, data:{}", key, data);
+        if (nodeServerPool.containsKey(key)) {
             //检测Node是否还存在，存在的话移除该Node
             nodeManager.remove(key);
             nodeServerPool.remove(key);
@@ -144,23 +145,23 @@ public class NodeServerDiscoveryService {
     private void addNodeEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
-        log.info("node event add! key:{}, data:{}",key,data);
-        if (!nodeServerPool.containsKey(key)){
+        log.debug("node event add! key:{}, data:{}", key, data);
+        if (!nodeServerPool.containsKey(key)) {
             //开启node,加入到管理器
-            nodeManager.put(key,data.getIntranetIp(),data.getNodePort(),data.getInternetIp(),data.getDevicePort());
-            nodeServerPool.put(key,data);
-        }else {
-            log.error("node already! {},{}",key,data);
+            nodeManager.put(key, data.getIntranetIp(), data.getNodePort(), data.getInternetIp(), data.getDevicePort());
+            nodeServerPool.put(key, data);
+        } else {
+            log.error("node already! {},{}", key, data);
         }
     }
 
 
-
-    private String toKey(PathChildrenCacheEvent event){
-        String path = event.getData().getPath() ;
-        return path.substring(path.lastIndexOf("/")).replaceAll("/","");
+    private String toKey(PathChildrenCacheEvent event) {
+        String path = event.getData().getPath();
+        return path.substring(path.lastIndexOf("/")).replaceAll("/", "");
     }
-    private NodeServerInfo toNodeServerInfo(PathChildrenCacheEvent event){
+
+    private NodeServerInfo toNodeServerInfo(PathChildrenCacheEvent event) {
         return JSON.parseObject(event.getData().getData(), NodeServerInfo.class);
     }
 

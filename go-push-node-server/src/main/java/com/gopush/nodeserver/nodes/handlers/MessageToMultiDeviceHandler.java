@@ -47,7 +47,7 @@ public class MessageToMultiDeviceHandler implements INodeMessageHandler<MessageT
                 devcies.stream().forEach((e) -> {
                     List<String> msgList = new ArrayList<>();
                     PushReq pushReq = PushReq.builder().msgs(msgList).build();
-                    pushSender.send(e,pushReq);
+                    pushSender.send(e, pushReq);
                 });
 
                 Channel channel = ctx.channel();

@@ -32,6 +32,6 @@ public class NodeInfoHandler implements INodeMessageHandler<NodeInfoReq> {
     public void call(ChannelHandlerContext ctx, NodeInfoReq message) {
         Channel channel = ctx.channel();
         channel.writeAndFlush(NodeInfoResp.builder().result(NodeMessageEnum.OK.getCode()).build().encode());
-        log.info("receive nodeInfoReq,channel:{}", channel);
+        log.debug("receive nodeInfoReq,channel:{}", channel);
     }
 }

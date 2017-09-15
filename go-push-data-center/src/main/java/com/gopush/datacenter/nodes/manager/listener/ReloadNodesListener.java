@@ -27,8 +27,7 @@ public class ReloadNodesListener {
 
     @EventListener(condition = "#event.eventName != null ")
     public void reloadNodeManager(ReloadNodesEvent event) {
-        log.info("重新加载数据:{}",event);
-        Map<String,NodeServerInfo> maps = nodeServerDiscoveryService.nodeServerPool();
-        maps.forEach((k,v) -> nodeManager.put(k,v.getIntranetIp(),v.getNodePort(),v.getInternetIp(),v.getDevicePort()));
+        Map<String, NodeServerInfo> maps = nodeServerDiscoveryService.nodeServerPool();
+        maps.forEach((k, v) -> nodeManager.put(k, v.getIntranetIp(), v.getNodePort(), v.getInternetIp(), v.getDevicePort()));
     }
 }

@@ -34,6 +34,6 @@ public class NodePingHandler extends NodeBaseHandler implements INodeMessageHand
         Channel channel = ctx.channel();
         channel.writeAndFlush(PONG);
         saveLiveDc(channel);
-        log.info("node send pong to data center, channel:{}", ctx.channel());
+        log.debug("node send pong to data center, channel:{}", ctx.channel());
     }
 }

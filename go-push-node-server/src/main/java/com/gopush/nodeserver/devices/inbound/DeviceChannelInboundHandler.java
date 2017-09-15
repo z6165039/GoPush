@@ -45,7 +45,7 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String message) throws Exception {
 
-        log.info("channel:{}, message:{}", ctx.channel(), message);
+        log.debug("channel:{}, message:{}", ctx.channel(), message);
         DeviceMessage deviceMessage = DeviceMessage.decode(message);
 
         if (!deviceMessageHandlers.isEmpty()) {
@@ -64,20 +64,20 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("channel active, channel:{}", ctx.channel());
+        log.debug("channel active, channel:{}", ctx.channel());
         super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("channel inactive, channel:{}", ctx.channel());
+        log.debug("channel inactive, channel:{}", ctx.channel());
         deviceDisconnectHandler.channelClosed(ctx.channel());
         super.channelInactive(ctx);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("exception error:{}, channel:{}", cause.getMessage(), ctx.channel());
+        log.debug("exception error:{}, channel:{}", cause.getMessage(), ctx.channel());
         ctx.close();
     }
 

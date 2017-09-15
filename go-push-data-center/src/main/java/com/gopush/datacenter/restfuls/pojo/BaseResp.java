@@ -16,10 +16,10 @@ import lombok.*;
 @Getter
 public class BaseResp<T> {
     private Integer code;
-    private String  description;
+    private String description;
     private T data;
 
-    public static <T> BaseResp<T> ok(T data){
+    public static <T> BaseResp<T> ok(T data) {
         return BaseResp.<T>builder()
                 .data(data)
                 .code(RestfulRespEnum.OK.getKey())
@@ -27,14 +27,15 @@ public class BaseResp<T> {
                 .<T>build();
     }
 
-    public static BaseResp ok(){
+    public static BaseResp ok() {
         return ok(null);
     }
 
-    public static BaseResp fail(int failCode,String failMsg){
-        return fail(failCode,failMsg,null);
+    public static BaseResp fail(int failCode, String failMsg) {
+        return fail(failCode, failMsg, null);
     }
-    public static <T> BaseResp<T> fail(int failCode,String failMsg,T data){
-      return BaseResp.<T>builder().code(failCode).description(failMsg).data(data).<T>build();
+
+    public static <T> BaseResp<T> fail(int failCode, String failMsg, T data) {
+        return BaseResp.<T>builder().code(failCode).description(failMsg).data(data).<T>build();
     }
 }

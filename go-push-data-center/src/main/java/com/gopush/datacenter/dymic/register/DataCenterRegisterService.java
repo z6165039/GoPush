@@ -1,10 +1,12 @@
 package com.gopush.datacenter.dymic.register;
 
+import com.alibaba.fastjson.JSON;
 import com.gopush.common.constants.ZkGroupEnum;
 import com.gopush.common.utils.zk.ZkUtils;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
 import com.gopush.datacenter.config.GoPushDataCenterConfig;
 import com.gopush.datacenter.config.ZookeeperConfig;
+import com.gopush.infos.datacenter.bo.DataCenterInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.state.ConnectionState;
@@ -68,6 +70,12 @@ public class DataCenterRegisterService {
         zkUtils.destory();
     }
 
+
+    public void postNewData(DataCenterInfo data) {
+        zkUtils.setNodeData(
+                ZKPaths.makePath(ZkGroupEnum.DATA_CENTER.getValue(), goPushDataCenterConfig.getName()),
+                JSON.toJSONString(data));
+    }
 
     /**
      * 注册datacenter服务
