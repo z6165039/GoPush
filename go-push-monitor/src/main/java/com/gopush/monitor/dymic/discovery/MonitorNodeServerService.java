@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.gopush.common.constants.ZkGroupEnum;
 import com.gopush.common.utils.zk.ZkUtils;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
-import com.gopush.infos.datacenter.bo.DataCenterInfo;
 import com.gopush.infos.nodeserver.bo.NodeServerInfo;
 import com.gopush.monitor.config.ZookeeperConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +65,7 @@ public class MonitorNodeServerService {
                         log.info("MonitorNodeServer 链接zk丢失");
                     }
                 });
-
+        initNodeServerPool();
         listenNodeServer();
     }
 
@@ -81,26 +80,32 @@ public class MonitorNodeServerService {
         return monitorNodeServerPool.values().stream().sorted().collect(Collectors.toList());
     }
 
-    /**
-     * 设置监听发生更新，更新缓存数据，发生新增，删除，更新
-     */
+
+    private void initNodeServerPool() {
+        monitorNodeServerPool.clear();
+        Map<String, String> datas = zkUtils.readTargetChildsData(ZkGroupEnum.NODE_SERVER.getValue());
+        if (datas != null) {
+            datas.forEach((k, v) -> monitorNodeServerPool.put(k, JSON.parseObject(v, NodeServerInfo.class)));
+        }
+    }
+
     private void listenNodeServer() {
         zkUtils.listenerPathChildrenCache(ZkGroupEnum.NODE_SERVER.getValue(), ((zkclient, event) -> {
             switch (event.getType()) {
                 case CHILD_ADDED:
-                    addNodeEvent(event);
+                    addEvent(event);
                     break;
                 case CHILD_REMOVED:
-                    removeNodeEvent(event);
+                    removeEvent(event);
                     break;
                 case CHILD_UPDATED:
-                    updateNodeEvent(event);
+                    updateEvent(event);
                     break;
             }
         }));
     }
 
-    private void updateNodeEvent(PathChildrenCacheEvent event) {
+    private void updateEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
         log.info(" Monitor node event update! key:{}, data:{}", key, data);
@@ -109,7 +114,7 @@ public class MonitorNodeServerService {
         }
     }
 
-    private void removeNodeEvent(PathChildrenCacheEvent event) {
+    private void removeEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
         log.info(" Monitor node event remove! key:{}, data:{}", key, data);
@@ -119,7 +124,7 @@ public class MonitorNodeServerService {
 
     }
 
-    private void addNodeEvent(PathChildrenCacheEvent event) {
+    private void addEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
         log.info(" Monitor node event add! key:{}, data:{}", key, data);

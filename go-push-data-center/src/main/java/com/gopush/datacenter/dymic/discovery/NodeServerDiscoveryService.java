@@ -108,19 +108,19 @@ public class NodeServerDiscoveryService {
         zkUtils.listenerPathChildrenCache(ZkGroupEnum.NODE_SERVER.getValue(), ((client, event) -> {
             switch (event.getType()) {
                 case CHILD_ADDED:
-                    addNodeEvent(event);
+                    addEvent(event);
                     break;
                 case CHILD_REMOVED:
-                    removeNodeEvent(event);
+                    removeEvent(event);
                     break;
                 case CHILD_UPDATED:
-                    updateNodeEvent(event);
+                    updateEvent(event);
                     break;
             }
         }));
     }
 
-    private void updateNodeEvent(PathChildrenCacheEvent event) {
+    private void updateEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
         log.debug("node event update! key:{}, data:{}", key, data);
@@ -130,7 +130,7 @@ public class NodeServerDiscoveryService {
         }
     }
 
-    private void removeNodeEvent(PathChildrenCacheEvent event) {
+    private void removeEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
         log.debug("node event remove! key:{}, data:{}", key, data);
@@ -142,7 +142,7 @@ public class NodeServerDiscoveryService {
 
     }
 
-    private void addNodeEvent(PathChildrenCacheEvent event) {
+    private void addEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
         log.debug("node event add! key:{}, data:{}", key, data);

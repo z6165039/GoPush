@@ -65,6 +65,7 @@ public class MonitorDataCenterService {
                         log.info("MonitorDataCenter 链接zk丢失");
                     }
                 });
+        initDataCenterPool();
         listenDataCenter();
     }
 
@@ -79,26 +80,34 @@ public class MonitorDataCenterService {
         return monitorDataCenterPool.values().stream().sorted().collect(Collectors.toList());
     }
 
+    private void initDataCenterPool() {
+        monitorDataCenterPool.clear();
+        Map<String, String> datas = zkUtils.readTargetChildsData(ZkGroupEnum.DATA_CENTER.getValue());
+        if (datas != null) {
+            datas.forEach((k, v) -> monitorDataCenterPool.put(k, JSON.parseObject(v, DataCenterInfo.class)));
+        }
+    }
+
     /**
      * 设置监听发生更新，更新缓存数据，发生新增，删除，更新
      */
     private void listenDataCenter() {
-        zkUtils.listenerPathChildrenCache(ZkGroupEnum.DATA_CENTER.getValue(), ((zkclient, event) -> {
+        zkUtils.listenerPathChildrenCache(ZkGroupEnum.DATA_CENTER.getValue(), ((client, event) -> {
             switch (event.getType()) {
                 case CHILD_ADDED:
-                    addNodeEvent(event);
+                    addEvent(event);
                     break;
                 case CHILD_REMOVED:
-                    removeNodeEvent(event);
+                    removeEvent(event);
                     break;
                 case CHILD_UPDATED:
-                    updateNodeEvent(event);
+                    updateEvent(event);
                     break;
             }
         }));
     }
 
-    private void updateNodeEvent(PathChildrenCacheEvent event) {
+    private void updateEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         DataCenterInfo data = toDataCenterInfo(event);
         log.info(" Monitor data center event update! key:{}, data:{}", key, data);
@@ -107,7 +116,7 @@ public class MonitorDataCenterService {
         }
     }
 
-    private void removeNodeEvent(PathChildrenCacheEvent event) {
+    private void removeEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         DataCenterInfo data = toDataCenterInfo(event);
         log.info(" Monitor data center event remove! key:{}, data:{}", key, data);
@@ -117,7 +126,7 @@ public class MonitorDataCenterService {
 
     }
 
-    private void addNodeEvent(PathChildrenCacheEvent event) {
+    private void addEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         DataCenterInfo data = toDataCenterInfo(event);
         log.info(" Monitor data center event add! key:{}, data:{}", key, data);
