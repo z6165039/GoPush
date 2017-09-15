@@ -50,6 +50,7 @@ public class NodeManager {
 
 
     public void reload() {
+        log.info(".................................");
         nodeChannelPool.forEach((k, node) -> node.destroy());
         nodeChannelPool.clear();
         applicationEventPublisher.publishEvent(ReloadNodesEvent.builder().eventName("reload").build());
@@ -70,7 +71,7 @@ public class NodeManager {
         Node node = new Node(nodeName + "-client", intranetIp, nodePort, internetIp, devicePort, group, nodeMessageHandlers);
         node.init();
         nodeChannelPool.put(nodeName, node);
-        //log.info("{}", JSON.toJSONString(nodeChannelPool));
+        log.info("{}", JSON.toJSONString(nodeChannelPool));
     }
 
     public List<NodeClientLoaderInfo> loaders() {

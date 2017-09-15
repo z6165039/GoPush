@@ -37,9 +37,6 @@ public class NodeServerDiscoveryService {
     private ZookeeperConfig zookeeperConfig;
 
     @Autowired
-    private GoPushDataCenterConfig goPushDataCenterConfig;
-
-    @Autowired
     private NodeManager nodeManager;
 
     private ZkUtils zkUtils;
@@ -58,20 +55,27 @@ public class NodeServerDiscoveryService {
                     @Override
                     public void connectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("NodeServerDiscovery 链接zk成功");
+                        initNodeServerDiscovery();
+                        listenNodeServerDiscovery();
                     }
 
                     @Override
                     public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("NodeServerDiscovery 重新链接zk成功");
+                        initNodeServerDiscovery();
+                        listenNodeServerDiscovery();
+
                     }
 
                     @Override
                     public void lostEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("NodeServerDiscovery 链接zk丢失");
+                        initNodeServerDiscovery();
+                        listenNodeServerDiscovery();
                     }
                 });
-        initNodeServerDiscovery();
-        listenNodeServerDiscovery();
+
+
     }
 
     @PreDestroy
@@ -98,7 +102,6 @@ public class NodeServerDiscoveryService {
         if (datas != null) {
             datas.forEach((k, v) -> nodeServerPool.put(k, JSON.parseObject(v, NodeServerInfo.class)));
         }
-        nodeManager.reload();
     }
 
     /**
@@ -123,7 +126,7 @@ public class NodeServerDiscoveryService {
     private void updateEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
-        log.debug("node event update! key:{}, data:{}", key, data);
+        log.info("node event update! key:{}, data:{}", key, data);
         //只需要更新缓存数据就可以了
         if (nodeServerPool.containsKey(key)) {
             nodeServerPool.put(key, data);
@@ -133,7 +136,7 @@ public class NodeServerDiscoveryService {
     private void removeEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
-        log.debug("node event remove! key:{}, data:{}", key, data);
+        log.info("node event remove! key:{}, data:{}", key, data);
         if (nodeServerPool.containsKey(key)) {
             //检测Node是否还存在，存在的话移除该Node
             nodeManager.remove(key);
@@ -145,7 +148,7 @@ public class NodeServerDiscoveryService {
     private void addEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
-        log.debug("node event add! key:{}, data:{}", key, data);
+        log.info("node event add! key:{}, data:{}", key, data);
         if (!nodeServerPool.containsKey(key)) {
             //开启node,加入到管理器
             nodeManager.put(key, data.getIntranetIp(), data.getNodePort(), data.getInternetIp(), data.getDevicePort());

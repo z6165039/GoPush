@@ -53,11 +53,15 @@ public class MonitorDataCenterService {
                     @Override
                     public void connectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorDataCenter 链接zk成功");
+                        initDataCenterPool();
+                        listenDataCenter();
                     }
 
                     @Override
                     public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorDataCenter 重新链接zk成功");
+                        initDataCenterPool();
+                        listenDataCenter();
                     }
 
                     @Override
@@ -65,8 +69,8 @@ public class MonitorDataCenterService {
                         log.info("MonitorDataCenter 链接zk丢失");
                     }
                 });
-        initDataCenterPool();
-        listenDataCenter();
+
+
     }
 
     @PreDestroy
@@ -110,7 +114,7 @@ public class MonitorDataCenterService {
     private void updateEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         DataCenterInfo data = toDataCenterInfo(event);
-        log.info(" Monitor data center event update! key:{}, data:{}", key, data);
+        log.debug(" Monitor data center event update! key:{}, data:{}", key, data);
         if (monitorDataCenterPool.containsKey(key)) {
             monitorDataCenterPool.put(key, data);
         }
@@ -119,7 +123,7 @@ public class MonitorDataCenterService {
     private void removeEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         DataCenterInfo data = toDataCenterInfo(event);
-        log.info(" Monitor data center event remove! key:{}, data:{}", key, data);
+        log.debug(" Monitor data center event remove! key:{}, data:{}", key, data);
         if (monitorDataCenterPool.containsKey(key)) {
             monitorDataCenterPool.remove(key);
         }
@@ -129,7 +133,7 @@ public class MonitorDataCenterService {
     private void addEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         DataCenterInfo data = toDataCenterInfo(event);
-        log.info(" Monitor data center event add! key:{}, data:{}", key, data);
+        log.debug(" Monitor data center event add! key:{}, data:{}", key, data);
         if (!monitorDataCenterPool.containsKey(key)) {
             //开启node,加入到管理器
             monitorDataCenterPool.put(key, data);

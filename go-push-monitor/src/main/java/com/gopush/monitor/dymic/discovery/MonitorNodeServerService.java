@@ -53,11 +53,15 @@ public class MonitorNodeServerService {
                     @Override
                     public void connectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorNodeServer 链接zk成功");
+                        initNodeServerPool();
+                        listenNodeServer();
                     }
 
                     @Override
                     public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorNodeServer 重新链接zk成功");
+                        initNodeServerPool();
+                        listenNodeServer();
                     }
 
                     @Override
@@ -65,8 +69,8 @@ public class MonitorNodeServerService {
                         log.info("MonitorNodeServer 链接zk丢失");
                     }
                 });
-        initNodeServerPool();
-        listenNodeServer();
+
+
     }
 
     @PreDestroy
@@ -108,7 +112,7 @@ public class MonitorNodeServerService {
     private void updateEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
-        log.info(" Monitor node event update! key:{}, data:{}", key, data);
+        log.debug(" Monitor node event update! key:{}, data:{}", key, data);
         if (monitorNodeServerPool.containsKey(key)) {
             monitorNodeServerPool.put(key, data);
         }
@@ -117,7 +121,7 @@ public class MonitorNodeServerService {
     private void removeEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
-        log.info(" Monitor node event remove! key:{}, data:{}", key, data);
+        log.debug(" Monitor node event remove! key:{}, data:{}", key, data);
         if (monitorNodeServerPool.containsKey(key)) {
             monitorNodeServerPool.remove(key);
         }
@@ -127,7 +131,7 @@ public class MonitorNodeServerService {
     private void addEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
-        log.info(" Monitor node event add! key:{}, data:{}", key, data);
+        log.debug(" Monitor node event add! key:{}, data:{}", key, data);
         if (!monitorNodeServerPool.containsKey(key)) {
             //开启node,加入到管理器
             monitorNodeServerPool.put(key, data);

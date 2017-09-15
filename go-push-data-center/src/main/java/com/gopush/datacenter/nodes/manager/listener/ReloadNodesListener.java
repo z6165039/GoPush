@@ -25,8 +25,13 @@ public class ReloadNodesListener {
     @Autowired
     private NodeManager nodeManager;
 
-    @EventListener(condition = "#event.eventName != null ")
+    @EventListener
     public void reloadNodeManager(ReloadNodesEvent event) {
+        log.info(".................................1");
+        log.info(".................................2");
+        log.info(".................................3");
+        log.info(".................................4 {}",event.getEventName());
+
         Map<String, NodeServerInfo> maps = nodeServerDiscoveryService.nodeServerPool();
         maps.forEach((k, v) -> nodeManager.put(k, v.getIntranetIp(), v.getNodePort(), v.getInternetIp(), v.getDevicePort()));
     }
