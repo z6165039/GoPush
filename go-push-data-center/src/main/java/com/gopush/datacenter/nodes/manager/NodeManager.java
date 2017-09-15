@@ -49,6 +49,9 @@ public class NodeManager {
     }
 
 
+    public void close(){
+        nodeChannelPool.forEach((k, node) -> node.destroy());
+    }
     public void reload() {
         log.info(".................................");
         nodeChannelPool.forEach((k, node) -> node.destroy());

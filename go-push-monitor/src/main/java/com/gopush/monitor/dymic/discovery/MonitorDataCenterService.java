@@ -67,6 +67,7 @@ public class MonitorDataCenterService {
                     @Override
                     public void lostEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorDataCenter 链接zk丢失");
+                        monitorDataCenterPool.clear();
                     }
                 });
 

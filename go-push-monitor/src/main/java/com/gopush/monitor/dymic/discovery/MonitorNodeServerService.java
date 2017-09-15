@@ -67,6 +67,7 @@ public class MonitorNodeServerService {
                     @Override
                     public void lostEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorNodeServer 链接zk丢失");
+                        monitorNodeServerPool.clear();
                     }
                 });
 

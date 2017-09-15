@@ -70,8 +70,8 @@ public class NodeServerDiscoveryService {
                     @Override
                     public void lostEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("NodeServerDiscovery 链接zk丢失");
-                        initNodeServerDiscovery();
-                        listenNodeServerDiscovery();
+                        nodeServerPool.clear();
+                        nodeManager.close();
                     }
                 });
 
