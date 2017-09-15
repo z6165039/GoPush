@@ -25,13 +25,13 @@ public class MonitorDataController {
     @Autowired
     private MonitorNodeServerService monitorNodeServerService;
 
-    @RequestMapping(value = "/dc",method = RequestMethod.GET)
-    public List<DataCenterInfo> dataCenterInfos(){
+    @RequestMapping(value = "/dc", method = RequestMethod.GET)
+    public List<DataCenterInfo> dataCenterInfos() {
         return monitorDataCenterService.dataCenterLoader();
     }
 
-    @RequestMapping(value = "/node",method = RequestMethod.GET)
-    public List<NodeServerInfo> nodeServceInfos(){
+    @RequestMapping(value = "/node", method = RequestMethod.GET)
+    public List<NodeServerInfo> nodeServceInfos() {
         return monitorNodeServerService.nodeServerLoader();
     }
 }

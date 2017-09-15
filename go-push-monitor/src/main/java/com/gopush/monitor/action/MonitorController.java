@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MonitorController {
 
     @RequestMapping("/monitor")
-    public String monitor(){
+    public String monitor() {
         return "/monitor";
     }
 }

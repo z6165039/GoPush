@@ -40,7 +40,6 @@ public class MonitorNodeServerService {
     private ZkUtils zkUtils;
 
 
-
     @PostConstruct
     public void init() {
         zkUtils = new ZkUtils();
@@ -70,6 +69,7 @@ public class MonitorNodeServerService {
 
         listenNodeServer();
     }
+
     @PreDestroy
     public void destory() {
         monitorNodeServerPool.clear();
@@ -77,8 +77,7 @@ public class MonitorNodeServerService {
     }
 
 
-
-    public List<NodeServerInfo> nodeServerLoader(){
+    public List<NodeServerInfo> nodeServerLoader() {
         return monitorNodeServerPool.values().stream().sorted().collect(Collectors.toList());
     }
 

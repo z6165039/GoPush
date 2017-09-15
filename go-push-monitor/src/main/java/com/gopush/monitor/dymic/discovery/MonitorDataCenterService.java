@@ -75,7 +75,7 @@ public class MonitorDataCenterService {
     }
 
 
-    public List<DataCenterInfo> dataCenterLoader(){
+    public List<DataCenterInfo> dataCenterLoader() {
         return monitorDataCenterPool.values().stream().sorted().collect(Collectors.toList());
     }
 
