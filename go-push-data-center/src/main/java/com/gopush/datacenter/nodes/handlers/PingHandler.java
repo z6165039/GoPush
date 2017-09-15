@@ -33,6 +33,6 @@ public class PingHandler implements INodeMessageHandler<Ping> {
     public void call(ChannelHandlerContext ctx, Ping message) {
         Channel channel = ctx.channel();
         channel.writeAndFlush(PONG);
-        log.info("receive ping,channel:{}", channel);
+        log.debug("receive ping,channel:{}", channel);
     }
 }

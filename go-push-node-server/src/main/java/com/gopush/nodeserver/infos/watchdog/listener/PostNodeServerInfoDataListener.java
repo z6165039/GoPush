@@ -5,6 +5,7 @@ import com.gopush.nodeserver.dymic.register.NodeServerRegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +19,7 @@ public class PostNodeServerInfoDataListener {
     @Autowired
     private NodeServerRegisterService nodeServerRegisterService;
 
+    @Async
     @EventListener(condition = "#event.nodeServerInfo != null")
     public void postDataToZk(NodeServerInfoEvent event) {
         nodeServerRegisterService.postNewData(event.getNodeServerInfo());

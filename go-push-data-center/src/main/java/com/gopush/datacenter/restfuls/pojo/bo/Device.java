@@ -18,13 +18,13 @@ import lombok.NoArgsConstructor;
 @ApiModel("设备")
 public class Device {
 
-    @ApiModelProperty(value = "设备号",required = true, example = "IMEI99999")
+    @ApiModelProperty(value = "设备号", required = true, example = "IMEI99999")
     private String deviceNo;
 
     @ApiModelProperty(value = "设备类型", required = true, example = "ios,android,other")
     private String type;
 
-    @ApiModelProperty(value = "应用Code",example = "com.baidu")
+    @ApiModelProperty(value = "应用Code", example = "com.baidu")
     private String appCode;
 
 }

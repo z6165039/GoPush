@@ -34,4 +34,8 @@ public interface INode {
 
     void handle(ChannelHandlerContext ctx, NodeMessage message);
 
+
+    int receiveCounter();
+
+    int sendCounter();
 }

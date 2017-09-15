@@ -295,7 +295,7 @@ public class ZkUtils {
             if (stat != null) {
                 PathChildrenCache watcher = new PathChildrenCache(zkClient, path, true);
                 watcher.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
-                watcher.getListenable().addListener(biConsumer::accept,pool);
+                watcher.getListenable().addListener(biConsumer::accept, pool);
                 if (!pathChildrenCaches.contains(watcher)) {
                     pathChildrenCaches.add(watcher);
                 }

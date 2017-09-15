@@ -21,6 +21,7 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * go-push
@@ -36,6 +37,11 @@ import java.util.concurrent.TimeUnit;
 @Data
 public class Node implements INode {
 
+    private static final int INT_ZERO = 0;
+    private static final int INT_MAX_VAL = Integer.MAX_VALUE - 1;
+
+
+    private String name;
     /**
      * 内网IP
      */
@@ -87,15 +93,21 @@ public class Node implements INode {
      */
     private transient Queue<NodeMessage> failMessage = new ConcurrentLinkedQueue<>();
 
+    private volatile AtomicInteger receiveCounter = new AtomicInteger(0);
+
+    private volatile AtomicInteger sendCounter = new AtomicInteger(0);
+
 
     /**
      * 各自客户端的channel
      */
     private transient Channel channel;
 
-    public Node(String intranetIp, int nodePort,
+    public Node(String name,
+                String intranetIp, int nodePort,
                 String internetIp, int devicePort,
-                EventLoopGroup group, List<INodeMessageHandler> nodeMessageHandlers){
+                EventLoopGroup group, List<INodeMessageHandler> nodeMessageHandlers) {
+        this.name = name;
         this.intranetIp = intranetIp;
         this.nodePort = nodePort;
         this.internetIp = internetIp;
@@ -107,11 +119,11 @@ public class Node implements INode {
     @Override
     public void init() {
         destroyed = Boolean.FALSE;
-        try{
+        try {
             connect();
-        }catch (Exception e){
-            log.error("init data center connect node-server  error:{}",e);
-        }finally {
+        } catch (Exception e) {
+            log.error("init data center connect node-server  error:{}", e);
+        } finally {
             initialized = Boolean.TRUE;
         }
 
@@ -119,20 +131,22 @@ public class Node implements INode {
 
     @Override
     public void destroy() {
-        if (failMessage != null){
-            if (!failMessage.isEmpty()){
-                log.info("destroy node lost retry messages: {}",failMessage.toString());
+        if (failMessage != null) {
+            if (!failMessage.isEmpty()) {
+                log.info("destroy node lost retry messages: {}", failMessage.toString());
                 failMessage.clear();
             }
         }
         failMessage = null;
         nodeMessageHandlers = null;
         group = null;
-        if (channel != null){
-            if (channel.isActive() || channel.isOpen() || channel.isRegistered()){
+        if (channel != null) {
+            if (channel.isActive() || channel.isOpen() || channel.isRegistered()) {
                 channel.close();
             }
         }
+        receiveCounter.set(INT_ZERO);
+        sendCounter.set(INT_ZERO);
         alive = Boolean.FALSE;
         initialized = Boolean.FALSE;
         destroyed = Boolean.TRUE;
@@ -150,34 +164,37 @@ public class Node implements INode {
     }
 
 
-
-
     @Override
     public void send(NodeMessage message) {
-        send(message,true);
+        send(message, true);
     }
 
     @Override
     public void send(NodeMessage message, boolean retry) {
-        if(!initialized){
-            log.warn("node client not init, nodeInfo: {}",toString());
-            if (retry){
+        if (!initialized) {
+            log.warn("node client not init, nodeInfo: {}", toString());
+            if (retry) {
                 failMessage.add(message);
             }
             return;
         }
-        if (channel == null){
-            log.warn("channel of node is empty! nodeInfo: {}",toString());
-            if (retry){
+        if (channel == null) {
+            log.warn("channel of node is empty! nodeInfo: {}", toString());
+            if (retry) {
                 failMessage.add(message);
             }
             return;
         }
-        channel.writeAndFlush(message.encode()).addListener(channelFuture->{
-            if (!channelFuture.isSuccess()){
-                if (retry){
+        channel.writeAndFlush(message.encode()).addListener(channelFuture -> {
+            if (!channelFuture.isSuccess()) {
+                if (retry) {
                     failMessage.add(message);
                 }
+                return;
+            }
+            int count = sendCounter.incrementAndGet();
+            if (count >= INT_MAX_VAL) {
+                sendCounter.set(INT_ZERO);
             }
         });
 
@@ -185,11 +202,11 @@ public class Node implements INode {
 
     @Override
     public void retrySendFail() {
-        if (!failMessage.isEmpty()){
-            while (true){
+        if (!failMessage.isEmpty()) {
+            while (true) {
                 try {
                     send(failMessage.remove());
-                }catch (NoSuchElementException ex){
+                } catch (NoSuchElementException ex) {
                     break;
                 }
             }
@@ -198,21 +215,25 @@ public class Node implements INode {
 
     @Override
     public void reconnect(ChannelHandlerContext ctx) {
-        if (destroyed){
+        if (destroyed) {
             return;
         }
         inactive();
         EventLoop loop = ctx.channel().eventLoop();
-        loop.schedule(()-> connect(),2, TimeUnit.SECONDS);
+        loop.schedule(() -> connect(), 2, TimeUnit.SECONDS);
     }
 
     @Override
     public void handle(ChannelHandlerContext ctx, NodeMessage message) {
-        if (!nodeMessageHandlers.isEmpty()){
-            nodeMessageHandlers.stream().forEach(handler ->{
+        int count = receiveCounter.incrementAndGet();
+        if (count >= INT_MAX_VAL) {
+            receiveCounter.set(INT_ZERO);
+        }
+        if (!nodeMessageHandlers.isEmpty()) {
+            nodeMessageHandlers.stream().forEach(handler -> {
                 try {
-                    if (handler.support(message)){
-                        handler.call(ctx,message);
+                    if (handler.support(message)) {
+                        handler.call(ctx, message);
                     }
                 } catch (Exception e) {
                     log.error("Node handle call Exception, error:{}", e);
@@ -221,24 +242,33 @@ public class Node implements INode {
         }
     }
 
+    @Override
+    public int receiveCounter() {
+        return receiveCounter.get();
+    }
+
+    @Override
+    public int sendCounter() {
+        return sendCounter.get();
+    }
 
 
-    private void connect(){
+    private void connect() {
         channel = configBootstrap().connect().channel();
     }
 
-    private Bootstrap configBootstrap(){
+    private Bootstrap configBootstrap() {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap
                 .group(group)
-                .remoteAddress(intranetIp,nodePort)
+                .remoteAddress(intranetIp, nodePort)
                 .channel(NioSocketChannel.class)
-                .option(ChannelOption.TCP_NODELAY,true)
+                .option(ChannelOption.TCP_NODELAY, true)
                 .handler(channelInitializer());
         return bootstrap;
     }
 
-    private ChannelInitializer channelInitializer(){
+    private ChannelInitializer channelInitializer() {
         return new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel socketChannel) throws Exception {
@@ -248,12 +278,12 @@ public class Node implements INode {
                 pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
                 pipeline.addLast("stringEncoder", new StringEncoder(CharsetUtil.UTF_8));
                 pipeline.addLast("idleStateHandler", new IdleStateHandler(300, 0, 0));
-                pipeline.addLast("handler",nodeChannelInBoundHandler());
+                pipeline.addLast("handler", nodeChannelInBoundHandler());
             }
         };
     }
 
-    private NodeChannelInBoundHandler nodeChannelInBoundHandler(){
+    private NodeChannelInBoundHandler nodeChannelInBoundHandler() {
         return new NodeChannelInBoundHandler(this);
     }
 

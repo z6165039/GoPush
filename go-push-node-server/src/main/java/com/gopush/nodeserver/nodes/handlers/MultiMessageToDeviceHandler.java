@@ -28,6 +28,7 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
 
     @Autowired
     private IPushSender<PushReq> pushSender;
+
     @Override
     public boolean support(NodeMessage message) {
         return message instanceof MultiMessageToDeviceReq;
@@ -37,7 +38,7 @@ public class MultiMessageToDeviceHandler implements INodeMessageHandler<MultiMes
     public void call(ChannelHandlerContext ctx, MultiMessageToDeviceReq message) {
         //找寻到对应设备的channel 将消息全部推送给这个设备
         if (message != null) {
-            pushSender.send(message.getDevice(),PushReq.builder().msgs(message.getMessages()).build());
+            pushSender.send(message.getDevice(), PushReq.builder().msgs(message.getMessages()).build());
             Channel channel = ctx.channel();
             channel.writeAndFlush(MultiMessageToDeviceResp.builder().result(NodeMessageEnum.OK.getCode()).build().encode());
         }

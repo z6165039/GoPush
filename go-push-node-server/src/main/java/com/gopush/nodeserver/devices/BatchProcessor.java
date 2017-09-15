@@ -35,11 +35,11 @@ public abstract class BatchProcessor<T> {
     private static final int INT_MAX_VAL = Integer.MAX_VALUE - 1;
 
     //接收消息的计数
-    private AtomicInteger receiveCounter = new AtomicInteger(0);
+    private AtomicInteger receiveCounter = new AtomicInteger(INT_ZERO);
     //失败处理的计数
-    private AtomicInteger failCounter = new AtomicInteger(0);
+    private AtomicInteger failCounter = new AtomicInteger(INT_ZERO);
     //重试处理的计数
-    private AtomicInteger retryCounter = new AtomicInteger(0);
+    private AtomicInteger retryCounter = new AtomicInteger(INT_ZERO);
 
     //存储handler下的处理器
     private List<InternalProcessor> internalProcessors = new CopyOnWriteArrayList<>();

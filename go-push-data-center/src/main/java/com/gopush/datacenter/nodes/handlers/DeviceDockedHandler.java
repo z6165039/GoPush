@@ -31,6 +31,6 @@ public class DeviceDockedHandler implements INodeMessageHandler<DeviceDockedReq>
     public void call(ChannelHandlerContext ctx, DeviceDockedReq message) {
         Channel channel = ctx.channel();
         channel.writeAndFlush(DeviceDockedResp.builder().result(NodeMessageEnum.OK.getCode()).build().encode());
-        log.info("receive DeviceDockedReq, channel:{}", channel);
+        log.debug("receive DeviceDockedReq, channel:{}", channel);
     }
 }

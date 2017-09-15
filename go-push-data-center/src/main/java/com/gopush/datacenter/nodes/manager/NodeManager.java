@@ -2,6 +2,7 @@ package com.gopush.datacenter.nodes.manager;
 
 import com.alibaba.fastjson.JSON;
 import com.gopush.datacenter.nodes.manager.listener.event.ReloadNodesEvent;
+import com.gopush.infos.datacenter.bo.NodeClientLoaderInfo;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -14,6 +15,7 @@ import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * go-push
@@ -40,22 +42,22 @@ public class NodeManager {
 
     @PreDestroy
     public void destory() {
-        nodeChannelPool.forEach((k,node)->node.destroy());
+        nodeChannelPool.forEach((k, node) -> node.destroy());
         nodeChannelPool.clear();
         nodeChannelPool = null;
         group.shutdownGracefully();
     }
 
 
-    public void reload(){
-        nodeChannelPool.forEach((k,node)-> node.destroy());
+    public void reload() {
+        nodeChannelPool.forEach((k, node) -> node.destroy());
         nodeChannelPool.clear();
         applicationEventPublisher.publishEvent(ReloadNodesEvent.builder().eventName("reload").build());
 
     }
 
-    public void remove(String nodeName){
-        if (nodeChannelPool.containsKey(nodeName)){
+    public void remove(String nodeName) {
+        if (nodeChannelPool.containsKey(nodeName)) {
             nodeChannelPool.get(nodeName).destroy();
             nodeChannelPool.remove(nodeName);
         }
@@ -63,12 +65,16 @@ public class NodeManager {
 
     public void put(String nodeName,
                     String intranetIp, int nodePort,
-                    String internetIp, int devicePort){
+                    String internetIp, int devicePort) {
         remove(nodeName);
-        Node node = new Node(intranetIp,nodePort,internetIp,devicePort,group,nodeMessageHandlers);
+        Node node = new Node(nodeName + "-client", intranetIp, nodePort, internetIp, devicePort, group, nodeMessageHandlers);
         node.init();
-        nodeChannelPool.put(nodeName,node);
-        log.info("{}", JSON.toJSONString(nodeChannelPool));
+        nodeChannelPool.put(nodeName, node);
+        //log.info("{}", JSON.toJSONString(nodeChannelPool));
+    }
+
+    public List<NodeClientLoaderInfo> loaders() {
+        return nodeChannelPool.values().stream().map(e -> NodeClientLoaderInfo.builder().name(e.getName()).receiveCounter(e.receiveCounter()).sendCounter(e.sendCounter()).build()).collect(Collectors.toList());
     }
 
 }

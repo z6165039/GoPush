@@ -42,7 +42,7 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("channel active, channel:{}", ctx.channel());
+        log.debug("channel active, channel:{}", ctx.channel());
         node.active();
         //有发送失败的补发
         node.retrySendFail();
@@ -50,7 +50,7 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("channel inactive, channel:{}", ctx.channel());
+        log.debug("channel inactive, channel:{}", ctx.channel());
         node.inactive();
     }
 
@@ -58,13 +58,11 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
     protected void channelRead0(ChannelHandlerContext ctx, String message) throws Exception {
         NodeMessage nodeMessage = NodeMessage.decode(message);
         //是心跳的，设置节点存活
-        if (nodeMessage instanceof Ping || nodeMessage instanceof Pong){
+        if (nodeMessage instanceof Ping || nodeMessage instanceof Pong) {
             node.active();
         }
-        node.handle(ctx,nodeMessage);
+        node.handle(ctx, nodeMessage);
     }
-
-
 
 
     @Override

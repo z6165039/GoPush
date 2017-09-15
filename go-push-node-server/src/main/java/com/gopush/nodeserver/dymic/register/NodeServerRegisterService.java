@@ -81,7 +81,7 @@ public class NodeServerRegisterService {
      */
     public void postNewData(NodeServerInfo data) {
         zkUtils.setNodeData(
-                ZKPaths.makePath(ZkGroupEnum.NODE_SERVER.getValue(), goPushNodeServerConfig.getName()) + goPushNodeServerConfig.getName(),
+                ZKPaths.makePath(ZkGroupEnum.NODE_SERVER.getValue(), goPushNodeServerConfig.getName()),
                 JSON.toJSONString(data));
     }
 

@@ -9,14 +9,14 @@ import java.util.Arrays;
  * @date 2017/9/14 下午5:31
  */
 @Getter
-public enum  RestfulRespEnum {
+public enum RestfulRespEnum {
 
-    OK(0,"成功");
+    OK(0, "成功");
 
     private int key;
     private String descri;
 
-    RestfulRespEnum(int key,String descri){
+    RestfulRespEnum(int key, String descri) {
         this.key = key;
         this.descri = descri;
     }

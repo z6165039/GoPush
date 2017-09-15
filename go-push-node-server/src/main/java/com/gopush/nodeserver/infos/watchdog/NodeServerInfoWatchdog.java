@@ -51,7 +51,7 @@ public class NodeServerInfoWatchdog {
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Setter
-    private int delay = 2000;
+    private int delay = 4000;
 
     private Timer timer;
 
@@ -93,7 +93,7 @@ public class NodeServerInfoWatchdog {
 
         return NodeServerInfo.builder()
                 .name(goPushNodeServerConfig.getName())
-                .internetIp(StringUtils.isEmpty(internetIp)?intranetIp:internetIp)
+                .internetIp(StringUtils.isEmpty(internetIp) ? intranetIp : internetIp)
                 .intranetIp(intranetIp)
                 .devicePort(goPushNodeServerConfig.getDevicePort())
                 .nodePort(goPushNodeServerConfig.getNodePort())
