@@ -1,9 +1,17 @@
-
-redis:
-  cluster:
-    servers: 127.0.0.1:6379
-    dockedServers: 127.0.0.1:6379
-    poolSize: 40
-    timeout: 5000
 server:
   port: 8011
+
+go-push:
+  zookeeper:
+      servers: 192.168.99.100:32768,192.168.99.100:32769,192.168.99.100:32770
+      listen-namespace-node-server: namespace-node-server
+      listen-namespace-data-center: namespace-data-center
+      session-timeout: 6000
+      connection-timeout: 6000
+      max-retries: 1000
+      retries-sleep-time: 2000
+
+
+spring:
+  thymeleaf:
+    cache: false
