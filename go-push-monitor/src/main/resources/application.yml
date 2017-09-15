@@ -15,3 +15,18 @@ go-push:
 spring:
   thymeleaf:
     cache: false
+
+swagger:
+  title: GoPush 监控中心接口
+  description: ${swagger.title}文档说明
+  version: ${application.version}
+  license: GoPush 许可
+  license-url: https://gitee.com/openWolf/gopush/blob/master/LICENSE
+  terms-of-service-url: https://gitee.com/openWolf/gopush/issues/new
+  contact:
+    name: 喝咖啡的囊地鼠
+    url: https://gitee.com/openWolf/gopush
+    email: null_hello@qq.com
+  base-package: com.gopush.monitor.action
+  base-path:  /**
+  exclude-path: /error,/ops/**
