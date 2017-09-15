@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
- * @author chenxiangqi
+ * @author 喝咖啡的囊地鼠
  * @date 2017/9/15 上午8:39
  */
 @Slf4j
