@@ -54,14 +54,13 @@ public class MonitorNodeServerService {
                     public void connectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorNodeServer 链接zk成功");
                         initNodeServerPool();
-                        listenNodeServer();
+
                     }
 
                     @Override
                     public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorNodeServer 重新链接zk成功");
                         initNodeServerPool();
-                        listenNodeServer();
                     }
 
                     @Override
@@ -70,7 +69,7 @@ public class MonitorNodeServerService {
                         monitorNodeServerPool.clear();
                     }
                 });
-
+        listenNodeServer();
 
     }
 

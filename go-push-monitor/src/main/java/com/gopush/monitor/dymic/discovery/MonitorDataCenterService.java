@@ -54,14 +54,13 @@ public class MonitorDataCenterService {
                     public void connectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorDataCenter 链接zk成功");
                         initDataCenterPool();
-                        listenDataCenter();
+
                     }
 
                     @Override
                     public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorDataCenter 重新链接zk成功");
                         initDataCenterPool();
-                        listenDataCenter();
                     }
 
                     @Override
@@ -71,7 +70,7 @@ public class MonitorDataCenterService {
                     }
                 });
 
-
+        listenDataCenter();
     }
 
     @PreDestroy
