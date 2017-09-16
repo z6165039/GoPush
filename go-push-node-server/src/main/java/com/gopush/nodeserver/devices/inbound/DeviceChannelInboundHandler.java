@@ -65,14 +65,12 @@ public class DeviceChannelInboundHandler extends SimpleChannelInboundHandler<Str
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.debug("channel active, channel:{}", ctx.channel());
-        super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.debug("channel inactive, channel:{}", ctx.channel());
         deviceDisconnectHandler.channelClosed(ctx.channel());
-        super.channelInactive(ctx);
     }
 
     @Override

@@ -64,14 +64,12 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.debug("channel active, channel:{}", ctx.channel());
         dataCenterChannelStore.isDcChannelToSave(ctx.channel());
-        super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.debug("channel inactive, channel:{}", ctx.channel());
         dataCenterChannelStore.isDcChannelToRemove(ctx.channel());
-        super.channelInactive(ctx);
     }
 
 

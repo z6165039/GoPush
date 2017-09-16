@@ -81,7 +81,7 @@ public class MonitorNodeServerService {
 
 
     public List<NodeServerInfo> nodeServerLoader() {
-        return monitorNodeServerPool.values().stream().sorted().collect(Collectors.toList());
+        return monitorNodeServerPool.values().stream().collect(Collectors.toList());
     }
 
 

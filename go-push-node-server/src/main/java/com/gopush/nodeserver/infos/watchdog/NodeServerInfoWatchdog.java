@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
@@ -62,6 +63,11 @@ public class NodeServerInfoWatchdog {
             @Override
             public void run() {
                 //将负载加载到ZK中
+                if (!CollectionUtils.isEmpty(dataCenterChannelStore.getAllChannels())){
+                    dataCenterChannelStore.getAllChannels().stream().forEach(e->{
+                        log.info("channel id:{}, {}",e.id(),e);
+                    });
+                }
                 applicationEventPublisher.publishEvent(
                         NodeServerInfoEvent.builder()
                                 .name(goPushNodeServerConfig.getName())

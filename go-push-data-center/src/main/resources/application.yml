@@ -14,7 +14,7 @@ go-push:
   data-center:
     name: DataCenter-${random.int(100)}
   zookeeper:
-      servers: 192.168.99.100:32782
+      servers: 192.168.99.100:32773
       listen-namespace: namespace-node-server
       namespace: namespace-data-center
       session-timeout: 6000
