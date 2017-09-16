@@ -40,7 +40,7 @@ public class DataCenterInfoWatchdog {
     private LoaderService loaderService;
 
     @Setter
-    private int delay = 4000;
+    private int delay = 5000;
 
     private Timer timer;
 

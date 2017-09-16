@@ -51,7 +51,7 @@ public class NodeServerInfoWatchdog {
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Setter
-    private int delay = 4000;
+    private int delay = 5000;
 
     private Timer timer;
 

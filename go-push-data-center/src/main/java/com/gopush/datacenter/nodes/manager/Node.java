@@ -118,7 +118,7 @@ public class Node implements INode {
 
     @Override
     public void init() {
-        log.info("node  init ........");
+//        log.info("node  init ........");
         destroyed = Boolean.FALSE;
         try {
             connect();
@@ -132,7 +132,7 @@ public class Node implements INode {
 
     @Override
     public void destroy() {
-        log.info("node -------> destroy");
+//        log.info("node -------> destroy");
         if (failMessage != null) {
             if (!failMessage.isEmpty()) {
                 log.info("destroy node lost retry messages: {}", failMessage.toString());
