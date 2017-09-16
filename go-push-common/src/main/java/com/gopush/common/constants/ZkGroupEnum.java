@@ -11,7 +11,7 @@ import java.util.Arrays;
 @Getter
 public enum ZkGroupEnum {
     NODE_SERVER("/NODE-SERVER"),
-    DATA_CENTER("/DATA_CENTER");
+    DATA_CENTER("/DATA-CENTER");
     private String value;
 
     ZkGroupEnum(String value) {

@@ -1,14 +1,11 @@
 package com.gopush.datacenter.nodes.manager;
 
-import com.alibaba.fastjson.JSON;
-import com.gopush.datacenter.nodes.manager.listener.event.ReloadNodesEvent;
 import com.gopush.infos.datacenter.bo.NodeClientLoaderInfo;
 import com.gopush.nodes.handlers.INodeMessageHandler;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
@@ -37,9 +34,6 @@ public class NodeManager {
     @Autowired
     private List<INodeMessageHandler> nodeMessageHandlers;
 
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
-
     @PreDestroy
     public void destory() {
         nodeChannelPool.forEach((k, node) -> node.destroy());
@@ -49,14 +43,15 @@ public class NodeManager {
     }
 
 
-    public void reload() {
+    public void clear(){
         nodeChannelPool.forEach((k, node) -> node.destroy());
         nodeChannelPool.clear();
-        applicationEventPublisher.publishEvent(ReloadNodesEvent.builder().eventName("reload").build());
 
     }
 
+
     public void remove(String nodeName) {
+//        log.info("node remove---------{}",nodeName);
         if (nodeChannelPool.containsKey(nodeName)) {
             nodeChannelPool.get(nodeName).destroy();
             nodeChannelPool.remove(nodeName);
@@ -67,10 +62,11 @@ public class NodeManager {
                     String intranetIp, int nodePort,
                     String internetIp, int devicePort) {
         remove(nodeName);
+//        log.info("node add---------",nodeName);
         Node node = new Node(nodeName + "-client", intranetIp, nodePort, internetIp, devicePort, group, nodeMessageHandlers);
         node.init();
         nodeChannelPool.put(nodeName, node);
-        //log.info("{}", JSON.toJSONString(nodeChannelPool));
+//        log.info("{}", JSON.toJSONString(nodeChannelPool));
     }
 
     public List<NodeClientLoaderInfo> loaders() {

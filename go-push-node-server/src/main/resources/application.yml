@@ -1,3 +1,6 @@
+server:
+  port: ${random.int[6001,6999]}
+
 spring:
   redis:
     cluster:
@@ -18,11 +21,12 @@ go-push:
       core-pool-size: 1
 
   zookeeper:
-      servers: 192.168.99.100:32768,192.168.99.100:32769,192.168.99.100:32770
+      servers: 192.168.99.100:32782
       listen-namespace: namespace-data-center
       namespace: namespace-node-server
       session-timeout: 6000
       connection-timeout: 6000
       max-retries: 1000
       retries-sleep-time: 2000
+
 

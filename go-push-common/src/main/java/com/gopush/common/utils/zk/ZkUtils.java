@@ -80,10 +80,10 @@ public class ZkUtils {
             treeCaches.clear();
             if (connectionState == ConnectionState.CONNECTED) {
                 listener.connectedEvent(curatorFramework, connectionState);
-            }
+            }else
             if (connectionState == ConnectionState.RECONNECTED) {
                 listener.ReconnectedEvent(curatorFramework, connectionState);
-            }
+            }else
             if (connectionState == ConnectionState.LOST) {
                 listener.lostEvent(curatorFramework, connectionState);
             }
@@ -287,6 +287,7 @@ public class ZkUtils {
      * @throws Exception
      */
     public boolean listenerPathChildrenCache(String path, BiConsumer<CuratorFramework, PathChildrenCacheEvent> biConsumer) {
+
         if (!ObjectUtils.allNotNull(zkClient, path, biConsumer)) {
             return Boolean.FALSE;
         }
@@ -295,10 +296,14 @@ public class ZkUtils {
             if (stat != null) {
                 PathChildrenCache watcher = new PathChildrenCache(zkClient, path, true);
                 watcher.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
+                //该模式下 watcher在重连的时候会自动 rebuild
                 watcher.getListenable().addListener(biConsumer::accept, pool);
                 if (!pathChildrenCaches.contains(watcher)) {
                     pathChildrenCaches.add(watcher);
                 }
+//                else{
+//                    watcher.rebuild();
+//                }
                 return Boolean.TRUE;
             }
         } catch (Exception e) {

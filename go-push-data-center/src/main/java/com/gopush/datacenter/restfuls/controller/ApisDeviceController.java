@@ -56,7 +56,7 @@ public class ApisDeviceController {
 
 
     @ApiOperation(value = "设备选择链接节点", notes = "设备选择链接节点")
-    @RequestMapping(value = {"/select", "/abc"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/select", method = RequestMethod.GET)
     public ResponseEntity<BaseResp<LoadbanceNode>> selectNode() {
         Map<String, NodeServerInfo> maps = new HashMap<>(nodeServerDiscoveryService.nodeServerPool());
         if (!CollectionUtils.isEmpty(maps)) {

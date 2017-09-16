@@ -1,6 +1,6 @@
 
 server:
-  port: 7011
+  port: ${random.int[5001,5999]}
 
 spring:
   redis:
@@ -14,7 +14,7 @@ go-push:
   data-center:
     name: DataCenter-${random.int(100)}
   zookeeper:
-      servers: 192.168.99.100:32768,192.168.99.100:32769,192.168.99.100:32770
+      servers: 192.168.99.100:32782
       listen-namespace: namespace-node-server
       namespace: namespace-data-center
       session-timeout: 6000
