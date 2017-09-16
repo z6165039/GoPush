@@ -38,7 +38,7 @@ public class NodeSender implements INodeSender<NodeMessage> {
     private IDataCenterChannelStore dataCenterChannelStore;
 
     @Setter
-    private int delay = 1000;
+    private int delay = 2000;
 
     private Timer timer;
 

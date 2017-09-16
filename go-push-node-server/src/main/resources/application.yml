@@ -21,7 +21,7 @@ go-push:
       core-pool-size: 1
 
   zookeeper:
-      servers: 192.168.99.100:32782
+      servers: 192.168.99.100:32773
       listen-namespace: namespace-data-center
       namespace: namespace-node-server
       session-timeout: 6000

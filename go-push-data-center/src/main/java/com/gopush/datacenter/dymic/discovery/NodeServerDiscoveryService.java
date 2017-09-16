@@ -100,7 +100,7 @@ public class NodeServerDiscoveryService {
         if (datas != null) {
             datas.forEach((k, v) -> nodeServerPool.put(k, JSON.parseObject(v, NodeServerInfo.class)));
         }
-        nodeServerPool().forEach((k,v)-> nodeManager.put(k, v.getIntranetIp(), v.getNodePort(), v.getInternetIp(), v.getDevicePort()));
+        nodeServerPool().forEach((k, v) -> nodeManager.put(k, v.getIntranetIp(), v.getNodePort(), v.getInternetIp(), v.getDevicePort()));
 
     }
 
@@ -126,7 +126,7 @@ public class NodeServerDiscoveryService {
     private void updateEvent(PathChildrenCacheEvent event) {
         String key = toKey(event);
         NodeServerInfo data = toNodeServerInfo(event);
-        log.info("node event update! key:{}, data:{}", key, data);
+        log.debug("node event update! key:{}, data:{}", key, data);
         //只需要更新缓存数据就可以了
         if (nodeServerPool.containsKey(key)) {
             nodeServerPool.put(key, data);

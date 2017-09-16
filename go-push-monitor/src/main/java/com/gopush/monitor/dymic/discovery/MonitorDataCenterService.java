@@ -81,7 +81,7 @@ public class MonitorDataCenterService {
 
 
     public List<DataCenterInfo> dataCenterLoader() {
-        return monitorDataCenterPool.values().stream().sorted().collect(Collectors.toList());
+        return monitorDataCenterPool.values().stream().collect(Collectors.toList());
     }
 
     private void initDataCenterPool() {
