@@ -80,11 +80,9 @@ public class ZkUtils {
             treeCaches.clear();
             if (connectionState == ConnectionState.CONNECTED) {
                 listener.connectedEvent(curatorFramework, connectionState);
-            }else
-            if (connectionState == ConnectionState.RECONNECTED) {
+            } else if (connectionState == ConnectionState.RECONNECTED) {
                 listener.ReconnectedEvent(curatorFramework, connectionState);
-            }else
-            if (connectionState == ConnectionState.LOST) {
+            } else if (connectionState == ConnectionState.LOST) {
                 listener.lostEvent(curatorFramework, connectionState);
             }
         });

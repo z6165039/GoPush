@@ -100,7 +100,7 @@ public class NodeServerDiscoveryService {
         if (datas != null) {
             datas.forEach((k, v) -> nodeServerPool.put(k, JSON.parseObject(v, NodeServerInfo.class)));
         }
-        nodeServerPool().forEach((k,v)-> nodeManager.put(k, v.getIntranetIp(), v.getNodePort(), v.getInternetIp(), v.getDevicePort()));
+        nodeServerPool().forEach((k, v) -> nodeManager.put(k, v.getIntranetIp(), v.getNodePort(), v.getInternetIp(), v.getDevicePort()));
 
     }
 

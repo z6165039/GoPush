@@ -43,7 +43,7 @@ public class NodeManager {
     }
 
 
-    public void clear(){
+    public void clear() {
         nodeChannelPool.forEach((k, node) -> node.destroy());
         nodeChannelPool.clear();
 
