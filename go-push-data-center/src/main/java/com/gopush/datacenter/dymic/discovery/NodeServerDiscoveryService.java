@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.gopush.common.constants.ZkGroupEnum;
 import com.gopush.common.utils.zk.ZkUtils;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
-import com.gopush.datacenter.config.GoPushDataCenterConfig;
 import com.gopush.datacenter.config.ZookeeperConfig;
 import com.gopush.datacenter.nodes.manager.NodeManager;
 import com.gopush.infos.nodeserver.bo.NodeServerInfo;
@@ -39,6 +38,7 @@ public class NodeServerDiscoveryService {
     @Autowired
     private NodeManager nodeManager;
 
+
     private ZkUtils zkUtils;
 
     @PostConstruct
@@ -56,26 +56,24 @@ public class NodeServerDiscoveryService {
                     public void connectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("NodeServerDiscovery 链接zk成功");
                         initNodeServerDiscovery();
-                        listenNodeServerDiscovery();
+
                     }
 
                     @Override
                     public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("NodeServerDiscovery 重新链接zk成功");
                         initNodeServerDiscovery();
-                        listenNodeServerDiscovery();
-
                     }
 
                     @Override
                     public void lostEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("NodeServerDiscovery 链接zk丢失");
                         nodeServerPool.clear();
-                        nodeManager.close();
+                        nodeManager.clear();
                     }
                 });
 
-
+        listenNodeServerDiscovery();
     }
 
     @PreDestroy
@@ -102,6 +100,8 @@ public class NodeServerDiscoveryService {
         if (datas != null) {
             datas.forEach((k, v) -> nodeServerPool.put(k, JSON.parseObject(v, NodeServerInfo.class)));
         }
+        nodeServerPool().forEach((k,v)-> nodeManager.put(k, v.getIntranetIp(), v.getNodePort(), v.getInternetIp(), v.getDevicePort()));
+
     }
 
     /**

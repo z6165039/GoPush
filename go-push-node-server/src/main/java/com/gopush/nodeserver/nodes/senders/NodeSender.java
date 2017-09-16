@@ -101,7 +101,7 @@ public class NodeSender implements INodeSender<NodeMessage> {
                 addFailMessage(message, SendType.SJO, null);
             }
         } else {
-            log.warn("can not find data center, retry later!");
+            log.warn("send dcid can not find data center, retry later!");
             addFailMessage(message, SendType.SJO, null);
         }
     }
@@ -123,7 +123,7 @@ public class NodeSender implements INodeSender<NodeMessage> {
                 }
             });
         } else {
-            log.warn("can not find data center, retry later!");
+            log.warn(" sendShuffle can not find data center, retry later!");
             addFailMessage(message, SendType.SJO, null);
         }
     }
@@ -145,7 +145,7 @@ public class NodeSender implements INodeSender<NodeMessage> {
             }
             removeFailMessage(message, SendType.ALL, null);
         } else {
-            log.warn("can not find data center, retry later!");
+            log.warn("send can not find data center, retry later!");
             addFailMessage(message, SendType.ALL, null);
         }
     }
