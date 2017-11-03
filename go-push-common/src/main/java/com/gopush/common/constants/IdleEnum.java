@@ -12,9 +12,19 @@ import java.util.Arrays;
  */
 @Getter
 public enum IdleEnum {
+    /**
+     *
+     */
     READ_IDLE(10),
+    /**
+     *
+     */
     WRITE_IDLE(30),
+    /**
+     *
+     */
     ALL_IDLE(50);
+
     private int value;
 
     IdleEnum(int value) {

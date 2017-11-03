@@ -11,6 +11,9 @@ import java.util.Arrays;
 @Getter
 public enum RestfulRespEnum {
 
+    /**
+     * 成功
+     */
     OK(0, "成功");
 
     private int key;

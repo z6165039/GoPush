@@ -12,7 +12,13 @@ import java.util.Arrays;
 @Getter
 public enum NodeMessageEnum {
 
+    /**
+     *
+     */
     OK(200, "OK"),
+    /**
+     *
+     */
     FAIL(500, "FAIL");
 
 
