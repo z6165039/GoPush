@@ -9,6 +9,6 @@ package com.gopush.protocol.device;
  * @创建时间：2017/6/9
  * @VERSION：
  */
-public abstract class DeviceMessageReq<T> extends BaseDeviceMessage<T> {
+public abstract class DeviceMessageReq<T> extends DeviceMessage<T> {
 
 }

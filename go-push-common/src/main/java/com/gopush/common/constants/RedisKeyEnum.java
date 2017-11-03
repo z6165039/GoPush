@@ -13,21 +13,9 @@ import java.util.Arrays;
 @Getter
 public enum RedisKeyEnum {
 
-    /**
-     *
-     */
     DEVICE_KEY("DE:"),
-    /**
-     *
-     */
     DEIVCE_TOKEN_FIELD("token"),
-    /**
-     *
-     */
     DEVICE_NODE_FIELD("node"),
-    /**
-     *
-     */
     DEVICE_CHANNEL_FIELD("channel");
 
     private String value;

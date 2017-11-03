@@ -19,33 +19,20 @@ public class Constants {
      * Device 和 NodeServer 之间
      *
      * ***/
-
-    /**
-     * 绑定设备
-     */
+    //绑定设备
     public static final AttributeKey<String> CHANNEL_ATTR_DEVICE = AttributeKey.newInstance("device");
-    /**
-     * 绑定的握手状态
-     */
+
+    //绑定的握手状态
     public static final AttributeKey<Boolean> CHANNEL_ATTR_HANDSHAKE = AttributeKey.newInstance("handshake");
 
-    /**
-     *  绑定的心跳间隔 // read ,write, all
-     */
+    //绑定的心跳间隔 // read ,write, all
     public static final AttributeKey<Integer[]> CHANNEL_ATTR_IDLE = AttributeKey.newInstance("idle");
-
-
-
 
     /*****
      *
      * NodeServer 与 DataCenter 之间
      *
      * ***/
-
-    /**
-     *
-     */
     public static final AttributeKey<String> CHANNEL_ATTR_DATACENTER = AttributeKey.newInstance("datacenter");
 
 

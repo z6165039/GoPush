@@ -10,19 +10,9 @@ import java.util.Arrays;
  */
 @Getter
 public enum HandshakeEnum {
-    /**
-     *
-     */
     HANDSAHKE_OK(200, "握手成功"),
-    /**
-     *
-     */
     HANDSHAKE_INVALID_DEVICE(300, "非法设备"),
-    /**
-     *
-     */
     HANDSHAKE_INVALID_TOKEN(301, "非法Token");
-
     private int key;
     private String descri;
 

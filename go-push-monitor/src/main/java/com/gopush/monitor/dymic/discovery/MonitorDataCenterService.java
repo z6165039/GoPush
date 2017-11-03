@@ -58,7 +58,7 @@ public class MonitorDataCenterService {
                     }
 
                     @Override
-                    public void reconnectedEvent(CuratorFramework curator, ConnectionState state) {
+                    public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorDataCenter 重新链接zk成功");
                         initDataCenterPool();
                     }
@@ -106,8 +106,6 @@ public class MonitorDataCenterService {
                     break;
                 case CHILD_UPDATED:
                     updateEvent(event);
-                    break;
-                default:
                     break;
             }
         }));

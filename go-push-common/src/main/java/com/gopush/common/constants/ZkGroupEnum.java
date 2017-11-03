@@ -10,13 +10,7 @@ import java.util.Arrays;
  */
 @Getter
 public enum ZkGroupEnum {
-    /**
-     * NODE-SERVER
-     */
     NODE_SERVER("/NODE-SERVER"),
-    /**
-     * DATA-CENTER
-     */
     DATA_CENTER("/DATA-CENTER");
     private String value;
 

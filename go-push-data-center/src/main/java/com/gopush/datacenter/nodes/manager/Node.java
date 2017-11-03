@@ -2,7 +2,7 @@ package com.gopush.datacenter.nodes.manager;
 
 import com.gopush.datacenter.nodes.inbound.NodeChannelInBoundHandler;
 import com.gopush.nodes.handlers.INodeMessageHandler;
-import com.gopush.protocol.node.BaseNodeMessage;
+import com.gopush.protocol.node.NodeMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
@@ -91,7 +91,7 @@ public class Node implements INode {
     /**
      * 失败的请求
      */
-    private transient Queue<BaseNodeMessage> failMessage = new ConcurrentLinkedQueue<>();
+    private transient Queue<NodeMessage> failMessage = new ConcurrentLinkedQueue<>();
 
     private volatile AtomicInteger receiveCounter = new AtomicInteger(0);
 
@@ -167,12 +167,12 @@ public class Node implements INode {
 
 
     @Override
-    public void send(BaseNodeMessage message) {
+    public void send(NodeMessage message) {
         send(message, true);
     }
 
     @Override
-    public void send(BaseNodeMessage message, boolean retry) {
+    public void send(NodeMessage message, boolean retry) {
         if (!initialized) {
             log.warn("node client not init, nodeInfo: {}", toString());
             if (retry) {
@@ -226,7 +226,7 @@ public class Node implements INode {
     }
 
     @Override
-    public void handle(ChannelHandlerContext ctx, BaseNodeMessage message) {
+    public void handle(ChannelHandlerContext ctx, NodeMessage message) {
         int count = receiveCounter.incrementAndGet();
         if (count >= INT_MAX_VAL) {
             receiveCounter.set(INT_ZERO);

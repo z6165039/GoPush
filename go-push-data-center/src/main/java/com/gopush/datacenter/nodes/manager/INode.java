@@ -1,6 +1,6 @@
 package com.gopush.datacenter.nodes.manager;
 
-import com.gopush.protocol.node.BaseNodeMessage;
+import com.gopush.protocol.node.NodeMessage;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -23,16 +23,16 @@ public interface INode {
     void inactive();
 
 
-    void send(BaseNodeMessage message);
+    void send(NodeMessage message);
 
-    void send(BaseNodeMessage message, boolean retry);
+    void send(NodeMessage message, boolean retry);
 
 
     void retrySendFail();
 
     void reconnect(ChannelHandlerContext ctx);
 
-    void handle(ChannelHandlerContext ctx, BaseNodeMessage message);
+    void handle(ChannelHandlerContext ctx, NodeMessage message);
 
 
     int receiveCounter();

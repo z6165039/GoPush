@@ -13,7 +13,7 @@ import lombok.*;
  * @创建时间：2017/6/9
  * @VERSION：
  */
-public abstract class BaseNodeMessage<T> {
+public abstract class NodeMessage<T> {
 
     //消息 Type Key
 
@@ -33,54 +33,18 @@ public abstract class BaseNodeMessage<T> {
      * 12)节点服务信息响应
      */
     protected enum Type {
-        /**
-         * PING
-         */
-        PI,
-        /**
-         * PONG
-         */
-        PO,
-        /**
-         * DEVICE_DOCKED_REQ
-         */
-        DO,
-        /**
-         * DEVICE_DOCKED_RESP
-         */
-        DOS,
-        /**
-         * DEVICE_DISCON_REQ
-         */
-        DI,
-        /**
-         * DEVICE_DISCON_RESP
-         */
-        DIS,
-        /**
-         * MULTI_MSG_TO_ONE_DEVICE_REQ
-         */
-        MTO,
-        /**
-         * MULTI_MSG_TO_ONE_DEVICE_RESP
-         */
-        MTOS,
-        /**
-         * ONE_MSG_TO_MULTI_DEVICE_REQ
-         */
-        OTM,
-        /**
-         * ONE_MSG_TO_MULTI_DEVICE_RESP
-         */
-        OTMS,
-        /**
-         * NODE_INFO_REQ
-         */
-        NI,
-        /**
-         * NODE_INFO_RESP
-         */
-        NIS,
+        PI,       //PING
+        PO,       //PONG
+        DO,       //DEVICE_DOCKED_REQ
+        DOS,      //DEVICE_DOCKED_RESP
+        DI,       //DEVICE_DISCON_REQ
+        DIS,      //DEVICE_DISCON_RESP
+        MTO,      //MULTI_MSG_TO_ONE_DEVICE_REQ
+        MTOS,     //MULTI_MSG_TO_ONE_DEVICE_RESP
+        OTM,     //ONE_MSG_TO_MULTI_DEVICE_REQ
+        OTMS,     //ONE_MSG_TO_MULTI_DEVICE_RESP
+        NI,     //NODE_INFO_REQ
+        NIS,     //NODE_INFO_RESP
     }
 
     /**
@@ -116,6 +80,7 @@ public abstract class BaseNodeMessage<T> {
                     .type(type())
                     .message(toEncode())
                     .build();
+//            System.out.println("Node message json:   "+ JSON.toJSONString(message));
             return JSON.toJSONString(message);
         } catch (Exception e) {
             throw new NodeProtocolException(e);
@@ -130,11 +95,11 @@ public abstract class BaseNodeMessage<T> {
      * @return
      * @throws NodeProtocolException
      */
-    public static BaseNodeMessage decode(String json) throws NodeProtocolException {
+    public static NodeMessage decode(String json) throws NodeProtocolException {
         try {
 
             Message msg = JSON.parseObject(json, Message.class);
-            BaseNodeMessage message;
+            NodeMessage message;
 
             Class cls;
             switch (msg.type) {
@@ -178,7 +143,7 @@ public abstract class BaseNodeMessage<T> {
                     throw new NodeProtocolException("Unknown Node type " + msg.type);
 
             }
-            message = (BaseNodeMessage) JSON.parseObject(msg.message, cls);
+            message = (NodeMessage) JSON.parseObject(msg.message, cls);
             return message;
         } catch (Exception e) {
             throw new NodeProtocolException("Exception occur,Message is " + json, e);

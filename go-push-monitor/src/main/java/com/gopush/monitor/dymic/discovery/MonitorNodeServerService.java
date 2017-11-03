@@ -58,7 +58,7 @@ public class MonitorNodeServerService {
                     }
 
                     @Override
-                    public void reconnectedEvent(CuratorFramework curator, ConnectionState state) {
+                    public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("MonitorNodeServer 重新链接zk成功");
                         initNodeServerPool();
                     }
@@ -104,8 +104,6 @@ public class MonitorNodeServerService {
                     break;
                 case CHILD_UPDATED:
                     updateEvent(event);
-                    break;
-                default:
                     break;
             }
         }));

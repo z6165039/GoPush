@@ -8,16 +8,15 @@ import com.gopush.datacenter.restfuls.loader.LoaderService;
 import com.gopush.infos.datacenter.bo.DataCenterInfo;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import javax.annotation.PreDestroy;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author 喝咖啡的囊地鼠
@@ -43,19 +42,29 @@ public class DataCenterInfoWatchdog {
     @Setter
     private int delay = 5000;
 
-    private ScheduledExecutorService schedule;
+    private Timer timer;
 
     @PostConstruct
     public void init() {
-
-        schedule = new ScheduledThreadPoolExecutor(1,
-                new BasicThreadFactory.Builder().namingPattern("SendDataCenterInfo-pool-%d").daemon(true).build());
-
-        schedule.scheduleAtFixedRate(() -> applicationEventPublisher.publishEvent(
-                DataCenterInfoEvent.builder().name(goPushDataCenterConfig.getName()).dataCenterInfo(watch()).build())
-                ,delay,delay, TimeUnit.MILLISECONDS);
+        timer = new Timer("SendDataCenterInfo-Timer");
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                applicationEventPublisher.publishEvent(DataCenterInfoEvent.builder()
+                        .name(goPushDataCenterConfig.getName())
+                        .dataCenterInfo(watch())
+                        .build());
+            }
+        }, delay, delay);
     }
 
+    @PreDestroy
+    public void destory() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
 
     /**
      * 获取系统负载信息

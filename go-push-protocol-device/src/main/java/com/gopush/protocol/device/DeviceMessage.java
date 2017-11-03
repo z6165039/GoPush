@@ -14,7 +14,7 @@ import lombok.*;
  * @VERSION：
  */
 
-public abstract class BaseDeviceMessage<T> {
+public abstract class DeviceMessage<T> {
 
     /**
      * 消息类型
@@ -26,30 +26,12 @@ public abstract class BaseDeviceMessage<T> {
      * 6)推送反馈
      */
     protected enum Type {
-        /**
-         *  PING
-         */
-        PI,
-        /**
-         * PONG
-         */
-        PO,
-        /**
-         * HANDSHAKE_REQ
-         */
-        HS,
-        /**
-         * HANDSHAKE_RESP
-         */
-        HSR,
-        /**
-         * PUSH_REQ
-         */
-        P,
-        /**
-         * PUSH_RESP
-         */
-        PR
+        PI,    // PING
+        PO,   // PONG
+        HS,    // HANDSHAKE_REQ
+        HSR,  // HANDSHAKE_RESP
+        P,    // PUSH_REQ
+        PR    // PUSH_RESP
     }
 
     /**
@@ -100,7 +82,7 @@ public abstract class BaseDeviceMessage<T> {
      * @return
      * @throws DeviceProtocolException
      */
-    public static BaseDeviceMessage decode(String json) throws DeviceProtocolException {
+    public static DeviceMessage decode(String json) throws DeviceProtocolException {
         try {
 
             Message msg = JSON.parseObject(json, Message.class);
@@ -129,7 +111,7 @@ public abstract class BaseDeviceMessage<T> {
                 default:
                     throw new DeviceProtocolException("Unknown Device type " + msg.type);
             }
-            BaseDeviceMessage message = (BaseDeviceMessage) JSON.parseObject(msg.message, cls);
+            DeviceMessage message = (DeviceMessage) JSON.parseObject(msg.message, cls);
             return message;
         } catch (Exception e) {
             throw new DeviceProtocolException("Exception occur,Message is " + json, e);
