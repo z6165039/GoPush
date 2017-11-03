@@ -105,6 +105,8 @@ public class MonitorNodeServerService {
                 case CHILD_UPDATED:
                     updateEvent(event);
                     break;
+                default:
+                    break;
             }
         }));
     }

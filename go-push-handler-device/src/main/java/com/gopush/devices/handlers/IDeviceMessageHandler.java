@@ -1,6 +1,6 @@
 package com.gopush.devices.handlers;
 
-import com.gopush.protocol.device.DeviceMessage;
+import com.gopush.protocol.device.BaseDeviceMessage;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -21,7 +21,7 @@ public interface IDeviceMessageHandler<R> {
      * @param message 节点消息
      * @return 是否各个NodeMessage 子类的类型
      */
-    boolean support(DeviceMessage message);
+    boolean support(BaseDeviceMessage message);
 
     /**
      * 各个消息处理句柄调用方法

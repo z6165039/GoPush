@@ -107,6 +107,8 @@ public class MonitorDataCenterService {
                 case CHILD_UPDATED:
                     updateEvent(event);
                     break;
+                default:
+                    break;
             }
         }));
     }

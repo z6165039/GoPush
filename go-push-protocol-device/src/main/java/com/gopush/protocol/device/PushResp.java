@@ -23,10 +23,22 @@ public class PushResp extends DeviceMessageResp<PushResp> {
 
 
     public enum Result {
-        S,  //SUCCESS,
-        D,  //DUPLICATE,
-        NR, //NOT_REGISTERED,
-        IN  //INTERNAL_ERROR
+        /**
+         * SUCCESS
+         */
+        S,
+        /**
+         * DUPLICATE
+         */
+        D,
+        /**
+         * NOT_REGISTERED
+         */
+        NR,
+        /**
+         * INTERNAL_ERROR
+         */
+        IN;
     }
 
     @JSONField(name = "D")

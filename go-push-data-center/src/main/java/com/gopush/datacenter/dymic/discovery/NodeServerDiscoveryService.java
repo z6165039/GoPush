@@ -119,6 +119,8 @@ public class NodeServerDiscoveryService {
                 case CHILD_UPDATED:
                     updateEvent(event);
                     break;
+                default:
+                    break;
             }
         }));
     }
