@@ -7,7 +7,7 @@ import io.netty.util.AttributeKey;
  * go-push
  *
  * @类功能说明：全局常量定义
- * @作者：喝咖啡的囊地鼠
+ * @author：喝咖啡的囊地鼠
  * @创建时间：2017/6/18 下午3:02
  * @VERSION：
  */
