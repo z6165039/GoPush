@@ -1,7 +1,7 @@
 package com.gopush.datacenter.nodes.inbound;
 
 import com.gopush.datacenter.nodes.manager.Node;
-import com.gopush.protocol.node.NodeMessage;
+import com.gopush.protocol.node.BaseNodeMessage;
 import com.gopush.protocol.node.Ping;
 import com.gopush.protocol.node.Pong;
 import io.netty.channel.Channel;
@@ -10,7 +10,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
-import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,7 +55,7 @@ public class NodeChannelInBoundHandler extends SimpleChannelInboundHandler<Strin
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String message) throws Exception {
-        NodeMessage nodeMessage = NodeMessage.decode(message);
+        BaseNodeMessage nodeMessage = BaseNodeMessage.decode(message);
         //是心跳的，设置节点存活
         if (nodeMessage instanceof Ping || nodeMessage instanceof Pong) {
             node.active();

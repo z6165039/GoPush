@@ -60,7 +60,7 @@ public class NodeServerDiscoveryService {
                     }
 
                     @Override
-                    public void ReconnectedEvent(CuratorFramework curator, ConnectionState state) {
+                    public void reconnectedEvent(CuratorFramework curator, ConnectionState state) {
                         log.info("NodeServerDiscovery 重新链接zk成功");
                         initNodeServerDiscovery();
                     }
