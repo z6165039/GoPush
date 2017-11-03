@@ -3,11 +3,11 @@ package com.gopush.common.utils.zk;
 import com.google.common.base.Charsets;
 import com.google.common.base.Objects;
 import com.gopush.common.utils.zk.listener.ZkStateListener;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.api.GetDataBuilder;
@@ -21,9 +21,7 @@ import org.apache.zookeeper.data.Stat;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -39,13 +37,16 @@ public class ZkUtils {
 
     private CuratorFramework zkClient = null;
 
-    ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+    ExecutorService pool =  Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
 
-    List<PathChildrenCache> pathChildrenCaches = new CopyOnWriteArrayList<>();
 
-    List<NodeCache> nodeCaches = new CopyOnWriteArrayList<>();
+//
 
-    List<TreeCache> treeCaches = new CopyOnWriteArrayList<>();
+    private List<PathChildrenCache> pathChildrenCaches = new CopyOnWriteArrayList<>();
+
+    private List<NodeCache> nodeCaches = new CopyOnWriteArrayList<>();
+
+    private List<TreeCache> treeCaches = new CopyOnWriteArrayList<>();
 
 
     /**
@@ -81,7 +82,7 @@ public class ZkUtils {
             if (connectionState == ConnectionState.CONNECTED) {
                 listener.connectedEvent(curatorFramework, connectionState);
             } else if (connectionState == ConnectionState.RECONNECTED) {
-                listener.ReconnectedEvent(curatorFramework, connectionState);
+                listener.reconnectedEvent(curatorFramework, connectionState);
             } else if (connectionState == ConnectionState.LOST) {
                 listener.lostEvent(curatorFramework, connectionState);
             }
@@ -299,9 +300,10 @@ public class ZkUtils {
                 if (!pathChildrenCaches.contains(watcher)) {
                     pathChildrenCaches.add(watcher);
                 }
-//                else{
-//                    watcher.rebuild();
-//                }
+                /*
+                else{
+                    watcher.rebuild();
+                }*/
                 return Boolean.TRUE;
             }
         } catch (Exception e) {
