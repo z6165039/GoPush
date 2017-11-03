@@ -51,7 +51,7 @@ public class NodeManager {
 
 
     public void remove(String nodeName) {
-//        log.info("node remove---------{}",nodeName);
+        log.info("node remove---------{}",nodeName);
         if (nodeChannelPool.containsKey(nodeName)) {
             nodeChannelPool.get(nodeName).destroy();
             nodeChannelPool.remove(nodeName);
@@ -62,7 +62,7 @@ public class NodeManager {
                     String intranetIp, int nodePort,
                     String internetIp, int devicePort) {
         remove(nodeName);
-//        log.info("node add---------",nodeName);
+        log.info("node add---------",nodeName);
         Node node = new Node(nodeName + "-client", intranetIp, nodePort, internetIp, devicePort, group, nodeMessageHandlers);
         node.init();
         nodeChannelPool.put(nodeName, node);

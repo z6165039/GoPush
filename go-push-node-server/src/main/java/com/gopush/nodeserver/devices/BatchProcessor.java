@@ -194,9 +194,8 @@ public abstract class BatchProcessor<T> {
          */
         private void processInterval() {
 
-//            log.info(" ...... {} ",processorInfo().toString());
+            log.info(" ...... {} ",processorInfo().toString());
 
-            //不管三七二十一先处理一次
             int batchSize = batchProcessorConfig.getBatchSize();
             do {
                 if (this.queue.isEmpty()) {

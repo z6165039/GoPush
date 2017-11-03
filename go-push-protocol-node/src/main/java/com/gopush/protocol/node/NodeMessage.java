@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * go-push
@@ -83,7 +84,7 @@ public abstract class NodeMessage<T> {
                     .type(type())
                     .message(toEncode())
                     .build();
-//            System.out.println("Node message json:   "+ JSON.toJSONString(message));
+            System.out.println("Node message json:   "+ JSON.toJSONString(message));
             return JSON.toJSONString(message);
         } catch (Exception e) {
             throw new NodeProtocolException(e);
