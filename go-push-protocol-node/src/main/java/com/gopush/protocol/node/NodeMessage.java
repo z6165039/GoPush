@@ -84,7 +84,7 @@ public abstract class NodeMessage<T> {
                     .type(type())
                     .message(toEncode())
                     .build();
-            System.out.println("Node message json:   "+ JSON.toJSONString(message));
+//            System.out.println("Node message json:   "+ JSON.toJSONString(message));
             return JSON.toJSONString(message);
         } catch (Exception e) {
             throw new NodeProtocolException(e);

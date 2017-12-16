@@ -310,6 +310,9 @@ public class ZkUtils {
                 if (!pathChildrenCaches.contains(watcher)) {
                     pathChildrenCaches.add(watcher);
                 }
+//                else{
+//                    watcher.rebuild();
+//                }
                 return Boolean.TRUE;
             }
         } catch (Exception e) {

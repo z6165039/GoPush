@@ -194,7 +194,7 @@ public abstract class BatchProcessor<T> {
          */
         private void processInterval() {
 
-            log.info(" ...... {} ",processorInfo().toString());
+//            log.info(" ...... {} ",processorInfo().toString());
 
             int batchSize = batchProcessorConfig.getBatchSize();
             do {
